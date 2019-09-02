@@ -2,18 +2,18 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
 import Home from "@/components/Home";
-import ArticleList from "@/components/mxyy";
+import ArticleList from "@/components/ArticleList";
 import CateMana from "@/components/CateMana";
 import DataCharts from "@/components/DataCharts";
 import PostArticle from "@/components/PostArticle";
 import UserMana from "@/components/UserMana";
 import BlogDetail from "@/components/BlogDetail";
 
-import mxyy from "@/components/mxyy";
-import cgsj from "@/components/cgsj";
-import sbsj from "@/components/sbsj";
-import fdxyjs from "@/components/fdxyjs";
-import fdfxpg from "@/components/fdfxpg";
+import modelApply from "@/components/modelApply";
+import conventionalDesign from "@/components/conventionalDesign";
+import timevaryingDesign from "@/components/timevaryingDesign";
+import benefitCalculate from "@/components/benefitCalculate";
+import riskAnalysis from "@/components/riskAnalysis";
 
 Vue.use(Router);
 
@@ -38,9 +38,9 @@ export default new Router({
       // iconCls: "fa fa-file-text-o",
       children: [
         {
-          path: "/mxyy",
+          path: "/modelApply",
           name: "模型应用",
-          component: mxyy,
+          component: modelApply,
           meta: {
             keepAlive: true
           }
@@ -87,17 +87,17 @@ export default new Router({
       name: "设计洪水",
       children: [
         {
-          path: "/cgsj",
+          path: "/conventionalDesign",
           name: "常规设计",
-          component: cgsj,
+          component: conventionalDesign,
           meta: {
             keepAlive: true
           }
         },
         {
-          path: "/sbsj",
+          path: "/timevaryingDesign",
           name: "时变设计",
-          component: sbsj,
+          component: timevaryingDesign,
           meta: {
             keepAlive: true
           }
@@ -134,17 +134,17 @@ export default new Router({
       name: "发电风险",
       children: [
         {
-          path: "/fdxyjs",
+          path: "/benefitCalculate",
           name: "发电效益计算",
-          component: fdxyjs,
+          component: benefitCalculate,
           meta: {
             keepAlive: true
           }
         },
         {
-          path: "/fdfxpg",
+          path: "/riskAnalysis",
           name: "发电风险评估",
-          component: fdfxpg,
+          component: riskAnalysis,
           meta: {
             keepAlive: true
           }
