@@ -8,6 +8,7 @@ export const postRequest = (url, params) => {
     data: params,
     transformRequest: [function (data) {
       // Do whatever you want to transform the data
+      console.log(data)
       let ret = ''
       for (let it in data) {
         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
@@ -52,10 +53,10 @@ export const deleteRequest = (url) => {
     url: `${base}${url}`
   });
 }
-export const getRequest = (url,params) => {
+export const getRequest = (url, params) => {
   return axios({
     method: 'get',
-    data:params,
+    data: params,
     transformRequest: [function (data) {
       let ret = ''
       for (let it in data) {

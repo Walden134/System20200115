@@ -80,11 +80,11 @@ export default new Router({
           name: "数据导入",
           component: DataCharts,
         },
-        {
-          path: "/articleList",
-          name: "设计洪水过程性推求",
-          component: DataCharts,
-        },
+        // {
+        //   path: "/articleList",
+        //   name: "设计洪水过程性推求",
+        //   component: DataCharts,
+        // },
         // {
         //   path: "/articleList",
         //   name: "调洪演算",

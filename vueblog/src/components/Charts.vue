@@ -16,31 +16,13 @@ import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../utils/api";
 export default {
-  components: {
-    chart: ECharts
-  },
-  mounted: function() {
-    var _this = this;
-    getRequest("/article/dataStatistics").then(
-      resp => {
-        if (resp.status == 200) {
-          _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
-  },
-  methods: {},
+  props: ["title", "chartdatas", "request"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: ""
+          text: this.title.title,
+          left: "center"
         },
         toolbox: {
           show: true,
@@ -71,6 +53,26 @@ export default {
         animationDuration: 3000
       }
     };
-  }
+  },
+  components: {
+    chart: ECharts
+  },
+  mounted: function() {
+    var _this = this;
+    getRequest(this.request).then(
+      resp => {
+        if (resp.status == 200) {
+          _this.$refs.dschart.options.xAxis.data = resp.data.categories;
+          _this.$refs.dschart.options.series[0].data = resp.data.ds;
+        } else {
+          _this.$message({ type: "error", message: "数据加载失败!" });
+        }
+      },
+      resp => {
+        _this.$message({ type: "error", message: "数据加载失败!" });
+      }
+    );
+  },
+  methods: {}
 };
 </script>

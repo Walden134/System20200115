@@ -1,14 +1,14 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">{{title}}</div>
+      <div class="table_name">{{title.title}}</div>
       <el-table :data="tableData" :cell-class-name="Ftable" style="width:99%;height:300px;border:2px;"
         :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="number" :label="label1">
+        <el-table-column prop="number" :label="title.label1">
         </el-table-column>
-        <el-table-column prop="measured_flow" :label="label2">
+        <el-table-column prop="measured_flow" :label="title.label2">
         </el-table-column>
-        <el-table-column prop="empirical_frequency" :label="label3">
+        <el-table-column prop="empirical_frequency" :label="title.label3">
         </el-table-column>
       </el-table>
     </el-col>
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  props: ["title"],
   methods: {
     Ftable({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
@@ -28,10 +29,9 @@ export default {
   },
   data() {
     return {
-      title: "发电量",
-      label1: "情景",
-      label2: "发电量",
-      label3: "增幅",
+      // label1: "情景",
+      // label2: "发电量",
+      // label3: "增幅",
       tableData: [
         {
           number: 1,

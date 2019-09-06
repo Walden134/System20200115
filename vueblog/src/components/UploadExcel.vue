@@ -13,7 +13,7 @@
 export default {
   props: ["fileList"],
   data() {
-    return { fileList: [] };
+    return {};
   },
   methods: {
     open(file) {

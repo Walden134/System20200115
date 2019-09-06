@@ -6,14 +6,14 @@
           <InputData></InputData>
         </div>
         <div class="top_right">
-          <!-- <charts style="width:600px;height:350px" ></charts> -->
-          <chart ref="dschart" :options="chartdata" style="width:600px;height:350px"></chart>
-          <threeTable style="width:600px;height:330px"></threeTable>
+          <charts :title="outputTitle" :request="outputRequest" style="width:600px;height:350px"></charts>
+          <!-- <chart ref="dschart1" :options="chartdata" style="width:600px;height:350px"></chart> -->
+          <threeTable :title="outputTitle" style="width:600px;height:330px"></threeTable>
         </div>
         <div class="bottom_right">
-          <!-- <charts style="width:600px;height:350px"></charts> -->
-          <chart ref="dschart" :options="chartdata" style="width:600px;height:350px"></chart>
-          <threeTable style="width:600px;height:330px"></threeTable>
+          <charts :title="powerTitle" :request="powerRequest" style="width:600px;height:350px"></charts>
+          <!-- <chart ref="dschart2" :options="chartdata" style="width:600px;height:350px"></chart> -->
+          <threeTable :title="powerTitle" style="width:600px;height:330px"></threeTable>
         </div>
       </el-tabs>
     </el-main>
@@ -41,40 +41,20 @@ export default {
     return {
       activeName: "post",
       isAdmin: false,
-      chartdata: {
-        title: {
-          text: ""
-        },
-        toolbox: {
-          show: true,
-
-          feature: {
-            magicType: {
-              type: ["bar", "line"]
-            },
-            restore: {},
-            dataView: { show: true },
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          data: []
-        },
-        yAxis: {},
-        grid: {
-          left: "5%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%", // 与容器顶部的距离
-          bottom: "10%" // 与容器底部的距离
-        },
-        series: [
-          {
-            type: "bar",
-            data: []
-          }
-        ],
-        animationDuration: 3000
-      }
+      outputTitle: {
+        title: "发电量",
+        label1: "情景",
+        label2: "发电量(亿KW·h)",
+        label3: "增幅(%)"
+      },
+      powerTitle: {
+        title: "保证出力",
+        label1: "情景",
+        label2: "95%保证出力(MW)",
+        label3: "增幅(%)"
+      },
+      outputRequest: "/article/dataStatistics",
+      powerRequest: "/article/dataStatistics"
     };
   },
   components: {
@@ -87,43 +67,57 @@ export default {
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
-    }
-  },
-  mounted: function() {
-    var _this = this;
-    getRequest("/isAdmin").then(resp => {
-      if (resp.status == 200) {
-        _this.isAdmin = resp.data;
-      }
-    });
-    getRequest("/article/dataStatistics").then(
-      resp => {
+    },
+    getRequestData() {
+      var _this = this;
+      getRequest("/isAdmin").then(resp => {
         if (resp.status == 200) {
-          _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
+          _this.isAdmin = resp.data;
+        }
+      });
+      getRequest("/article/dataStatistics").then(
+        resp => {
+          if (resp.status == 200) {
+            _this.output = resp.data;
+          } else {
+            _this.$message({ type: "error", message: "数据加载失败!" });
+          }
+        },
+        resp => {
           _this.$message({ type: "error", message: "数据加载失败!" });
         }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
+      );
+      getRequest("/article/dataStatistics").then(
+        resp => {
+          if (resp.status == 200) {
+            _this.power = resp.data;
+          } else {
+            _this.$message({ type: "error", message: "数据加载失败!" });
+          }
+        },
+        resp => {
+          _this.$message({ type: "error", message: "数据加载失败!" });
+        }
+      );
+    }
+  },
+  mounted() {
+    this.getRequestData();
   }
 };
 </script>
 <style>
 .left {
-  float: left;
-  margin: 5px 50px 5px 5px;
+  float: right;
+  margin: 30px 30px 5px 5px;
 }
 .top_right {
   float: left;
-  margin: 5px 30px;
+  margin: 30px 30px 0px 30px;
 }
 .bottom_right {
   float: left;
-  margin: 5px 30px;
+  margin: 30px 30px 0px 30px;
 }
 
 .article_list > .header {
