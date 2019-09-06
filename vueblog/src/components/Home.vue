@@ -1,42 +1,18 @@
 <template>
   <el-container class="home_container">
-    <el-header>
-      <div class="home_title">水文气象以及流域水电开发数据平台</div>
-      <div class="home_userinfoContainer">
-        <el-dropdown @command="handleCommand">
-          <span class="el-dropdown-link home_userinfo">
-            {{currentUserName}}
-            <i class="el-icon-arrow-down el-icon--right home_userinfo"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="sysMsg">系统消息</el-dropdown-item>
-            <el-dropdown-item command="MyArticle">我的文章</el-dropdown-item>
-            <el-dropdown-item command="MyHome">个人主页</el-dropdown-item>
-            <el-dropdown-item command="logout"
-                              divided>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
+    <el-header style="height: 170px;">
+      <img src="../assets/head_img.jpg">
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu default-active="0"
-                 class="el-menu-vertical-demo"
-                 style="background-color: #ECECEC"
-                 router>
-          <template v-for="(item,index) in this.$router.options.routes"
-                    v-if="!item.hidden">
-            <el-submenu :index="index+''"
-                        v-if="item.children.length>1"
-                        :key="index">
+        <el-menu default-active="0" class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
+          <template v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden">
+            <el-submenu :index="index+''" v-if="item.children.length>1" :key="index">
               <template slot="title">
                 <i :class="item.iconCls"></i>
                 <span>{{item.name}}</span>
               </template>
-              <el-menu-item v-for="child in item.children"
-                            v-if="!child.hidden"
-                            :index="child.path"
-                            :key="child.path">{{child.name}}</el-menu-item>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path">{{child.name}}</el-menu-item>
             </el-submenu>
             <template v-else>
               <el-menu-item :index="item.children[0].path">
@@ -47,6 +23,7 @@
           </template>
         </el-menu>
       </el-aside>
+
       <el-container>
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -86,25 +63,7 @@ export default {
       }
     }
   },
-  mounted: function() {
-    this.$alert(
-      "为了确保所有的小伙伴都能看到完整的数据演示，数据库只开放了查询权限和部分字段的更新权限，其他权限都不具备，完整权限的演示需要大家在自己本地部署后，换一个正常的数据库用户后即可查看，这点请大家悉知!",
-      "友情提示",
-      {
-        confirmButtonText: "确定",
-        callback: action => {}
-      }
-    );
-    var _this = this;
-    getRequest("/currentUserName").then(
-      function(msg) {
-        _this.currentUserName = msg.data;
-      },
-      function(msg) {
-        _this.currentUserName = "游客";
-      }
-    );
-  },
+  mounted: function() {},
   data() {
     return {
       currentUserName: ""
@@ -113,6 +72,31 @@ export default {
 };
 </script>
 <style>
+/* .nav_tab {
+  top: 130px;
+  position: absolute;
+}
+.el-tabs--border-card > .el-tabs__header .el-tabs__item {
+  font-family: "黑体 Bold", "黑体 Regular", "黑体";
+  font-weight: 700;
+  font-style: normal;
+  font-size: 16px;
+  color: #ffffff;
+}
+.el-tabs--border-card {
+  background: #fff;
+  border: 0px solid rgba(74, 136, 220, 0.996078431372549);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12),
+    0 0 6px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+}
+.el-tabs--border-card > .el-tabs__header {
+  background-color: rgba(74, 136, 220, 0.996078431372549);
+  margin: 0;
+}
+.el-tabs--border-card > .el-tabs__content {
+  padding: 0px;
+} */
 .home_container {
   height: 100%;
   position: absolute;
@@ -122,7 +106,7 @@ export default {
 }
 
 .el-header {
-  background-color: #20a0ff;
+  background-color: rgba(74, 136, 220, 0.996078431372549);
   color: #333;
   text-align: center;
   display: flex;
@@ -152,7 +136,8 @@ export default {
 }
 
 .home_userinfoContainer {
-  display: inline;
-  margin-right: 20px;
+  position: absolute;
+  right: 10px;
+  top: 142px;
 }
 </style>

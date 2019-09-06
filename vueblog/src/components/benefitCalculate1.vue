@@ -2,31 +2,22 @@
   <el-container class="article_list">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <el-tab-pane label="输入降尺度气温、降水" name="all">
-          <blog_table state="-1" :showEdit="false" :showDelete="false" :activeName="activeName"></blog_table>
+        <el-tab-pane label="数据导入" name="all">
+          <upload_excel> </upload_excel>
         </el-tab-pane>
-        <el-tab-pane label="输出未来径流" name="post">
-          <blog_table state="1" :showEdit="true" :showDelete="true" :activeName="activeName"></blog_table>
+        <el-tab-pane label="发电量计算" name="post">
+          <data_chart> </data_chart>
         </el-tab-pane>
-        <el-tab-pane label="未来径流不确定性" name="draft">
+        <el-tab-pane label="保证出力计算" name="draft">
           <blog_table state="0" :showEdit="true" :showDelete="true" :activeName="activeName"></blog_table>
-        </el-tab-pane>
-        <el-tab-pane label="回收站" name="dustbin">
-          <blog_table state="2" :showEdit="false" :showDelete="true" :activeName="activeName"></blog_table>
-        </el-tab-pane>
-        <el-tab-pane label="博客管理" name="blogmana" v-if="isAdmin">
-          <blog_table state="-2" :showEdit="false" :showDelete="true" :activeName="activeName"></blog_table>
-        </el-tab-pane>
-        <el-tab-pane label="博客配置" name="blogcfg">
-          <blog_cfg></blog_cfg>
         </el-tab-pane>
       </el-tabs>
     </el-main>
   </el-container>
 </template>
 <script>
-import BlogTable from "@/components/BlogTable";
-import BlogCfg from "@/components/BlogCfg";
+import DataCharts from "@/components/DataCharts";
+import UploadExcel from "@/components/UploadExcel";
 import { postRequest } from "../utils/api";
 import { putRequest } from "../utils/api";
 import { deleteRequest } from "../utils/api";
@@ -52,8 +43,8 @@ export default {
     }
   },
   components: {
-    blog_table: BlogTable,
-    blog_cfg: BlogCfg
+    data_chart: DataCharts,
+    upload_excel: UploadExcel
   }
 };
 </script>

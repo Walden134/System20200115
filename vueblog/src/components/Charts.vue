@@ -1,23 +1,19 @@
 <template>
-  <div style="display: flex;height: 500px;width: 100%;align-items: center;justify-content: center;">
-    <chart ref="dschart" :options="polar" style="margin-top: 20px"></chart>
-  </div>
+  <chart ref="dschart" :options="chartdata"></chart>
 </template>
 
 <style>
 </style>
+
 <script>
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-
 import "echarts/lib/component/polar";
-
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
-
 import { getRequest } from "../utils/api";
 export default {
   components: {
@@ -42,38 +38,33 @@ export default {
   methods: {},
   data: function() {
     return {
-      polar: {
+      chartdata: {
         title: {
           text: ""
         },
         toolbox: {
           show: true,
           feature: {
-            dataZoom: {
-              yAxisIndex: "none"
-            },
-            dataView: {
-              readOnly: false
-            },
             magicType: {
-              type: ["line", "bar"]
+              type: ["bar", "line"]
             },
             restore: {},
             saveAsImage: {}
           }
         },
-        tooltip: {},
-        legend: {
-          data: ["pv"]
-        },
         xAxis: {
           data: []
         },
         yAxis: {},
+        grid: {
+          left: "5%", // 与容器左侧的距离
+          right: "5%", // 与容器右侧的距离
+          top: "10%", // 与容器顶部的距离
+          bottom: "10%" // 与容器底部的距离
+        },
         series: [
           {
-            name: "pv",
-            type: "line",
+            type: "bar",
             data: []
           }
         ],

@@ -1,36 +1,18 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName"
-               @tab-click="handleClick"
-               type="card">
-        <el-tab-pane label="数据导入"
-                     name="all">
-          <blog_table state="-1"
-                      :showEdit="false"
-                      :showDelete="false"
-                      :activeName="activeName"></blog_table>
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+        <el-tab-pane label="数据导入" name="all">
+          <blog_table state="-1" :showEdit="false" :showDelete="false" :activeName="activeName"></blog_table>
         </el-tab-pane>
-        <el-tab-pane label="参数估计"
-                     name="post">
-          <blog_table state="1"
-                      :showEdit="true"
-                      :showDelete="true"
-                      :activeName="activeName"></blog_table>
+        <el-tab-pane label="参数估计" name="post">
+          <blog_table state="1" :showEdit="true" :showDelete="true" :activeName="activeName"></blog_table>
         </el-tab-pane>
-        <el-tab-pane label="设计洪水"
-                     name="draft">
-          <blog_table state="0"
-                      :showEdit="true"
-                      :showDelete="true"
-                      :activeName="activeName"></blog_table>
+        <el-tab-pane label="设计洪水" name="draft">
+          <blog_table state="0" :showEdit="true" :showDelete="true" :activeName="activeName"></blog_table>
         </el-tab-pane>
-        <el-tab-pane label="设计洪水频率曲线"
-                     name="dustbin">
-          <blog_table state="2"
-                      :showEdit="false"
-                      :showDelete="true"
-                      :activeName="activeName"></blog_table>
+        <el-tab-pane label="设计洪水频率曲线" name="dustbin">
+          <blog_table state="2" :showEdit="false" :showDelete="true" :activeName="activeName"></blog_table>
         </el-tab-pane>
         <!-- <el-tab-pane label="博客管理"
                      name="blogmana"
