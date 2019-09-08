@@ -9,6 +9,15 @@ public class Hydrostation implements Serializable {
 	 */
 	private static final long serialVersionUID = -6206845039007232288L;
 
+	@Override
+	public String toString() {
+		return "Hydrostation [id=" + id + ", name=" + name + ", levelNormal=" + levelNormal + ", levelDead=" + levelDead
+				+ ", installPower=" + installPower + ", outflowMax=" + outflowMax + ", outflowMin=" + outflowMin
+				+ ", outputCoefficient=" + outputCoefficient + ", levelCapacityCurve=" + levelCapacityCurve
+				+ ", leveldownOutflowCurve=" + leveldownOutflowCurve + ", headlossOutflowCurve=" + headlossOutflowCurve
+				+ ", ExpectOutputHeadCurve=" + ExpectOutputHeadCurve + "]";
+	}
+
 	/*
 	 * id
 	 */
@@ -214,6 +223,28 @@ public class Hydrostation implements Serializable {
 
 	public DoubleCurve getExpectOutputHeadCurve() {
 		return ExpectOutputHeadCurve;
+	}
+
+	public Hydrostation() {
+		super();
+	}
+
+	public Hydrostation(String id, String name, double levelNormal, double levelDead, double installPower,
+			double outflowMax, double outflowMin, double outputCoefficient, DoubleCurve levelCapacityCurve,
+			DoubleCurve leveldownOutflowCurve, DoubleCurve headlossOutflowCurve, DoubleCurve expectOutputHeadCurve) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.levelNormal = levelNormal;
+		this.levelDead = levelDead;
+		this.installPower = installPower;
+		this.outflowMax = outflowMax;
+		this.outflowMin = outflowMin;
+		this.outputCoefficient = outputCoefficient;
+		this.levelCapacityCurve = levelCapacityCurve;
+		this.leveldownOutflowCurve = leveldownOutflowCurve;
+		this.headlossOutflowCurve = headlossOutflowCurve;
+		ExpectOutputHeadCurve = expectOutputHeadCurve;
 	}
 
 	public void setExpectOutputHeadCurve(DoubleCurve expectOutputHeadCurve) {

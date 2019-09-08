@@ -12,6 +12,11 @@ public class DoubleCurve implements Serializable{
 	private BaseStatistics v1;
 	private double[][] curveData;
 
+	public DoubleCurve() {
+		super();
+	}
+
+
 	//data里面的数据最好按照升序排列
 	public DoubleCurve(double[][] data){
 		curveData = new double [data.length][data[0].length];

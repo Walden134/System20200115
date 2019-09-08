@@ -7,16 +7,28 @@ export const postRequest = (url, params) => {
     url: `${base}${url}`,
     data: params,
     transformRequest: [function (data) {
-      // Do whatever you want to transform the data
-      console.log(data)
       let ret = ''
       for (let it in data) {
         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
       }
+      // ret = JSON.parse(JSON.stringify(data));//需要转成json对象
+      console.log(ret)
       return ret
     }],
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
+      // 'Content-Type': 'application/json;charset=UTF-8'  //这里加上头部信息
+    }
+  });
+}
+export const postRequest1 = (url, params) => {
+  return axios({
+    method: 'post',
+    url: `${base}${url}`,
+    data: params,
+    dataType: "json",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
     }
   });
 }
@@ -65,6 +77,7 @@ export const getRequest = (url, params) => {
       return ret
     }],
     headers: {
+      // 'Content-Type': 'application/x-www-form-urlencoded'
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     url: `${base}${url}`

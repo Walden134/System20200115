@@ -41,6 +41,7 @@ export default {
     return {
       activeName: "post",
       isAdmin: false,
+
       outputTitle: {
         title: "发电量",
         label1: "情景",

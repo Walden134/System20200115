@@ -29,9 +29,6 @@ export default {
   },
   data() {
     return {
-      // label1: "情景",
-      // label2: "发电量",
-      // label3: "增幅",
       tableData: [
         {
           number: 1,

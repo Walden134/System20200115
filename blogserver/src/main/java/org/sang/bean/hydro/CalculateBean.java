@@ -15,6 +15,12 @@ public class CalculateBean {
 	private double power;
 	
 	
+	@Override
+	public String toString() {
+		return "CalculateBean [levelBegin=" + levelBegin + ", levelEnd=" + levelEnd + ", inflow=" + inflow + ", deltaT="
+				+ deltaT + ", headgross=" + headgross + ", headnet=" + headnet + ", outflow=" + outflow
+				+ ", outflowDesert=" + outflowDesert + ", output=" + output + ", power=" + power + "]";
+	}
 	public double getLevelBegin() {
 		return levelBegin;
 	}

@@ -3,42 +3,48 @@
     <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
       :label-position="labelPosition">
       <el-form-item label="死水位(m)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.LevelDead"></el-input>
+        <el-input style=" width:80px" v-model="hydrostation.levelDead"></el-input>
       </el-form-item>
       <el-form-item label="正常蓄水位(m)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.LevelNormal"></el-input>
+        <el-input style=" width:80px" v-model="hydrostation.levelNormal"></el-input>
       </el-form-item>
       <el-form-item label="最大下泄流量(m³/s)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.OutflowMax"></el-input>
+        <el-input style=" width:80px" v-model="hydrostation.outflowMax"></el-input>
       </el-form-item>
       <el-form-item label="最小下泄流量(m³/s)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.OutflowMin"></el-input>
+        <el-input style=" width:80px" v-model="hydrostation.outflowMin"></el-input>
       </el-form-item>
       <el-form-item label="出力系数" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.OutputCoefficient"></el-input>
+        <el-input style=" width:80px" v-model="hydrostation.outputCoefficient"></el-input>
       </el-form-item>
       <el-form-item label="起调水位(m)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.calculateBean.LevelBegin"></el-input>
+        <el-input style=" width:80px" v-model="calculateBean.levelBegin"></el-input>
       </el-form-item>
       <el-form-item label="结束水位(m)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="formData.calculateBean.LevelEnd"></el-input>
+        <el-input style=" width:80px" v-model="calculateBean.levelEnd"></el-input>
       </el-form-item>
       <el-form-item label="计算时段" style="margin-bottom: 5px; ">
-        <el-select style=" width:80px" v-model="formData.calculateBean.region" placeholder="请选择计算时段">
+        <el-select style=" width:80px" v-model="calculateBean.region" placeholder="请选择计算时段">
           <el-option label="日" value="日"></el-option>
           <el-option label="时" value="时"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="水位库容曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
+        <upload_excel :fileList="levelCapacityCurve" style=" width:80px" @func="getLevelCapacityCurve"></upload_excel>
       </el-form-item>
       <el-form-item label="下泄尾水曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
-      </el-form-item>
-      <el-form-item label="水头损失曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="fileList2" style=" width:80px">
+        <upload_excel :fileList="leveldownOutflowCurve" style=" width:80px" @func="getLeveldownOutflowCurve">
         </upload_excel>
       </el-form-item>
+      <el-form-item label="水头损失曲线" style="margin-bottom: 5px; ">
+        <upload_excel :fileList="headlossOutflowCurve" style=" width:80px" @func="getHeadlossOutflowCurve">
+        </upload_excel>
+      </el-form-item>
+      <div style="margin: 15px 0;">模式选择</div>
+      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" :min="1">
+        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+      </el-checkbox-group>
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick">计算</el-button>
         <el-button>取消</el-button>
@@ -48,39 +54,59 @@
 </template>
 <script>
 import UploadExcel from "@/components/UploadExcel";
-
 import { getRequest } from "../utils/api";
 import { putRequest } from "../utils/api";
-import { postRequest } from "../utils/api";
+import { postRequest1 } from "../utils/api";
+const cityOptions = ["基准期", "RCP2.6", "RCP4.5", "RCP8.5"];
+
 export default {
   name: "inputData",
   props: {},
   data() {
     return {
-      fileList1: [
+      levelCapacityCurve: [
         {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+          name: "",
+          url: ""
         }
       ],
-      fileList2: [
+      leveldownOutflowCurve: [
         {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+          name: "",
+          url: ""
         }
       ],
+      headlossOutflowCurve: [
+        {
+          name: "",
+          url: ""
+        }
+      ],
+      checkAll: false,
+      checkedCities: ["基准期"],
+      cities: cityOptions,
+
+      isIndeterminate: false,
       labelPosition: "left",
-      formData: {
-        hydrostation: {
-          LevelDead: "2088",
-          LevelNormal: "2094",
-          OutflowMax: "15200",
-          OutflowMin: "0",
-          OutputCoefficient: "8.5"
-        },
-        calculateBean: { LevelBegin: "2094", LevelEnd: "2094", region: "时" }
+      formData: {},
+      hydrostation: {
+        id: "1",
+        name: "杨房沟",
+        levelDead: "2088",
+        levelNormal: "2094",
+        outflowMax: "15200",
+        outflowMin: "0",
+        installPower: 90,
+        levelCapacityCurve: { curveData: [] },
+        leveldownOutflowCurve: { curveData: [] },
+        headlossOutflowCurve: { curveData: [] },
+        ExpectOutputHeadCurve: { curveData: [] },
+        outputCoefficient: "8.5"
+      },
+      calculateBean: {
+        levelBegin: "2094",
+        levelEnd: "2094",
+        region: "时"
       }
     };
   },
@@ -88,12 +114,53 @@ export default {
     upload_excel: UploadExcel
   },
   methods: {
+    getLevelCapacityCurve(data) {
+      let i = 0;
+      this.hydrostation.levelCapacityCurve.curveData[0] = [];
+      this.hydrostation.levelCapacityCurve.curveData[1] = [];
+      data.map(val => {
+        this.hydrostation.levelCapacityCurve.curveData[0][i] = val["水位"];
+        this.hydrostation.levelCapacityCurve.curveData[1][i] = val["库容"];
+        i++;
+      });
+    },
+    getHeadlossOutflowCurve(data) {
+      let i = 0;
+      this.hydrostation.headlossOutflowCurve.curveData[0] = [];
+      this.hydrostation.headlossOutflowCurve.curveData[1] = [];
+      data.map(val => {
+        this.hydrostation.headlossOutflowCurve.curveData[0][i] = val["距离"];
+        this.hydrostation.headlossOutflowCurve.curveData[1][i] =
+          val["水头损失"];
+        i++;
+      });
+    },
+    getLeveldownOutflowCurve(data) {
+      let i = 0;
+      this.hydrostation.leveldownOutflowCurve.curveData[0] = [];
+      this.hydrostation.leveldownOutflowCurve.curveData[1] = [];
+      data.map(val => {
+        this.hydrostation.leveldownOutflowCurve.curveData[0][i] = val["水位"];
+        this.hydrostation.leveldownOutflowCurve.curveData[1][i] =
+          val["下泄流量"];
+        i++;
+      });
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
+    },
     submitClick: function() {
       var _this = this;
-      alert("开始计算，请稍等。。。");
-      postRequest("/power/submit", {
-        hydrostation: _this.formData.hydrostation,
-        calculateBean: _this.formData.calculateBean
+      postRequest1("/power/submit", {
+        hydrostation: _this.hydrostation,
+        calculateBean: _this.calculateBean
       }).then(
         resp => {
           if (resp.status == 200) {

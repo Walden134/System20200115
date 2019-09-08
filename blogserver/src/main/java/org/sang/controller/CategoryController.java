@@ -17,38 +17,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/category")
 public class CategoryController {
-    @Autowired
-    CategoryService categoryService;
+	@Autowired
+	CategoryService categoryService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Category> getAllCategories() {
-        return categoryService.getAllCategories();
-    }
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public List<Category> getAllCategories() {
+		return categoryService.getAllCategories();
+	}
 
-    @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
-    public RespBean deleteById(@PathVariable String ids) {
-        boolean result = categoryService.deleteCategoryByIds(ids);
-        if (result) {
-            return new RespBean("success", "删除成功!");
-        }
-        return new RespBean("error", "删除失败!");
-    }
+	@RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
+	public RespBean deleteById(@PathVariable String ids) {
+		boolean result = categoryService.deleteCategoryByIds(ids);
+		if (result) {
+			return new RespBean("success", "删除成功!");
+		}
+		return new RespBean("error", "删除失败!");
+	}
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public RespBean addNewCate(Category category) {
-        int result = categoryService.addCategory(category);
-        if (result == 1) {
-            return new RespBean("success", "添加成功!");
-        }
-        return new RespBean("error", "添加失败!");
-    }
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public RespBean addNewCate(Category category) {
+		int result = categoryService.addCategory(category);
+		if (result == 1) {
+			return new RespBean("success", "添加成功!");
+		}
+		return new RespBean("error", "添加失败!");
+	}
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public RespBean updateCate(Category category) {
-        int i = categoryService.updateCategoryById(category);
-        if (i == 1) {
-            return new RespBean("success", "修改成功!");
-        }
-        return new RespBean("error", "修改失败!");
-    }
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	public RespBean updateCate(Category category) {
+		int i = categoryService.updateCategoryById(category);
+		if (i == 1) {
+			return new RespBean("success", "修改成功!");
+		}
+		return new RespBean("error", "修改失败!");
+	}
 }
