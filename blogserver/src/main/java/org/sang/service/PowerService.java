@@ -16,10 +16,8 @@ public class PowerService {
 		Map<String, ArrayList<Double>> map_0_GFDL;
 		System.out.println(hydrostation);
 		System.out.println(calculateBean);
-		
-		
+
 		return 1;
 	}
 
-	
 }

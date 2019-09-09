@@ -2,9 +2,16 @@ package org.sang.bean.hydro;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BaseStatistics  implements Serializable{
+	@Override
+	public String toString() {
+		return "BaseStatistics [data=" + data + ", array=" + Arrays.toString(array) + ", ready=" + ready + ", max="
+				+ max + ", min=" + min + ", sum=" + sum + ", mean=" + mean + ", sumsq=" + sumsq + ", n=" + n + "]";
+	}
+
 	/**
 	 * 
 	 */

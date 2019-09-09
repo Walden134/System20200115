@@ -3,15 +3,17 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="left" style=" width:230px">
-          <InputData></InputData>
+          <InputData @situations="getSituations" @patterns="getPatterns"></InputData>
         </div>
         <div class="top_right">
-          <charts :title="outputTitle" :request="outputRequest" style="width:600px;height:350px"></charts>
+          <charts :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
+            style="width:600px;height:350px"></charts>
           <!-- <chart ref="dschart1" :options="chartdata" style="width:600px;height:350px"></chart> -->
           <threeTable :title="outputTitle" style="width:600px;height:330px"></threeTable>
         </div>
         <div class="bottom_right">
-          <charts :title="powerTitle" :request="powerRequest" style="width:600px;height:350px"></charts>
+          <charts :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
+            style="width:600px;height:350px"></charts>
           <!-- <chart ref="dschart2" :options="chartdata" style="width:600px;height:350px"></chart> -->
           <threeTable :title="powerTitle" style="width:600px;height:330px"></threeTable>
         </div>
@@ -20,10 +22,11 @@
   </el-container>
 </template>
 <script>
-import ThreeTable from "@/components/ThreeTable";
-import UploadExcel from "@/components/UploadExcel";
-import Charts from "@/components/Charts";
-import InputData from "@/components/InputData";
+import ThreeTable from "@/components/power/ThreeTable";
+import UploadExcel from "@/components/power/UploadExcel";
+import Charts from "@/components/power/Charts";
+import InputData from "@/components/power/InputData";
+
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
@@ -41,7 +44,6 @@ export default {
     return {
       activeName: "post",
       isAdmin: false,
-
       outputTitle: {
         title: "发电量",
         label1: "情景",
@@ -54,8 +56,10 @@ export default {
         label2: "95%保证出力(MW)",
         label3: "增幅(%)"
       },
-      outputRequest: "/article/dataStatistics",
-      powerRequest: "/article/dataStatistics"
+      outputRequest: "/power/outputStatistics",
+      powerRequest: "/power/powerStatistics",
+      situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
+      patterns: ["Base"]
     };
   },
   components: {
@@ -69,42 +73,14 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    getRequestData() {
-      var _this = this;
-      getRequest("/isAdmin").then(resp => {
-        if (resp.status == 200) {
-          _this.isAdmin = resp.data;
-        }
-      });
-      getRequest("/article/dataStatistics").then(
-        resp => {
-          if (resp.status == 200) {
-            _this.output = resp.data;
-          } else {
-            _this.$message({ type: "error", message: "数据加载失败!" });
-          }
-        },
-        resp => {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      );
-      getRequest("/article/dataStatistics").then(
-        resp => {
-          if (resp.status == 200) {
-            _this.power = resp.data;
-          } else {
-            _this.$message({ type: "error", message: "数据加载失败!" });
-          }
-        },
-        resp => {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      );
+    getSituations(data) {
+      this.situations = data;
+    },
+    getPatterns(data) {
+      this.patterns = data;
     }
   },
-  mounted() {
-    this.getRequestData();
-  }
+  mounted() {}
 };
 </script>
 <style>

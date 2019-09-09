@@ -77,8 +77,18 @@ export const getRequest = (url, params) => {
       return ret
     }],
     headers: {
-      // 'Content-Type': 'application/x-www-form-urlencoded'
       'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    url: `${base}${url}`
+  });
+}
+export const getRequest1 = (url, params) => {
+  return axios({
+    method: 'get',
+    data: params,
+    dataType: "json",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
     },
     url: `${base}${url}`
   });

@@ -16,17 +16,9 @@
 </template>
 
 <script>
+import { getRequest } from "../../utils/api";
 export default {
-  props: ["title"],
-  methods: {
-    Ftable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        return "firstcolumn";
-      } else {
-        return "";
-      }
-    }
-  },
+  props: ["title", "request"],
   data() {
     return {
       tableData: [
@@ -142,6 +134,31 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    Ftable({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        return "firstcolumn";
+      } else {
+        return "";
+      }
+    }
+  },
+  mounted() {
+    // var _this = this;
+    // getRequest(this.request).then(
+    //   resp => {
+    //     if (resp.status == 200) {
+    //       _this.$refs.dschart.options.xAxis.data = resp.data.categories;
+    //       _this.$refs.dschart.options.series[0].data = resp.data.ds;
+    //     } else {
+    //       _this.$message({ type: "error", message: "数据加载失败!" });
+    //     }
+    //   },
+    //   resp => {
+    //     _this.$message({ type: "error", message: "数据加载失败!" });
+    //   }
+    // );
   }
 };
 </script>

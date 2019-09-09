@@ -1,50 +1,65 @@
 <template>
   <div class="form" style="width:100%">
     <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
-      :label-position="labelPosition">
-      <el-form-item label="死水位(m)" style="margin-bottom: 5px; ">
+      :label-position="labelPosition" size="small">
+      <el-form-item label="死水位(m)" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="hydrostation.levelDead"></el-input>
       </el-form-item>
-      <el-form-item label="正常蓄水位(m)" style="margin-bottom: 5px; ">
+      <el-form-item label="正常蓄水位(m)" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="hydrostation.levelNormal"></el-input>
       </el-form-item>
-      <el-form-item label="最大下泄流量(m³/s)" style="margin-bottom: 5px; ">
-        <el-input style=" width:80px" v-model="hydrostation.outflowMax"></el-input>
+      <el-form-item label="最大下泄流量(m³/s)" style="margin-bottom: 1px; ">
+        <el-input style=" width:80px" v-model="hydrostation.outflowMax" placeholder="请选择计算时段"></el-input>
       </el-form-item>
-      <el-form-item label="最小下泄流量(m³/s)" style="margin-bottom: 5px; ">
+      <el-form-item label="最小下泄流量(m³/s)" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="hydrostation.outflowMin"></el-input>
       </el-form-item>
-      <el-form-item label="出力系数" style="margin-bottom: 5px; ">
+      <el-form-item label="出力系数" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="hydrostation.outputCoefficient"></el-input>
       </el-form-item>
-      <el-form-item label="起调水位(m)" style="margin-bottom: 5px; ">
+      <el-form-item label="起调水位(m)" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="calculateBean.levelBegin"></el-input>
       </el-form-item>
-      <el-form-item label="结束水位(m)" style="margin-bottom: 5px; ">
+      <el-form-item label="结束水位(m)" style="margin-bottom: 1px; ">
         <el-input style=" width:80px" v-model="calculateBean.levelEnd"></el-input>
       </el-form-item>
-      <el-form-item label="计算时段" style="margin-bottom: 5px; ">
-        <el-select style=" width:80px" v-model="calculateBean.region" placeholder="请选择计算时段">
+      <el-form-item label="计算时段" style="margin-bottom: 1px; ">
+        <el-select style=" width:80px" v-model="calculateBean.region">
           <el-option label="日" value="日"></el-option>
           <el-option label="时" value="时"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="水位库容曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="levelCapacityCurve" style=" width:80px" @func="getLevelCapacityCurve"></upload_excel>
-      </el-form-item>
-      <el-form-item label="下泄尾水曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="leveldownOutflowCurve" style=" width:80px" @func="getLeveldownOutflowCurve">
-        </upload_excel>
-      </el-form-item>
-      <el-form-item label="水头损失曲线" style="margin-bottom: 5px; ">
-        <upload_excel :fileList="headlossOutflowCurve" style=" width:80px" @func="getHeadlossOutflowCurve">
-        </upload_excel>
-      </el-form-item>
-      <div style="margin: 15px 0;">模式选择</div>
-      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" :min="1">
-        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+      <div style="height:68px">
+        <el-form-item label="水位库容曲线" style="margin-bottom: 1px; ">
+          <upload_excel :fileList="levelCapacityCurve" style=" 80px" @func="getLevelCapacityCurve"></upload_excel>
+        </el-form-item>
+      </div>
+      <div style="height:68px">
+        <el-form-item label="下泄尾水曲线" style="margin-bottom: 1px; ">
+          <upload_excel :fileList="leveldownOutflowCurve" style=" width:80px" @func="getLeveldownOutflowCurve">
+          </upload_excel>
+        </el-form-item>
+      </div>
+      <div style="height:68px">
+        <el-form-item label="水头损失曲线" style="margin-bottom: 1px; ">
+          <upload_excel :fileList="headlossOutflowCurve" style=" width:80px" @func="getHeadlossOutflowCurve">
+          </upload_excel>
+        </el-form-item>
+      </div>
+      <label class="el-form-item__label" style="width: 100%; height:32px">情景选择</label>
+      <el-checkbox-group v-model="checkedSituations" @change="handleCheckedSituationsChange" :min="1" size="mini">
+        <el-checkbox v-for="situation in situations" :label="situation" :key="situation"></el-checkbox>
       </el-checkbox-group>
+      <label class="el-form-item__label" style="width: 100%; height:32px">模式选择</label>
+      <el-checkbox-group v-model="checkedPatterns" @change="handleCheckedPatternsChange" :min="1" size="mini">
+        <el-checkbox v-for="pattern in patterns" :label="pattern" :key="pattern"></el-checkbox>
+      </el-checkbox-group>
+      <el-form-item label="数据源选择" style="margin-bottom: 1px; ">
+        <el-select style=" width:80px" v-model="calculateBean.region">
+          <el-option label="日" value="日"></el-option>
+          <el-option label="时" value="时"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick">计算</el-button>
         <el-button>取消</el-button>
@@ -53,45 +68,30 @@
   </div>
 </template>
 <script>
-import UploadExcel from "@/components/UploadExcel";
-import { getRequest } from "../utils/api";
-import { putRequest } from "../utils/api";
-import { postRequest1 } from "../utils/api";
-const cityOptions = ["基准期", "RCP2.6", "RCP4.5", "RCP8.5"];
+import UploadExcel from "@/components/power/UploadExcel";
+import { getRequest } from "../../utils/api";
+import { putRequest } from "../../utils/api";
+import { postRequest1 } from "../../utils/api";
+const patternOptions = ["Base", "RCP2.6", "RCP4.5", "RCP8.5"];
+const situationOptions = ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"];
 
 export default {
   name: "inputData",
   props: {},
   data() {
     return {
-      levelCapacityCurve: [
-        {
-          name: "",
-          url: ""
-        }
-      ],
-      leveldownOutflowCurve: [
-        {
-          name: "",
-          url: ""
-        }
-      ],
-      headlossOutflowCurve: [
-        {
-          name: "",
-          url: ""
-        }
-      ],
-      checkAll: false,
-      checkedCities: ["基准期"],
-      cities: cityOptions,
-
-      isIndeterminate: false,
+      levelCapacityCurve: [{ name: "", url: "" }],
+      leveldownOutflowCurve: [{ name: "", url: "" }],
+      headlossOutflowCurve: [{ name: "", url: "" }],
+      checkedPatterns: ["Base"],
+      patterns: patternOptions,
+      checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
+      situations: situationOptions,
       labelPosition: "left",
       formData: {},
       hydrostation: {
-        id: "1",
-        name: "杨房沟",
+        // id: "1",
+        // name: "杨房沟",
         levelDead: "2088",
         levelNormal: "2094",
         outflowMax: "15200",
@@ -104,6 +104,8 @@ export default {
         outputCoefficient: "8.5"
       },
       calculateBean: {
+        situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
+        patterns: ["Base"],
         levelBegin: "2094",
         levelEnd: "2094",
         region: "时"
@@ -146,15 +148,13 @@ export default {
         i++;
       });
     },
-    handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
-      this.isIndeterminate = false;
+    handleCheckedPatternsChange(value) {
+      this.calculateBean.patterns = value;
+      this.$emit("patterns", value);
     },
-    handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+    handleCheckedSituationsChange(value) {
+      this.calculateBean.situations = value;
+      this.$emit("situations", value);
     },
     submitClick: function() {
       var _this = this;
@@ -182,10 +182,15 @@ export default {
         }
       );
     }
-  }
+  },
+  mounted() {},
+  watch: {}
 };
 </script>
 <style>
+.el-checkbox + .el-checkbox {
+  margin: 0px;
+}
 .form {
   border: 2px solid rgba(74, 136, 220, 0.996078431372549);
   padding: 8px;

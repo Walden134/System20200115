@@ -1,6 +1,7 @@
 package org.sang.bean.hydro;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 
 public class DoubleCurve implements Serializable{
@@ -8,6 +9,11 @@ public class DoubleCurve implements Serializable{
 	 *
 	 */
 	private static final long serialVersionUID = 6415277668713282847L;
+	@Override
+	public String toString() {
+		return "DoubleCurve [v0=" + v0 + ", v1=" + v1 + ", curveData=" + Arrays.toString(curveData) + "]";
+	}
+
 	private BaseStatistics v0;
 	private BaseStatistics v1;
 	private double[][] curveData;

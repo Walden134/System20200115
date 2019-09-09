@@ -2,12 +2,12 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
 import Home from "@/components/Home";
-import DataCharts from "@/components/DataCharts";
-import conventionalDesign from "@/components/conventionalDesign";
-import timevaryingDesign from "@/components/timevaryingDesign";
+import TimeChangeDesign from "@/components/timechangedesign/TimeChangeDesign";
 import benefitCalculate from "@/components/power/benefitCalculate";
-import riskAnalysis from "@/components/power/riskAnalysis";
-
+import PowerRisk from "@/components/powerrisk/PowerRisk";
+import FloodRisk from "@/components/floodrisk/FloodRisk";
+import GeneralFlood from "@/components/designflood/GeneralFlood";
+import modelApply from "@/components/RunoffPredict/modelApply";
 Vue.use(Router);
 
 export default new Router({
@@ -30,9 +30,9 @@ export default new Router({
       name: "径流预测",
       children: [
         {
-          path: "/benefitCalculate",
-          name: "模型应用",
-          component: benefitCalculate,
+          path: "/modelApply",
+          name: "径流预测",
+          component: modelApply,
         },
       ]
     },
@@ -42,15 +42,15 @@ export default new Router({
       name: "设计洪水",
       children: [
         {
-          path: "/conventionalDesign",
+          path: "/GeneralFlood",
           name: "常规设计",
-          component: conventionalDesign,
+          component: GeneralFlood
         },
         {
-          path: "/timevaryingDesign",
+          path: "/TimeChangeDesign",
           name: "时变设计",
-          component: timevaryingDesign,
-        },
+          component: TimeChangeDesign
+        }
       ]
     },
     {
@@ -64,10 +64,10 @@ export default new Router({
           component: benefitCalculate,
         },
         {
-          path: "/riskAnalysis",
+          path: "/PowerRisk",
           name: "发电风险评估",
-          component: riskAnalysis,
-        },
+          component: PowerRisk
+        }
       ]
     },
     {
@@ -76,25 +76,10 @@ export default new Router({
       name: "防洪风险",
       children: [
         {
-          path: "/articleList",
-          name: "数据导入",
-          component: DataCharts,
-        },
-        // {
-        //   path: "/articleList",
-        //   name: "设计洪水过程性推求",
-        //   component: DataCharts,
-        // },
-        // {
-        //   path: "/articleList",
-        //   name: "调洪演算",
-        //   component: DataCharts,
-        // },
-        // {
-        //   path: "/articleList",
-        //   name: "风险评估",
-        //   component: DataCharts,
-        // },
+          path: "/FloodRisk",
+          name: "防洪风险",
+          component: FloodRisk
+        }
       ]
     }
   ]
