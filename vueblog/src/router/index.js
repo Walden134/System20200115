@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: "/home",
-      name: "",
+      name: "径流预测",
       component: Home,
       hidden: true
     },

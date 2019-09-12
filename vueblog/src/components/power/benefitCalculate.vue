@@ -1,29 +1,36 @@
 <template>
-  <el-container class="article_list">
+  <el-container class="power">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <div class="left" style=" width:230px">
-          <InputData @situations="getSituations" @patterns="getPatterns"></InputData>
+        <div class="pane" style=" width:270px">
+          <inputData @situations="getSituations" @patterns="getPatterns"></inputData>
         </div>
-        <div class="top_right">
-          <charts :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
-            style="width:600px;height:350px"></charts>
-          <!-- <chart ref="dschart1" :options="chartdata" style="width:600px;height:350px"></chart> -->
-          <threeTable :title="outputTitle" style="width:600px;height:330px"></threeTable>
+        <div class="top">
+          <div>
+            <charts :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></charts>
+          </div>
+          <div>
+            <charts :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></charts>
+          </div>
         </div>
-        <div class="bottom_right">
-          <charts :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
-            style="width:600px;height:350px"></charts>
-          <!-- <chart ref="dschart2" :options="chartdata" style="width:600px;height:350px"></chart> -->
-          <threeTable :title="powerTitle" style="width:600px;height:330px"></threeTable>
+        <div class="bottom">
+          <div>
+            <powerTable :title="powerTitle" style="width:100%;height:100%"></powerTable>
+          </div>
+          <div>
+            <outputTable :title="outputTitle" style="width:100%;height:100%"></outputTable>
+          </div>
+
         </div>
       </el-tabs>
     </el-main>
   </el-container>
 </template>
 <script>
-import ThreeTable from "@/components/power/ThreeTable";
-import UploadExcel from "@/components/power/UploadExcel";
+import OutputTable from "@/components/power/OutputTable";
+import PowerTable from "@/components/power/PowerTable";
 import Charts from "@/components/power/Charts";
 import InputData from "@/components/power/InputData";
 
@@ -44,13 +51,13 @@ export default {
     return {
       activeName: "post",
       isAdmin: false,
-      outputTitle: {
+      powerTitle: {
         title: "发电量",
         label1: "情景",
         label2: "发电量(亿KW·h)",
         label3: "增幅(%)"
       },
-      powerTitle: {
+      outputTitle: {
         title: "保证出力",
         label1: "情景",
         label2: "95%保证出力(MW)",
@@ -63,11 +70,10 @@ export default {
     };
   },
   components: {
-    upload_excel: UploadExcel,
-    InputData: InputData,
+    inputData: InputData,
     charts: Charts,
-    chart: ECharts,
-    threeTable: ThreeTable
+    powerTable: PowerTable,
+    outputTable: OutputTable
   },
   methods: {
     handleClick(tab, event) {
@@ -84,20 +90,27 @@ export default {
 };
 </script>
 <style>
-.left {
+.pane {
   float: right;
-  margin: 30px 30px 5px 5px;
-}
-.top_right {
-  float: left;
-  margin: 30px 30px 0px 30px;
-}
-.bottom_right {
-  float: left;
-  margin: 30px 30px 0px 30px;
 }
 
-.article_list > .header {
+.top > div {
+  width: 40%;
+  /* width: 661px; */
+  height: 430px;
+  background-color: aliceblue;
+  float: left;
+  margin: 10px 10px;
+}
+.bottom > div {
+  /* width: 661px; */
+  width: 40%;
+  background-color: aliceblue;
+  float: left;
+  margin: 10px 10px;
+}
+
+.power > .header {
   background-color: #ececec;
   margin-top: 10px;
   padding-left: 5px;
@@ -107,7 +120,7 @@ export default {
 .el-tabs__header {
   margin: 0;
 }
-.article_list > .main {
+.power > .main {
   /*justify-content: flex-start;*/
   display: flex;
   flex-direction: column;
@@ -116,26 +129,10 @@ export default {
   padding-top: 0px;
   margin-top: 8px;
 }
-.form {
-  border: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  padding: 8px;
-}
-.label {
-  text-align: right;
-  vertical-align: middle;
-  float: left;
-  margin-left: -128px;
-  font-size: 14px;
-  color: #606266;
-  line-height: 40px;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.upload {
-  /* float: left; */
+
+/* .upload {
   line-height: 40px;
   position: relative;
   font-size: 14px;
-}
+} */
 </style>

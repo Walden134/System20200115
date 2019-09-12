@@ -12,7 +12,6 @@ export const postRequest = (url, params) => {
         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
       }
       // ret = JSON.parse(JSON.stringify(data));//需要转成json对象
-      console.log(ret)
       return ret
     }],
     headers: {
@@ -25,7 +24,7 @@ export const postRequest1 = (url, params) => {
   return axios({
     method: 'post',
     url: `${base}${url}`,
-    data: params,
+    data: params, timeout: 500000, //超时时间设置，单位毫秒
     dataType: "json",
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -69,6 +68,7 @@ export const getRequest = (url, params) => {
   return axios({
     method: 'get',
     data: params,
+    timeout: 500000, //超时时间设置，单位毫秒
     transformRequest: [function (data) {
       let ret = ''
       for (let it in data) {

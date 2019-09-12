@@ -1,5 +1,5 @@
 <template>
-  <chart ref="dschart" :options="chartdata"></chart>
+  <chart ref="dschart" :options="chartdata" style="height:100%;width:100%"></chart>
 </template>
 
 <style>
@@ -25,6 +25,15 @@ export default {
           text: this.title.title,
           left: "center"
         },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            crossStyle: {
+              color: "#999"
+            }
+          }
+        },
         toolbox: {
           show: true,
           feature: {
@@ -44,16 +53,36 @@ export default {
             fontSize: 12
           }
         },
-        yAxis: { type: "value" },
+        yAxis: {
+          type: "value",
+          formatter: "{value} kg"
+        },
         grid: {
-          left: "5%", // 与容器左侧的距离
+          left: "10%", // 与容器左侧的距离
           right: "5%", // 与容器右侧的距离
-          top: "10%", // 与容器顶部的距离
-          bottom: "10%" // 与容器底部的距离
+          top: "10%" // 与容器顶部的距离
+          // bottom: "10%" // 与容器底部的距离
         },
         series: [
           {
             type: "bar",
+            name: "全年",
+            data: []
+          },
+          {
+            type: "bar",
+            name: "丰水期",
+            data: []
+          },
+
+          {
+            type: "bar",
+            name: "平水期",
+            data: []
+          },
+          {
+            type: "bar",
+            name: "枯水期",
             data: []
           }
         ],
@@ -61,7 +90,11 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {
+    flag() {
+      return this.$store.state.flag;
+    }
+  },
   components: {
     chart: ECharts
   },
@@ -74,19 +107,23 @@ export default {
         JSON.stringify(_this.situations) +
         "&patterns=" +
         JSON.stringify(_this.patterns);
-
       getRequest(url).then(
         resp => {
           if (resp.status == 200) {
-            console.log(resp.data.xAxis.length);
             if (resp.data.xAxis.length > 5) {
               _this.chartdata.xAxis.axisLabel.rotate = 30;
             } else {
               _this.chartdata.xAxis.axisLabel.rotate = 0;
             }
             _this.$refs.dschart.options.xAxis.data = resp.data.xAxis;
-
-            _this.$refs.dschart.options.series[0].data = resp.data.yAxis;
+            if (resp.data.yAxis) {
+              for (let j = 0; j < resp.data.yAxis.length; j++) {
+                for (let i = 0; i < 4; i++) {
+                  _this.$refs.dschart.options.series[i].data[j] =
+                    resp.data.yAxis[j][i];
+                }
+              }
+            }
           } else {
             _this.$message({
               type: "error",
@@ -107,6 +144,12 @@ export default {
     this.getRequestData();
   },
   watch: {
+    flag() {
+      debugger
+      console.log("watch", this.flag);
+      this.getRequestData();
+      this.$store.commit("flag", false);
+    },
     situations() {
       this.getRequestData();
     },

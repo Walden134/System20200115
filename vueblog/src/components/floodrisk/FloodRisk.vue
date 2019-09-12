@@ -1,30 +1,20 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName"
-               @tab-click="handleClick"
-               type="card">
-        <div class="left"
-             style=" width:230px">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+        <div class="left" style=" width:230px">
           <InputData></InputData>
         </div>
 
         <div class="top_right">
-          <shejicharts :title="shejiTitle"
-                       :request="outputRequest"
-                       style="width:600px;height:350px"></shejicharts>
-          <badingcharts :title="badingTitle"
-                        :request="powerRequest"
-                        style="width:600px;height:350px"></badingcharts>
+          <shejicharts :title="shejiTitle" :request="outputRequest" style="width:600px;height:350px"></shejicharts>
+          <badingcharts :title="badingTitle" :request="powerRequest" style="width:600px;height:350px"></badingcharts>
         </div>
 
         <div class="bottom_right">
-          <jiaohecharts :title="jiaoheTitle"
-                        :request="powerRequest"
-                        style="width:600px;height:350px"></jiaohecharts>
+          <jiaohecharts :title="jiaoheTitle" :request="powerRequest" style="width:600px;height:350px"></jiaohecharts>
 
-          <threeTable :title="huizongTitle"
-                      style="width:600px;height:350px"></threeTable>
+          <threeTable :title="huizongTitle" style="width:600px;height:350px"></threeTable>
         </div>
 
       </el-tabs>

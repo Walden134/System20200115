@@ -1,6 +1,6 @@
 <template>
   <el-container class="home_container">
-    <el-header style="height: 170px;">
+    <el-header style="height: 130px;">
       <img src="../assets/head_img.jpg">
     </el-header>
     <el-container>
@@ -12,7 +12,8 @@
                 <i :class="item.iconCls"></i>
                 <span>{{item.name}}</span>
               </template>
-              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path">{{child.name}}</el-menu-item>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path">
+                {{child.name}}</el-menu-item>
             </el-submenu>
             <template v-else>
               <el-menu-item :index="item.children[0].path">

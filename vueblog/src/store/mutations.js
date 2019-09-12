@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import {
-  PATTERNS, SITUATIONS
+  FLAG, SITUATIONS
 } from './mutation-types'
 
 export default {
-  [PATTERNS](state, { situations }) {
-    state.situations = situations
+  [FLAG](state, flag) {
+    state.flag = flag
   },
   [SITUATIONS](state, { patterns }) {
     state.patterns = patterns

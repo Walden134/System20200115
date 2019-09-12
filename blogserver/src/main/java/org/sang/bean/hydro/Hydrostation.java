@@ -13,9 +13,10 @@ public class Hydrostation implements Serializable {
 	public String toString() {
 		return "Hydrostation [id=" + id + ", name=" + name + ", levelNormal=" + levelNormal + ", levelDead=" + levelDead
 				+ ", installPower=" + installPower + ", outflowMax=" + outflowMax + ", outflowMin=" + outflowMin
-				+ ", outputCoefficient=" + outputCoefficient + ", levelCapacityCurve=" + levelCapacityCurve
-				+ ", leveldownOutflowCurve=" + leveldownOutflowCurve + ", headlossOutflowCurve=" + headlossOutflowCurve
-				+ ", ExpectOutputHeadCurve=" + ExpectOutputHeadCurve + "]";
+				+ ", outputCoefficient=" + outputCoefficient + ", outputDesign=" + outputDesign + ", avgDesiginPower="
+				+ avgDesiginPower + ", levelCapacityCurve=" + levelCapacityCurve + ", leveldownOutflowCurve="
+				+ leveldownOutflowCurve + ", headlossOutflowCurve=" + headlossOutflowCurve + ", ExpectOutputHeadCurve="
+				+ ExpectOutputHeadCurve + "]";
 	}
 
 	/*
@@ -56,6 +57,14 @@ public class Hydrostation implements Serializable {
 	 * 出力系数
 	 */
 	private double outputCoefficient;
+	/**
+	 * 保证出力
+	 */
+	private double outputDesign;
+	/**
+	 * 多年平均发电量设计值
+	 */
+	private double avgDesiginPower;
 
 	/**
 	 * 水位库容曲线
@@ -76,6 +85,8 @@ public class Hydrostation implements Serializable {
 	 * 水头预想出力曲线
 	 */
 	private DoubleCurve ExpectOutputHeadCurve;
+	public Hydrostation() {
+	}
 
 	public boolean calculateOutput(CalculateBean bean) {
 
@@ -115,15 +126,14 @@ public class Hydrostation implements Serializable {
 		 * 计算出力 KW
 		 */
 		double output = outputCoefficient * headnet * outflow;
-		if (output > 1500 * 1000) {
-			output = 1500 * 1000;
+//		System.out.println("outputDesign="+outputDesign);
+		if (output > outputDesign * 1000) {
+			output = outputDesign * 1000;
 		}
-//		System.out.println(output);
 		/*
 		 * 计算发电量 kw*h
 		 */
 		double power = output * deltaT * 24;
-//		System.out.println(power / 10e8);
 		/*
 		 * 输出结果
 		 */
@@ -225,30 +235,25 @@ public class Hydrostation implements Serializable {
 		return ExpectOutputHeadCurve;
 	}
 
-	public Hydrostation() {
-		super();
-	}
-
-	public Hydrostation(String id, String name, double levelNormal, double levelDead, double installPower,
-			double outflowMax, double outflowMin, double outputCoefficient, DoubleCurve levelCapacityCurve,
-			DoubleCurve leveldownOutflowCurve, DoubleCurve headlossOutflowCurve, DoubleCurve expectOutputHeadCurve) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.levelNormal = levelNormal;
-		this.levelDead = levelDead;
-		this.installPower = installPower;
-		this.outflowMax = outflowMax;
-		this.outflowMin = outflowMin;
-		this.outputCoefficient = outputCoefficient;
-		this.levelCapacityCurve = levelCapacityCurve;
-		this.leveldownOutflowCurve = leveldownOutflowCurve;
-		this.headlossOutflowCurve = headlossOutflowCurve;
-		ExpectOutputHeadCurve = expectOutputHeadCurve;
-	}
-
 	public void setExpectOutputHeadCurve(DoubleCurve expectOutputHeadCurve) {
 		ExpectOutputHeadCurve = expectOutputHeadCurve;
 	}
+
+	public double getOutputDesign() {
+		return outputDesign;
+	}
+
+	public void setOutputDesign(double outputDesign) {
+		this.outputDesign = outputDesign;
+	}
+
+	public double getAvgDesiginPower() {
+		return avgDesiginPower;
+	}
+
+	public void setAvgDesiginPower(double avgDesiginPower) {
+		this.avgDesiginPower = avgDesiginPower;
+	}
+
 
 }

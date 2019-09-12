@@ -1,6 +1,5 @@
 <template>
-  <chart ref="dschart"
-         :options="chartdata"></chart>
+  <chart ref="dschart" :options="chartdata"></chart>
 </template>
 
 <style>

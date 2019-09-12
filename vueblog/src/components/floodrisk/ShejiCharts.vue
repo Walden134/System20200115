@@ -1,6 +1,5 @@
 <template>
-  <chart ref="dschart"
-         :options="chartdata"></chart>
+  <chart ref="dschart" :options="chartdata"></chart>
 </template>
 
 <style>
@@ -220,22 +219,27 @@ export default {
   components: {
     chart: ECharts
   },
-  mounted: function() {
-    var _this = this;
-    getRequest(this.request).then(
-      resp => {
-        if (resp.status == 200) {
-          // _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          // _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
+  mounted() {
+    console.log("组件开始加载时该方法被执行");
+    this.getRequestData();
+  },
+  methods: {
+    getRequestData() {
+      var _this = this;
+      getRequest(this.request).then(
+        resp => {
+          if (resp.status == 200) {
+            // _this.$refs.dschart.options.xAxis.data = resp.data.categories;
+            // _this.$refs.dschart.options.series[0].data = resp.data.ds;
+          } else {
+            _this.$message({ type: "error", message: "数据加载失败!" });
+          }
+        },
+        resp => {
           _this.$message({ type: "error", message: "数据加载失败!" });
         }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
-  },
-  methods: {}
+      );
+    }
+  }
 };
 </script>

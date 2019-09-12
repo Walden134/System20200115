@@ -1,32 +1,30 @@
 <template>
   <div class="form" style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px" :label-position="labelPosition">
-      <!-- <el-form-item label="最优模型参数"
-                    style="margin-bottom: 20px; ">
-      </el-form-item> -->
+    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
+      :label-position="labelPosition">
       <p style="fontsize:'15px'">图层导入</p>
-      <el-form-item label="DEM" style="margin-bottom: 10px; ">
+      <el-form-item label="DEM" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
-      <el-form-item label="土地利用" style="margin-bottom: 10px; ">
+      <el-form-item label="土地利用" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
-      <el-form-item label="土壤类型" style="margin-bottom: 10px; ">
+      <el-form-item label="土壤类型" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
-      <el-form-item label="站点分布" style="margin-bottom: 10px; ">
+      <el-form-item label="站点分布" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
       <hr>
 
       <p style="fontsize:'15px'">数据输入</p>
-      <el-form-item label="气温" style="margin-bottom: 10px; ">
+      <el-form-item label="气温" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
-      <el-form-item label="降水" style="margin-bottom: 10px; ">
+      <el-form-item label="降水" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
-      <el-form-item label="径流" style="margin-bottom: 10px; ">
+      <el-form-item label="径流" style="margin-bottom: 0px; ">
         <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
       </el-form-item>
       <hr>
@@ -35,7 +33,7 @@
       <el-form-item label="方案名称" style="margin-bottom: 8px; ">
         <el-input style=" width:80px" v-model="formData.hydrostation.Level1"></el-input>
       </el-form-item>
-      <el-form-item label="断面选择" style="margin-bottom: 10px; ">
+      <el-form-item label="断面选择" style="margin-bottom: 0px; ">
         <el-select style=" width:80px" v-model="formData.calculateBean.region">
           <el-option label="雅江" value="RCP2.6"></el-option>
           <el-option label="洼里" value="RCP4.5"></el-option>
@@ -43,7 +41,7 @@
           <el-option label="麦地龙" value="RCP8.5"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="模拟尺度" style="margin-bottom: 10px; ">
+      <el-form-item label="模拟尺度" style="margin-bottom: 0px; ">
         <el-select style=" width:80px" v-model="formData.calculateBean.region">
           <el-option label="日" value="RCP2.6"></el-option>
           <el-option label="月" value="RCP4.5"></el-option>
@@ -55,7 +53,7 @@
       <el-form-item label="结束时间" style="margin-bottom: 8px; ">
         <el-input style=" width:80px" v-model="formData.hydrostation.Level5"></el-input>
       </el-form-item>
-      <el-form-item label="情景选择" style="margin-bottom: 10px; ">
+      <el-form-item label="情景选择" style="margin-bottom: 0px; ">
         <el-select style=" width:80px" v-model="formData.calculateBean.region">
           <el-option label="RCP2.6" value="RCP2.6"></el-option>
           <el-option label="RCP4.5" value="RCP4.5"></el-option>
