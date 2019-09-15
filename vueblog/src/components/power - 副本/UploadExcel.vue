@@ -67,58 +67,14 @@ export default {
       this.$refs.upload.submit();
     },
     handleSuccess(response, file, fileList) {
-      // this.$alert(file.name + "上传成功\t\t", "文件上传", {
-      //   confirmButtonText: "确定",
-      //   callback: action => {}
-      // });
+      this.$alert(file.name + "上传成功\t\t", "文件上传", {
+        confirmButtonText: "确定",
+        callback: action => {}
+      });
     }
   }
 };
 </script>
 
 <style>
-.el-upload-list__item-status-label {
-  /* position: absolute;
-  right: 5px;
-  top: -35px;
-  line-height: inherit;
-  display: none; */
-}
-.el-upload-list__item-name {
-  /* color: #606266; */
-  display: none;
-  /* margin-right: 40px;
-  overflow: hidden;
-  padding-left: 4px;
-  text-overflow: ellipsis;
-  -webkit-transition: color 0.3s;
-  transition: color 0.3s;
-  white-space: nowrap; */
-}
-.el-upload-list__item .el-icon-close-tip {
-  display: none;
-  /* position: absolute;
-  top: -29px;
-  right: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  opacity: 1;
-  color: #409eff; */
-}
-.el-upload-list__item .el-icon-close {
-  display: none;
-  /* position: absolute;
-  top: -29px;
-  right: 5px;
-  cursor: pointer;
-  opacity: 0.75;
-  color: #606266; */
-}
-.el-upload-list {
-  position: relative;
-  top: -35px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
 </style>

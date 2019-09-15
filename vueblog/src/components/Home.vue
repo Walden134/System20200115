@@ -1,6 +1,6 @@
 <template>
   <el-container class="home_container">
-    <el-header style="height: 130px;">
+    <el-header style="height: 70px;">
       <img src="../assets/head_img.jpg">
     </el-header>
     <el-container>

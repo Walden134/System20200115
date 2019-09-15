@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import org.sang.bean.hydro.CalculateBean;
 import org.sang.bean.hydro.DoubleCurve;
 import org.sang.bean.hydro.Hydrostation;
+import org.sang.bean.hydro.Runoff;
 import org.sang.utils.ExcelTool;
 
 public class PowerCalcData {
@@ -143,7 +144,7 @@ public class PowerCalcData {
 	public static List<Map<String, double[]>> calcPowerAndOutput(Hydrostation hydrostation, CalculateBean bean) {
 		Map<String, double[]> powerMap = new HashMap<String, double[]>();
 		Map<String, double[]> outputMap = new HashMap<String, double[]>();
-		List<Map<String, double[]>> res=new ArrayList<Map<String,double[]>>();
+		List<Map<String, double[]>> res = new ArrayList<Map<String, double[]>>();
 		String[] situations = bean.getSituations();
 		String[] patterns = bean.getPatterns();
 		DoubleCurve levelCapacityCurve = new DoubleCurve(hydrostation.getLevelCapacityCurve().getCurveData());
@@ -195,6 +196,7 @@ public class PowerCalcData {
 				Map<String, ArrayList<Double>> qf = getQ(dataMap, "qf");
 				Map<String, ArrayList<Double>> qp = getQ(dataMap, "qp");
 				Map<String, ArrayList<Double>> qk = getQ(dataMap, "qk");
+
 				double[] power = new double[4];
 				power[0] = calpower(hydrostation, bean, q);
 				power[1] = calpower(hydrostation, bean, qf);
@@ -218,7 +220,6 @@ public class PowerCalcData {
 		Map<String, ArrayList<Double>> data_map = new TreeMap<String, ArrayList<Double>>();
 		for (Map.Entry<String, ArrayList<Double>> entry : map.entrySet()) {
 			String key = entry.getKey();
-//			System.out.println(key);
 			ArrayList<Double> value = entry.getValue();
 			String year = key.substring(0, 4);
 			String month = key.substring(4);
@@ -281,8 +282,7 @@ public class PowerCalcData {
 			ArrayList<Double> q = entry.getValue();
 			for (int j = 0; j < q.size(); j++) {
 				bean.setInflow(q.get(j));
-				result = hydrostation.calculateOutput(bean);
-
+				result = hydrostation.calOutputAndPower(bean);
 				if (result) {
 					power += bean.getPower();
 					allPower += bean.getPower();
@@ -310,7 +310,7 @@ public class PowerCalcData {
 			double[] output = new double[size];
 			for (int j = 0; j < size; j++) {
 				bean.setInflow(q.get(j));
-				result = hydrostation.calculateOutput(bean);
+				result = hydrostation.calOutputAndPower(bean);
 				if (result) {
 					output[j] = bean.getOutput();
 					list.add(bean.getOutput());

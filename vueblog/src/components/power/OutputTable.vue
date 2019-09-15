@@ -2,249 +2,103 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData" :cell-class-name="Ftable" height=400 fit style="width:99%;"
-        :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="circumstances" label="情景" width="80px">
+      <el-table :data="tableData" :cell-class-name="Ftable" fit style="width:99%" height="300" max-height="300" stripe
+        :row-style="{height:'35px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="circumstances" label="情景" width="120px">
+
         </el-table-column>
-        <!-- <el-table-column label=""> -->
-        <el-table-column prop="annual_power" label="95%保证出力(MW)"></el-table-column>
+        <el-table-column prop="annual_output" label="95%保证出力">
+          <el-table-column prop="annual_output" label="(MW)"></el-table-column>
+        </el-table-column>
         <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
-        <!-- </el-table-column> -->
-        <!-- <el-table-column label="丰水期">
-          <el-table-column prop="wet_power" label="发电量"></el-table-column>
-          <el-table-column prop="wet_amp" label="增幅"></el-table-column>
-        </el-table-column> -->
       </el-table>
     </el-col>
   </el-row>
 </template>
-
 <script>
 export default {
   props: ["title"],
-  methods: {
-    Ftable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        return "firstcolumn";
-      } else {
-        return "";
-      }
-    }
-  },
+
   data() {
     return {
       tableData: [
         {
           circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
-        },
-        {
-          circumstances: "设计值",
-          annual_power: "130",
-          annual_amp: "10%",
-          wet_power: "130",
-          wet_amp: "10%",
-          normal_power: "130",
-          normal_amp: "10%",
-          dry_power: "130",
-          dry_amp: "10%"
+          annual_output: "176",
+          annual_amp: "-"
         }
-      ]
+      ],
+      outputList: [],
+      category: [],
+      outputDesign: 176
     };
+  },
+  methods: {
+    // Ftable({ row, column, rowIndex, columnIndex }) {
+    //   if (columnIndex === 0) {
+    //     return "firstcolumn";
+    //   } else {
+    //     return "";
+    //   }
+    // },
+    setTableData() {
+      let old = {
+        circumstances: "设计值",
+        annual_output: this.outputDesign,
+        annual_amp: "-"
+      };
+      this.tableData = [];
+      this.tableData.push(old);
+      for (let i = 0; i < this.outputList.length; i++) {
+        let tmp = {};
+        tmp.circumstances = this.category[i];
+        tmp.annual_output = this.outputList[i];
+        tmp.annual_amp =
+          ((this.outputList[i] - old.annual_output) / old.annual_output) * 100;
+        tmp.annual_amp = tmp.annual_amp.toFixed(2);
+        this.tableData.push(tmp);
+      }
+    }
+  },
+  mounted() {},
+  created() {
+    bus.$on("outputList", data => {
+      console.log("outputList", data);
+      this.outputList = data;
+    });
+    bus.$on("xAxis", data => {
+      console.log("xAxis", data);
+      this.category = data;
+    });
+    bus.$on("outputDesign", data => {
+      console.log("outputDesign", data);
+      this.outputDesign = data;
+    });
+  },
+  beforeDestroy() {
+    bus.$off("outputList");
+    bus.$off("xAxis");
+    bus.$off("outputDesign");
+  },
+  computed: {
+    flag() {
+      return this.$store.state.flag;
+    }
+  },
+  watch: {
+    outputList() {
+      this.setTableData();
+    },
+    category() {
+      this.setTableData();
+    },
+    outputDesign() {
+      this.setTableData();
+    }
+    // flag() {
+    //   this.setTableData();
+    //   this.$store.commit("flag", false);
+    // }
   }
 };
 </script>
@@ -265,7 +119,7 @@ export default {
 
 .el-table__header th,
 .el-table__header tr {
-  background-color: #d9e4ec;
+  /* background-color: #d9e4ec; */
   color: black;
   text-align: center;
   padding: 0;

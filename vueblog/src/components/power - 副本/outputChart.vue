@@ -15,7 +15,6 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
-import { getRequest1 } from "../../utils/api";
 export default {
   props: ["title", "request", "situations", "patterns"],
   // props: ["title", "request"],
@@ -69,22 +68,6 @@ export default {
           {
             type: "bar",
             name: "全年",
-            data: []
-          },
-          {
-            type: "bar",
-            name: "丰水期",
-            data: []
-          },
-
-          {
-            type: "bar",
-            name: "平水期",
-            data: []
-          },
-          {
-            type: "bar",
-            name: "枯水期",
             data: []
           }
         ],
@@ -146,24 +129,13 @@ export default {
     setChartData() {
       bus.$on("situations", data => (this.situations = data));
       bus.$on("patterns", data => (this.patterns = data));
-      if (this.request == "/power/outputStatistics") {
-        bus.$on("outputList", data => {
-          for (let j = 0; j < data.length; j++) {
-            for (let i = 0; i < 4; i++) {
-              this.$refs.dschart.options.series[i].data[j] = data[j][i];
-            }
-          }
-        });
-      } else {
-        bus.$on("powerList", data => {
-          debugger;
-          for (let j = 0; j < data.length; j++) {
-            for (let i = 0; i < 4; i++) {
-              this.$refs.dschart.options.series[i].data[j] = data[j][i];
-            }
-          }
-        });
-      }
+
+      bus.$on("outputList", data => {
+        for (let j = 0; j < data.length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = data[j][0];
+        }
+      });
+
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
       });

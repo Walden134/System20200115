@@ -8,12 +8,12 @@
         </div>
         <div class="top">
           <div>
-            <powerChart :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></powerChart>
+            <charts :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></charts>
           </div>
           <div>
-            <outputChart :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></outputChart>
+            <charts :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></charts>
           </div>
         </div>
         <div class="bottom">
@@ -32,8 +32,6 @@
 <script>
 import OutputTable from "@/components/power/OutputTable";
 import PowerTable from "@/components/power/PowerTable";
-import powerChart from "@/components/power/powerChart";
-import outputChart from "@/components/power/outputChart";
 import Charts from "@/components/power/Charts";
 import InputData from "@/components/power/InputData";
 
@@ -75,8 +73,6 @@ export default {
   components: {
     inputData: InputData,
     charts: Charts,
-    powerChart: powerChart,
-    outputChart: outputChart,
     powerTable: PowerTable,
     outputTable: OutputTable
   },
@@ -97,21 +93,19 @@ export default {
 <style>
 .pane {
   float: right;
-  margin-left: 10px;
 }
 
 .top > div {
-  width: calc((100% - 300px) / 2);
+  width: calc((100% - 290px) / 2);
   /* width: 661px; */
-  height: 400px;
+  height: 430px;
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;
 }
 .bottom > div {
   /* width: 661px; */
-  width: calc((100% - 300px) / 2);
-  height: 310px;
+  width: calc((100% - 290px) / 2);
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;

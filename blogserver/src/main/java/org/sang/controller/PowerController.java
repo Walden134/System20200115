@@ -25,31 +25,44 @@ import com.alibaba.fastjson.JSONObject;
 @RestController
 @RequestMapping("/power")
 public class PowerController {
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	PowerService powerService;
 
-	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public RespBean calc(@RequestBody String jsonstr) {
-		JSONObject jsonObject = JSONObject.parseObject(jsonstr);
-		Hydrostation hydrostation = jsonObject.getObject("hydrostation", Hydrostation.class);
-		CalculateBean calculateBean = jsonObject.getObject("calculateBean", CalculateBean.class);
+//	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+//	public RespBean calc(@RequestParam(value = "hydrostation") String hydrostr,
+//			@RequestParam(value = "calculateBean") String calcStr) {
+//		Hydrostation hydrostation = JSON.parseObject(hydrostr, Hydrostation.class);
+//		CalculateBean calculateBean = JSON.parseObject(calcStr, CalculateBean.class);
+//		if (hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
+//				|| hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
+//				|| hydrostation.getHeadlossOutflowCurve().getCurveData().length == 0
+//				|| hydrostation.getExpectOutputHeadCurve().getCurveData().length == 0) {
+//			// return new RespBean("error", "请重新导入数据");
+//		}
+//		int result = powerService.calcPowerAndOutput(hydrostation, calculateBean);
+//		if (result == 1) {
+//			return new RespBean("success", "计算完成");
+//		} else {
+//			return new RespBean("error", "计算失败!，请重新设置参数");
+//		}
+//	}
+	@RequestMapping(value = "/submit", method = RequestMethod.GET)
+	public Map<String, Object> calc(@RequestParam(value = "hydrostation") String hydrostr,
+			@RequestParam(value = "calculateBean") String calcStr) {
+		Hydrostation hydrostation = JSON.parseObject(hydrostr, Hydrostation.class);
+		CalculateBean calculateBean = JSON.parseObject(calcStr, CalculateBean.class);
 		if (hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
 				|| hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
 				|| hydrostation.getHeadlossOutflowCurve().getCurveData().length == 0
 				|| hydrostation.getExpectOutputHeadCurve().getCurveData().length == 0) {
-			// return new RespBean("error", "请重新导入数据");
+			return null;
 		}
-		int result = powerService.calpower(hydrostation, calculateBean);
-//		int result = 1;
-		if (result == 1) {
-			return new RespBean("success", "计算完成");
-		} else {
-			return new RespBean("error", "计算失败!，请重新设置参数");
-		}
+		Map<String, Object> map = powerService.calcPowerAndOutput(hydrostation, calculateBean);
+		return map;
+
 	}
 
-//	
 	@RequestMapping(value = "/powerStatistics", method = RequestMethod.GET)
 	public Map<String, Object> getPowerByState(@RequestParam(value = "situations") String situations,
 			@RequestParam(value = "patterns") String patterns) {

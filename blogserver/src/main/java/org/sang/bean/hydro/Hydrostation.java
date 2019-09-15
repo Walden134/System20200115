@@ -85,10 +85,11 @@ public class Hydrostation implements Serializable {
 	 * 水头预想出力曲线
 	 */
 	private DoubleCurve ExpectOutputHeadCurve;
+
 	public Hydrostation() {
 	}
 
-	public boolean calculateOutput(CalculateBean bean) {
+	public boolean calOutputAndPower(CalculateBean bean) {
 
 		double levelbegin = bean.getLevelBegin();
 		double levelEnd = bean.getLevelEnd();
@@ -126,9 +127,12 @@ public class Hydrostation implements Serializable {
 		 * 计算出力 KW
 		 */
 		double output = outputCoefficient * headnet * outflow;
+		if (output < 0) {
+			System.out.println(output);
+		}
 //		System.out.println("outputDesign="+outputDesign);
-		if (output > outputDesign * 1000) {
-			output = outputDesign * 1000;
+		if (output > installPower * 1000) {
+			output = installPower * 1000;
 		}
 		/*
 		 * 计算发电量 kw*h
@@ -254,6 +258,5 @@ public class Hydrostation implements Serializable {
 	public void setAvgDesiginPower(double avgDesiginPower) {
 		this.avgDesiginPower = avgDesiginPower;
 	}
-
 
 }

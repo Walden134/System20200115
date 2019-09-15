@@ -42,16 +42,16 @@
         <el-form-item label="最小下泄流量(m³/s)" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="hydrostation.outflowMin"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="起调水位(m)" style="margin-bottom: 1px; ">
+        <el-form-item label="起调水位(m)" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="calculateBean.levelBegin"></el-input>
         </el-form-item>
         <el-form-item label="结束水位(m)" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="calculateBean.levelEnd"></el-input>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="多年平均发电量设计值" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="hydrostation.avgDesiginPower"></el-input>
         </el-form-item>
-        <el-form-item label="95%保证出力设计值" style="margin-bottom: 1px; ">
+        <el-form-item label="保证出力设计值" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="hydrostation.outputDesign"></el-input>
         </el-form-item>
         <el-form-item label="计算时段" style="margin-bottom: 1px; ">
@@ -94,14 +94,10 @@ export default {
   props: {},
   data() {
     return {
-      // levelCapacityCurve: [{ name: "水位库容关系.xlsx", url: "" }],
-      // leveldownOutflowCurve: [{ name: "尾水流量关系.xlsx", url: "" }],
-      // headlossOutflowCurve: [{ name: "水头损失曲线.xlsx", url: "" }],
-      // expectOutputHeadCurve: [{ name: "出力限制曲线.xlsx", url: "" }],
-      levelCapacityCurve: [],
-      leveldownOutflowCurve: [],
-      headlossOutflowCurve: [],
-      expectOutputHeadCurve: [],
+      levelCapacityCurve: [{ name: "水位库容关系.xlsx", url: "" }],
+      leveldownOutflowCurve: [{ name: "尾水流量关系.xlsx", url: "" }],
+      headlossOutflowCurve: [{ name: "水头损失曲线.xlsx", url: "" }],
+      expectOutputHeadCurve: [{ name: "出力限制曲线.xlsx", url: "" }],
       checkedPatterns: ["Base"],
       patterns: patternOptions,
       checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
@@ -115,14 +111,14 @@ export default {
         levelNormal: "2094",
         outflowMax: "15200",
         outflowMin: "0",
-        installPower: 1500,
+        installPower: 90,
         levelCapacityCurve: { curveData: [] },
         leveldownOutflowCurve: { curveData: [] },
         headlossOutflowCurve: { curveData: [] },
         expectOutputHeadCurve: { curveData: [] },
         outputCoefficient: "8.5",
-        outputDesign: "176",
-        avgDesiginPower: "59.62"
+        outputDesign: "1500",
+        avgDesiginPower: "130"
       },
       calculateBean: {
         situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
@@ -149,6 +145,7 @@ export default {
     },
     getHeadlossOutflowCurve(data) {
       let i = 0;
+
       data.map(val => {
         this.hydrostation.headlossOutflowCurve.curveData[i] = [];
         this.hydrostation.headlossOutflowCurve.curveData[i] = [];
@@ -174,25 +171,31 @@ export default {
       data.map(val => {
         this.hydrostation.expectOutputHeadCurve.curveData[i] = [];
         this.hydrostation.expectOutputHeadCurve.curveData[i] = [];
-        this.hydrostation.expectOutputHeadCurve.curveData[i][0] = val["水头"];
+        this.hydrostation.expectOutputHeadCurve.curveData[i][0] = val["水位"];
         this.hydrostation.expectOutputHeadCurve.curveData[i][1] =
-          val["最大出力"];
+          val["下泄流量"];
         i++;
       });
     },
     handleCheckedPatternsChange(value) {
       this.calculateBean.patterns = value;
       // this.$emit("patterns", value);
+      debugger;
+      console.log("patterns", value);
       bus.$emit("patterns", value);
     },
     handleCheckedSituationsChange(value) {
       this.calculateBean.situations = value;
       // this.$emit("situations", value);
+      console.log("situations", value);
       bus.$emit("situations", value);
     },
     submitClick: function() {
       var _this = this;
-
+      // postRequest("/power/submit", {
+      //   hydrostation: JSON.stringify(_this.hydrostation),
+      //   calculateBean: JSON.stringify(_this.calculateBean)
+      // })
       getRequest(
         "/power/submit" +
           "?hydrostation=" +
@@ -203,11 +206,16 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
+            var json = resp.data;
+            // if (json.status == "success") {
             _this.$store.commit("flag", true);
             bus.$emit("xAxis", resp.data.xAxis);
             bus.$emit("powerList", resp.data.powerList);
             bus.$emit("outputList", resp.data.outputList);
             _this.$alert("计算成功!", "成功!");
+            // } else {
+            //   _this.$alert("计算失败!", resp.data.status);
+            // }
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -219,21 +227,11 @@ export default {
       );
     }
   },
-  created() {
+  mounted() {
     bus.$emit("patterns", this.checkedPatterns);
     bus.$emit("situations", this.checkedSituations);
-    bus.$emit("avgDesiginPower", this.hydrostation.avgDesiginPower);
-    bus.$emit("outputDesign", this.hydrostation.outputDesign);
   },
-  watch: {
-    hydrostation: {
-      handler: function() {
-        bus.$emit("avgDesiginPower", this.hydrostation.avgDesiginPower);
-        bus.$emit("outputDesign", this.hydrostation.outputDesign);
-      },
-      deep: true
-    }
-  }
+  watch: {}
 };
 </script>
 <style>
@@ -245,7 +243,7 @@ export default {
 }
 .el-checkbox {
   width: 100px;
-  margin: 10px 10px 2px 10px;
+  margin: 10px;
 }
 .mark {
   font: 19px "Microsoft YaHei";
@@ -259,7 +257,7 @@ export default {
   color: white;
 }
 .input > div {
-  height: 40px;
+  height: 68px;
 }
 .input,
 .params,
