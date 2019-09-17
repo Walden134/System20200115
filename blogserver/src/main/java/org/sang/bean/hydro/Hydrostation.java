@@ -54,6 +54,10 @@ public class Hydrostation implements Serializable {
 	 */
 	private double outflowMin;
 	/**
+	 * 消落深度
+	 */
+	private double drawdownDepth;
+	/**
 	 * 出力系数
 	 */
 	private double outputCoefficient;
@@ -105,18 +109,20 @@ public class Hydrostation implements Serializable {
 		 * 判断下泄流量约束
 		 */
 		if (outflow > outflowMax) {
-			System.out.println("不满足最大下泄流量约束");
-			return false;
+			outflow = outflowMax;
+//			System.out.println("不满足最大下泄流量约束");
+//			return false;
 		}
 		if (outflow < outflowMin) {
-			System.out.println("不满足最小下泄流量约束");
-			return false;
+			outflow = outflowMin;
+//			System.out.println("不满足最小下泄流量约束");
+//			return false;
 		}
 
 		/*
 		 * 查表得下游尾水位并计算毛水头
 		 */
-		double headgross = 2093 - leveldownOutflowCurve.getV0ByV1(outflow);
+		double headgross = levelNormal - 1 - leveldownOutflowCurve.getV0ByV1(outflow);
 
 		/*
 		 * 查表得水头损失计算净水头
@@ -257,6 +263,14 @@ public class Hydrostation implements Serializable {
 
 	public void setAvgDesiginPower(double avgDesiginPower) {
 		this.avgDesiginPower = avgDesiginPower;
+	}
+
+	public double getDrawdownDepth() {
+		return drawdownDepth;
+	}
+
+	public void setDrawdownDepth(double drawdownDepth) {
+		this.drawdownDepth = drawdownDepth;
 	}
 
 }

@@ -1,46 +1,45 @@
 <template>
-  <div class="form" style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
+  <div style="width:100%">
+    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="160px"
       :label-position="labelPosition">
       <!-- <el-form-item label="最优模型参数"
                     style="margin-bottom: 20px; ">
       </el-form-item> -->
-      <p style="fontsize:'15px'">数据导入</p>
-      <el-form-item label="典型洪水过程线" style="margin-bottom: 10px; ">
-        <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
-      </el-form-item>
-      <el-form-item label="水位库容关系" style="margin-bottom: 10px; ">
-        <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
-      </el-form-item>
-      <el-form-item label="水位泄流能力" style="margin-bottom: 10px; ">
-        <upload_excel :fileList="fileList1" style=" width:80px"></upload_excel>
-      </el-form-item>
-      <hr>
+      <div class="mark">数据导入</div>
+      <div class="input">
+        <label class="floodrisk_label" for="">典型洪水过程线</label>
+        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+        <label class="floodrisk_label" for="">水位库容关系&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+        <label class="floodrisk_label" for="">水位泄流能力&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+      </div>
 
-      <p style="fontsize:'15px'">参数设置</p>
-      <el-form-item label="起调水位" style="margin-bottom: 8px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.Level1"></el-input>
-      </el-form-item>
-      <el-form-item label="设计洪水位" style="margin-bottom: 8px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.Level2"></el-input>
-      </el-form-item>
-      <el-form-item label="校核洪水位" style="margin-bottom: 8px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.Level3"></el-input>
-      </el-form-item>
-      <el-form-item label="坝顶高程" style="margin-bottom: 8px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.Level4"></el-input>
-      </el-form-item>
-      <el-form-item label="计算时段" style="margin-bottom: 8px; ">
-        <el-input style=" width:80px" v-model="formData.hydrostation.Level5"></el-input>
-      </el-form-item>
-      <el-form-item label="情景选择" style="margin-bottom: 10px; ">
-        <el-select style=" width:80px" v-model="formData.calculateBean.region" placeholder="请选择计算情景">
-          <el-option label="RCP2.6" value="RCP2.6"></el-option>
-          <el-option label="RCP4.5" value="RCP4.5"></el-option>
-          <el-option label="RCP8.5" value="RCP8.5"></el-option>
-        </el-select>
-      </el-form-item>
-
+      <div class="mark">参数设置</div>
+      <div class="params">
+        <el-form-item label="起调水位" style="margin-bottom: 1px; ">
+          <el-input style=" width:80px" v-model="formData.hydrostation.Level1"></el-input>
+        </el-form-item>
+        <el-form-item label="设计洪水位" style="margin-bottom: 1px; ">
+          <el-input style=" width:80px" v-model="formData.hydrostation.Level2"></el-input>
+        </el-form-item>
+        <el-form-item label="校核洪水位" style="margin-bottom: 8px; ">
+          <el-input style=" width:80px" v-model="formData.hydrostation.Level3"></el-input>
+        </el-form-item>
+        <el-form-item label="坝顶高程" style="margin-bottom: 8px; ">
+          <el-input style=" width:80px" v-model="formData.hydrostation.Level4"></el-input>
+        </el-form-item>
+        <el-form-item label="计算时段" style="margin-bottom: 8px; ">
+          <el-input style=" width:80px" v-model="formData.hydrostation.Level5"></el-input>
+        </el-form-item>
+        <el-form-item label="情景选择" style="margin-bottom: 10px; ">
+          <el-select style=" width:80px" v-model="formData.calculateBean.region" placeholder="请选择计算情景">
+            <el-option label="RCP2.6" value="RCP2.6"></el-option>
+            <el-option label="RCP4.5" value="RCP4.5"></el-option>
+            <el-option label="RCP8.5" value="RCP8.5"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
       <el-form-item style="margin-top: 10px;margin-bottom: 10px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
         <el-button>保存</el-button>
@@ -52,7 +51,7 @@
 </template>
 
 <script>
-import UploadExcel from "@/components/floodrisk/UploadExcel";
+import UploadExcel from "@/components/UploadExcel";
 
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
@@ -129,26 +128,27 @@ export default {
 </script>
 
 <style>
-.form {
-  border: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  padding: 8px;
+.mark {
+  font: 19px "Microsoft YaHei";
+  position: relative;
+  top: 10px;
+  right: -13px;
+  width: 100px;
+  z-index: 10;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
 }
-.label {
+
+.floodrisk_label {
   text-align: right;
   vertical-align: middle;
   float: left;
-  margin-left: -128px;
   font-size: 14px;
   color: #606266;
   line-height: 40px;
   padding: 0 12px 0 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-.upload {
-  /* float: left; */
-  line-height: 40px;
-  position: relative;
-  font-size: 14px;
 }
 </style>

@@ -65,6 +65,9 @@ export default {
           ],
           top: 40
         },
+        grid: {
+          bottom: "25%"
+        },
         title: {
           left: "center",
           text: "GCM和BMA模型的年降水量及不确定性区间"
@@ -80,6 +83,9 @@ export default {
           }
         },
         xAxis: {
+          name: "年份",
+          nameLocation: "center",
+          nameGap: 20,
           type: "category",
           boundaryGap: false,
           axisLabel: {
@@ -169,6 +175,9 @@ export default {
           ]
         },
         yAxis: {
+          name: "年降水量(mm)",
+          nameLocation: "center",
+          nameGap: 35,
           type: "value",
           boundaryGap: [0, "10%"],
           splitLine: {

@@ -9,9 +9,7 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-
 import "echarts/lib/component/polar";
-
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
@@ -31,9 +29,6 @@ export default {
           text: this.title.title,
           left: "center"
         },
-        // legend: {
-        //   data: ["2015 降水量", "2016 降水量"]
-        // },
 
         grid: {
           top: 25,
@@ -45,7 +40,7 @@ export default {
           top: 25, //与grid中top一致
           data: ["历史洪水", "经验频率", "理论频率"],
           orient: "vertical",
-          right: "2%",
+          right: "1%",
           backgroundColor: "#FFFFFF"
         },
         xAxis: {
@@ -151,7 +146,8 @@ export default {
               { value: [6.04536435949652, 12000], name: "99" },
               { value: [6.80924879162353, 12000], name: "99.9" },
               { value: [7.00954321694761, 12000], name: "99.95" },
-              { value: [7.43803297091111, 12000], name: "99.99" }
+              { value: [7.43803297091111, 12000], name: "99.99" },
+              { value: [8, 12000], name: " " }
             ]
           },
           {

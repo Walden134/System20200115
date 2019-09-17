@@ -2,40 +2,35 @@
   <el-container class="article_list">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <div class="left" style=" width:230px">
+        <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
-
-        <div class="top_right">
-          <shejicharts :title="shejiTitle" :request="outputRequest" style="width:600px;height:350px"></shejicharts>
-          <badingcharts :title="badingTitle" :request="powerRequest" style="width:600px;height:350px"></badingcharts>
+        <div class="flood_top">
+          <div style=" width: calc((100% - 300px)  / 2);">
+            <shejicharts :title="shejiTitle" :request="outputRequest" style="width:100%;height:100%"></shejicharts>
+          </div>
+          <div style=" width: calc((100% - 300px)  / 2);">
+            <badingcharts :title="badingTitle" :request="powerRequest" style="width:100%;height:100%"></badingcharts>
+          </div>
         </div>
-
-        <div class="bottom_right">
-          <jiaohecharts :title="jiaoheTitle" :request="powerRequest" style="width:600px;height:350px"></jiaohecharts>
-
-          <threeTable :title="huizongTitle" style="width:600px;height:350px"></threeTable>
+        <div class="flood_bottom">
+          <div style=" width: calc((100% - 300px)  / 2);">
+            <jiaohecharts :title="jiaoheTitle" :request="powerRequest" style="width:100%;height:100%"></jiaohecharts>
+          </div>
+          <div style=" width: calc((100% - 300px)  / 2);">
+            <threeTable :title="huizongTitle" style="width:100%;height:100%"></threeTable>
+          </div>
         </div>
-
       </el-tabs>
     </el-main>
   </el-container>
 </template>
 <script>
 import ThreeTable from "@/components/floodrisk/ThreeTable";
-import UploadExcel from "@/components/floodrisk/UploadExcel";
 import ShejiCharts from "@/components/floodrisk/ShejiCharts";
 import JiaoheCharts from "@/components/floodrisk/JiaoheCharts";
 import BadingCharts from "@/components/floodrisk/BadingCharts";
-import InputData from "@/components/floodrisk/InputData";
-import ECharts from "vue-echarts/components/ECharts.vue";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/title";
-import "echarts/theme/dark";
-import "echarts/lib/chart/bar";
+import InputData from "@/components/floodrisk/FloodInputData";
 import { postRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { deleteRequest } from "../../utils/api";
@@ -65,12 +60,10 @@ export default {
     };
   },
   components: {
-    upload_excel: UploadExcel,
     InputData: InputData,
     shejicharts: ShejiCharts,
     jiaohecharts: JiaoheCharts,
     badingcharts: BadingCharts,
-    chart: ECharts,
     threeTable: ThreeTable
   },
   methods: {
@@ -116,58 +109,16 @@ export default {
 };
 </script>
 <style>
-.left {
-  float: right;
-  margin: 30px 30px 5px 5px;
-}
-.top_right {
+.flood_top > div {
+  height: 380px;
+  background-color: aliceblue;
   float: left;
-  margin: 30px 30px 0px 30px;
+  margin: 10px 5px;
 }
-.bottom_right {
+.flood_bottom > div {
+  height: 330px;
+  background-color: aliceblue;
   float: left;
-  margin: 30px 30px 0px 30px;
-}
-
-.article_list > .header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
-.el-tabs__header {
-  margin: 0;
-}
-.article_list > .main {
-  /*justify-content: flex-start;*/
-  display: flex;
-  flex-direction: column;
-  padding-left: 0px;
-  background-color: #fff;
-  padding-top: 0px;
-  margin-top: 8px;
-}
-.form {
-  border: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  padding: 8px;
-}
-.label {
-  text-align: right;
-  vertical-align: middle;
-  float: left;
-  margin-left: -128px;
-  font-size: 14px;
-  color: #606266;
-  line-height: 40px;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.upload {
-  /* float: left; */
-  line-height: 40px;
-  position: relative;
-  font-size: 14px;
+  margin: 10px 5px;
 }
 </style>

@@ -159,7 +159,8 @@ public class PowerService {
 				powerList.add(new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
 				outputList.add(new double[] { res[0][1] });
 				powerMap.put(key, new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-				outputMap.put(key, new double[] { res[0][1], res[1][1], res[2][1], res[3][1] });
+				outputMap.put(key, new double[] { res[0][1] });
+//				outputMap.put(key, new double[] { res[0][1], res[1][1], res[2][1], res[3][1] });
 			}
 		}
 		map.put("xAxis", xAxis);

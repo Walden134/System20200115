@@ -1,28 +1,52 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData" :cell-class-name="Ftable" fit height="300" max-height="300" style="width:99%;"
-        :row-style="{height:'35px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="circumstances" label="情景" width="120px">
+      <div class="table_name">发电量和保证出力</div>
+      <el-table :data="tableData" :cell-class-name="Ftable" fit height="300" max-height="300"
+        style="width:calc(100% - 5px);" :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="circumstances" label="情景" style="width:140px">
         </el-table-column>
-        <el-table-column label="全年">
-          <el-table-column prop="annual_power" label="发电量" width="70px"></el-table-column>
-          <el-table-column prop="annual_amp" label="增幅" width="70px"></el-table-column>
+        <el-table-column label="95%保证出力">
+          <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
+          <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
+          <el-table-column prop="assurance_rate" label="保证率(%)"> </el-table-column>
+          <!-- <el-table-column prop="risk_rate" label="风险率(%)"> </el-table-column> -->
         </el-table-column>
-        <el-table-column label="丰水期">
-          <el-table-column prop="wet_power" label="发电量" width="70px"></el-table-column>
-          <el-table-column prop="wet_amp" label="增幅" width="70px"></el-table-column>
+        <el-table-column label="全年发电量">
+          <el-table-column prop="annual_power" label="值(亿kW•h)"></el-table-column>
+          <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
+          <!-- <el-table-column label="发电风险率(%)">
+            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
+            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
+          </el-table-column> -->
+
         </el-table-column>
-        <el-table-column label="平水期">
-          <el-table-column prop="normal_power" label="发电量" width="70px"></el-table-column>
-          <el-table-column prop="normal_amp" label="增幅" width="70px"></el-table-column>
+        <el-table-column label="丰水期发电量">
+          <el-table-column prop="wet_power" label="值(亿kW•h)"></el-table-column>
+          <el-table-column prop="wet_amp" label="增幅(%)"></el-table-column>
+          <!-- <el-table-column label="发电风险率(%)">
+            <el-table-column prop="dry_risk" label="枯水年(%)"></el-table-column>
+            <el-table-column prop="avg_risk" label="多年平均(%)"></el-table-column>
+          </el-table-column> -->
         </el-table-column>
-        <el-table-column label="枯水期">
-          <el-table-column prop="dry_power" label="发电量" width="70px"></el-table-column>
-          <el-table-column prop="dry_amp" label="增幅" width="70px"></el-table-column>
+        <el-table-column label="平水期发电量">
+          <el-table-column prop="normal_power" label="值(亿kW•h)"></el-table-column>
+          <el-table-column prop="normal_amp" label="增幅(%)"></el-table-column>
+          <!-- <el-table-column label="发电风险率(%)">
+            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
+            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
+          </el-table-column> -->
+        </el-table-column>
+        <el-table-column label="枯水期发电量">
+          <el-table-column prop="dry_power" label="值(亿kW•h)"></el-table-column>
+          <el-table-column prop="dry_amp" label="增幅(%)"></el-table-column>
+          <!-- <el-table-column label="发电风险率(%)">
+            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
+            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
+          </el-table-column> -->
         </el-table-column>
       </el-table>
+      <div class="table_name" style="height: 10px;"></div>
     </el-col>
   </el-row>
 </template>
@@ -35,6 +59,9 @@ export default {
       tableData: [
         {
           circumstances: "设计值",
+          annual_output: "176",
+          annual_amp: "-",
+          assurance_rate: "-",
           annual_power: "59.62",
           annual_amp: "-",
           wet_power: "42.85",
@@ -42,12 +69,19 @@ export default {
           normal_power: "7.52",
           normal_amp: "-",
           dry_power: "9.25",
-          dry_amp: "-"
+          dry_amp: "-",
+          dry_risk: "-",
+          avg_risk: "-"
         }
       ],
-      powerList: [],
+
       category: [],
-      avgDesiginPower: 59.62
+      powerList: [],
+      avgDesiginPower: 59.62,
+      outputList: [],
+      outputDesign: 176,
+      situations: [],
+      patterns: []
     };
   },
   methods: {
@@ -59,9 +93,11 @@ export default {
       }
     },
     setTableData() {
-      let avg = this.avgDesiginPower;
       let old = {
         circumstances: "设计值",
+        annual_output: this.outputDesign,
+        annual_amp: "-",
+        assurance_rate: "-",
         annual_power: this.avgDesiginPower,
         annual_amp: "-",
         wet_power: "42.85",
@@ -92,28 +128,42 @@ export default {
         tmp.dry_amp =
           ((this.powerList[i][3] - old.dry_power) / old.dry_power) * 100;
         tmp.dry_amp = tmp.dry_amp.toFixed(2);
+        tmp.annual_output = this.outputList[i];
+        tmp.annual_amp =
+          ((this.outputList[i] - old.annual_output) / old.annual_output) * 100;
+        tmp.annual_amp = tmp.annual_amp.toFixed(2);
         this.tableData.push(tmp);
       }
     }
   },
   mounted() {},
   created() {
-    bus.$on("powerList", data => {
-      console.log("powerList", data);
-      this.powerList = data;
-    });
     bus.$on("xAxis", data => {
       console.log("xAxis", data);
       this.category = data;
+    });
+    bus.$on("powerList", data => {
+      console.log("powerList", data);
+      this.powerList = data;
     });
     bus.$on("avgDesiginPower", data => {
       console.log("avgDesiginPower", data);
       this.avgDesiginPower = data;
     });
+    bus.$on("outputList", data => {
+      console.log("outputList", data);
+      this.outputList = data;
+    });
+    bus.$on("outputDesign", data => {
+      console.log("outputDesign", data);
+      this.outputDesign = data;
+    });
   },
   beforeDestroy() {
-    bus.$off("powerList");
     bus.$off("xAxis");
+    bus.$off("outputList");
+    bus.$off("outputDesign");
+    bus.$off("powerList");
     bus.$off("avgDesiginPower");
   },
   computed: {
@@ -130,8 +180,13 @@ export default {
     },
     avgDesiginPower() {
       this.setTableData();
+    },
+    outputList() {
+      this.setTableData();
+    },
+    outputDesign() {
+      this.setTableData();
     }
-
     // flag() {
     //   this.setTableData();
     //   this.$store.commit("flag", false);
@@ -160,7 +215,7 @@ export default {
   color: black;
   text-align: center;
   padding: 0;
-  height: 20px;
+  height: 25px;
 }
 .el-table--border,
 .el-table--group {

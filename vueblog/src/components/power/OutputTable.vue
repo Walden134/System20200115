@@ -2,16 +2,17 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData" :cell-class-name="Ftable" fit style="width:99%" height="300" max-height="300" stripe
-        :row-style="{height:'35px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="circumstances" label="情景" width="120px">
-
+      <el-table :data="tableData" :cell-class-name="Ftable" fit style="width:calc(100% - 5px);" height="300"
+        max-height="300" stripe :row-style="{height:'35px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="circumstances" label="情景"> </el-table-column>
+        <el-table-column label="95%保证出力">
+          <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
+          <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
+          <el-table-column prop="assurance_rate" label="保证率(%)"> </el-table-column>
+          <el-table-column prop="risk_rate" label="风险率(%)"> </el-table-column>
         </el-table-column>
-        <el-table-column prop="annual_output" label="95%保证出力">
-          <el-table-column prop="annual_output" label="(MW)"></el-table-column>
-        </el-table-column>
-        <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
       </el-table>
+      <div class="table_name" style="height: 10px;"></div>
     </el-col>
   </el-row>
 </template>
@@ -29,18 +30,21 @@ export default {
         }
       ],
       outputList: [],
+      outputDesign: 176,
       category: [],
-      outputDesign: 176
+
+      situations: [],
+      patterns: []
     };
   },
   methods: {
-    // Ftable({ row, column, rowIndex, columnIndex }) {
-    //   if (columnIndex === 0) {
-    //     return "firstcolumn";
-    //   } else {
-    //     return "";
-    //   }
-    // },
+    Ftable({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        return "firstcolumn";
+      } else {
+        return "";
+      }
+    },
     setTableData() {
       let old = {
         circumstances: "设计值",

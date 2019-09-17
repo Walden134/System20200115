@@ -3,11 +3,10 @@ import Router from "vue-router";
 import Login from "@/components/Login";
 import Home from "@/components/Home";
 import TimeChangeDesign from "@/components/timechangedesign/TimeChangeDesign";
-import benefitCalculate from "@/components/power/benefitCalculate";
-import PowerRisk from "@/components/powerrisk/PowerRisk";
+import PowerBenefit from "@/components/power/PowerBenefit";
 import FloodRisk from "@/components/floodrisk/FloodRisk";
 import GeneralFlood from "@/components/designflood/GeneralFlood";
-import modelApply from "@/components/RunoffPredict/modelApply";
+import Runoff from "@/components/RunoffPredict/Runoff";
 Vue.use(Router);
 
 export default new Router({
@@ -30,9 +29,9 @@ export default new Router({
       name: "径流预测",
       children: [
         {
-          path: "/modelApply",
+          path: "/runoff",
           name: "径流预测",
-          component: modelApply,
+          component: Runoff,
         },
       ]
     },
@@ -42,12 +41,12 @@ export default new Router({
       name: "设计洪水",
       children: [
         {
-          path: "/GeneralFlood",
+          path: "/generalFlood",
           name: "常规设计",
           component: GeneralFlood
         },
         {
-          path: "/TimeChangeDesign",
+          path: "/timeChangeDesign",
           name: "时变设计",
           component: TimeChangeDesign
         }
@@ -56,18 +55,13 @@ export default new Router({
     {
       path: "/home",
       component: Home,
-      name: "发电风险",
+      name: "发电效益",
       children: [
         {
-          path: "/benefitCalculate",
-          name: "发电效益计算",
-          component: benefitCalculate,
+          path: "/powerBenefit",
+          name: "发电效益",
+          component: PowerBenefit,
         },
-        {
-          path: "/PowerRisk",
-          name: "发电风险评估",
-          component: PowerRisk
-        }
       ]
     },
     {
@@ -76,7 +70,7 @@ export default new Router({
       name: "防洪风险",
       children: [
         {
-          path: "/FloodRisk",
+          path: "/floodRisk",
           name: "防洪风险",
           component: FloodRisk
         }

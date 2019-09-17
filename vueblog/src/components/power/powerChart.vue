@@ -15,14 +15,13 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
-import { getRequest1 } from "../../utils/api";
 export default {
   props: ["title"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: this.title.title,
+          text: "发电量",
           left: "center"
         },
         tooltip: {
@@ -47,6 +46,9 @@ export default {
         },
         xAxis: {
           type: "category",
+          name: "不同情景",
+          nameLocation: "center",
+          nameGap: 25,
           data: [],
           axisLabel: {
             interval: 0,
@@ -62,7 +64,9 @@ export default {
         },
         yAxis: {
           type: "value",
-          formatter: "{value} kg",
+          name: "发电量(亿kW•h)",
+          nameLocation: "center",
+          nameGap: 35,
           splitLine: {
             show: false
           },
@@ -71,14 +75,15 @@ export default {
           }
         },
         legend: {
-          y: "8%",
+          // y: "8%",
+          y: "bottom",
           data: ["全年", "丰水期", "平水期", "枯水期"]
         },
         grid: {
-          left: "10%", // 与容器左侧的距离
+          left: "13%", // 与容器左侧的距离
           right: "5%", // 与容器右侧的距离
-          top: "10%", // 与容器顶部的距离
-          bottom: "10%" // 与容器底部的距离
+          top: "10%" // 与容器顶部的距离
+          // bottom: "10%" // 与容器底部的距离
         },
         series: [
           {
@@ -104,7 +109,9 @@ export default {
           }
         ],
         animationDuration: 30
-      }
+      },
+      situations: [],
+      patterns: []
     };
   },
   computed: {},
@@ -133,6 +140,13 @@ export default {
     bus.$off("powerList");
     bus.$off("xAxis");
   },
-  watch: {}
+  watch: {
+    situations() {
+      this.getRequestData();
+    },
+    patterns() {
+      this.getRequestData();
+    }
+  }
 };
 </script>

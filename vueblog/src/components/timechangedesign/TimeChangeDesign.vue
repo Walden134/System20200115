@@ -1,41 +1,32 @@
 <template>
-  <el-container class="article_list">
+  <el-container class="power">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <div class="left" style=" width:230px">
+        <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
-        <div class="top_right">
-          <areaChart :title="leftChart" :request="outputRequest" style="width:1260px;height:300px"></areaChart>
-
-          <!-- <threeTable :title="outputTitle"
-                      style="width:600px;height:330px"></threeTable> -->
+        <div class="time_top">
+          <div style=" width: calc((100% - 290px));">
+            <areaChart :title="leftChart" :request="outputRequest" style="width:100%;height:100%"></areaChart>
+          </div>
         </div>
-        <div class="bottom_right" align='center'>
-          <designCharts :title="rightChart" :request="powerRequest" style="width:1260px;height:430px"></designCharts>
-
-          <eightTable :title="powerTitle" style="width:1050px;height:330px"></eightTable>
+        <div class="time_bottom" align='center'>
+          <div style=" width: calc((100% - 300px)*2 /3);">
+            <designCharts :title="rightChart" :request="powerRequest" style="width:100%;height:100%"></designCharts>
+          </div>
+          <div style=" width: calc((100% - 300px) /3);">
+            <eightTable :title="powerTitle" style="width:100%;height:100%"></eightTable>
+          </div>
         </div>
       </el-tabs>
     </el-main>
   </el-container>
 </template>
 <script>
-import ThreeTable from "@/components/timechangedesign/ThreeTable";
 import EightTable from "@/components/timechangedesign/EightTable";
-import UploadExcel from "@/components/timechangedesign/UploadExcel";
-import UncertainCharts from "@/components/timechangedesign/UncertainCharts";
 import DesignCharts from "@/components/timechangedesign/DesignCharts";
 import AreaChart from "@/components/timechangedesign/AreaChart";
 import InputData from "@/components/timechangedesign/InputData";
-import ECharts from "vue-echarts/components/ECharts.vue";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/title";
-import "echarts/theme/dark";
-import "echarts/lib/chart/bar";
 import { postRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { deleteRequest } from "../../utils/api";
@@ -76,12 +67,10 @@ export default {
     };
   },
   components: {
-    upload_excel: UploadExcel,
     InputData: InputData,
     uncertainCharts: UncertainCharts,
     designCharts: DesignCharts,
     areaChart: AreaChart,
-    chart: ECharts,
     threeTable: ThreeTable,
     eightTable: EightTable
   },
@@ -128,58 +117,16 @@ export default {
 };
 </script>
 <style>
-.left {
-  float: right;
-  margin: 30px 30px 5px 5px;
-}
-.top_right {
+.time_top > div {
+  height: 380px;
+  background-color: aliceblue;
   float: left;
-  margin: 30px 30px 0px 30px;
+  margin: 10px 5px;
 }
-.bottom_right {
+.time_bottom > div {
+  height: 330px;
+  background-color: aliceblue;
   float: left;
-  margin: 30px 30px 0px 30px;
-}
-
-.article_list > .header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
-.el-tabs__header {
-  margin: 0;
-}
-.article_list > .main {
-  /*justify-content: flex-start;*/
-  display: flex;
-  flex-direction: column;
-  padding-left: 0px;
-  background-color: #fff;
-  padding-top: 0px;
-  margin-top: 8px;
-}
-.form {
-  border: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  padding: 8px;
-}
-.label {
-  text-align: right;
-  vertical-align: middle;
-  float: left;
-  margin-left: -128px;
-  font-size: 14px;
-  color: #606266;
-  line-height: 40px;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.upload {
-  /* float: left; */
-  line-height: 40px;
-  position: relative;
-  font-size: 14px;
+  margin: 10px 5px;
 }
 </style>

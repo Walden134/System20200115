@@ -1,23 +1,16 @@
 <template>
   <el-row class="designfloodtable">
-    <el-col :span="24"
-            class="mtable">
+    <el-col :span="24" class="mtable">
       <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData"
-                :cell-class-name="Ftable"
-                style="width:99%;height:300px;border:2px;"
-                :row-style="{height:'20px'}"
-                :cell-style="{padding:'0px'}">
-        <el-table-column prop="number"
-                         :label="title.label1">
+      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="number" :label="title.label1">
         </el-table-column>
-        <el-table-column prop="frequency1"
-                         :label="title.label2">
+        <el-table-column prop="frequency1" :label="title.label2">
         </el-table-column>
-        <el-table-column prop="flow1"
-                         :label="title.label3">
+        <el-table-column prop="flow1" :label="title.label3">
         </el-table-column>
       </el-table>
+      <div style="background-color:#20a0ff;height:5px"></div>
     </el-col>
   </el-row>
 </template>
@@ -25,15 +18,7 @@
 <script>
 export default {
   props: ["title"],
-  methods: {
-    Ftable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        return "firstcolumn";
-      } else {
-        return "";
-      }
-    }
-  },
+  methods: {},
   data() {
     return {
       tableData: [
@@ -114,7 +99,6 @@ export default {
 
 .el-table__header th,
 .el-table__header tr {
-  background-color: #d9e4ec;
   color: black;
   text-align: center;
   padding: 0;
@@ -146,15 +130,6 @@ export default {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   background-color: #20a0ff;
-}
-
-.designfloodtable {
-  width: 100%;
-  height: 100%;
-}
-
-.firstcolumn {
-  background: #d9e4ec;
 }
 </style>
 

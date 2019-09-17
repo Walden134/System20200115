@@ -21,9 +21,10 @@ export default {
     return {
       chartdata: {
         title: {
-          text: "保证出力",
+          text: "出力保证率曲线图",
           left: "center"
         },
+
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -45,26 +46,25 @@ export default {
           }
         },
         xAxis: {
-          type: "category",
-          data: [],
-          name: "不同情景",
-          nameLocation: "center",
+          name: "保证率(%)",
           nameGap: 25,
-          axisLabel: {
-            interval: 0,
-            rotate: 0,
-            fontSize: 12
-          },
+          nameLocation: "center",
+          data: [],
           splitLine: {
             show: false
           },
           axisTick: {
             inside: true
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: 0,
+            fontSize: 12
           }
         },
         yAxis: {
           type: "value",
-          name: "95%的保证出力(MW)",
+          name: "出力(MW)",
           nameLocation: "center",
           nameGap: 35,
           splitLine: {
@@ -74,6 +74,11 @@ export default {
             inside: true
           }
         },
+        legend: {
+          // y: "8%",
+          y: "bottom",
+          data: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"]
+        },
         grid: {
           left: "13%", // 与容器左侧的距离
           right: "5%", // 与容器右侧的距离
@@ -82,51 +87,54 @@ export default {
         },
         series: [
           {
-            type: "bar",
-            // barWidth: 20,
-            name: "全年",
+            name: "GFDL",
+            type: "line",
+            data: []
+          },
+          {
+            name: "CNRM",
+            type: "line",
+            data: []
+          },
+          {
+            name: "CanESM",
+            type: "line",
+            data: []
+          },
+          {
+            name: "MIROC",
+            type: "line",
+            data: []
+          },
+          {
+            name: "BMA",
+            type: "line",
             data: []
           }
         ],
         animationDuration: 30
-      },
-      situations: [],
-      patterns: []
+      }
     };
   },
-  computed: {},
   components: {
     chart: ECharts
   },
-  methods: {
-    setChartData() {
-      // bus.$on("situations", data => (this.situations = data));
-      // bus.$on("patterns", data => (this.patterns = data));
-      bus.$on("outputList", data => {
-        for (let j = 0; j < data.length; j++) {
-          this.$refs.dschart.options.series[0].data[j] = data[j][0];
-        }
-      });
-      bus.$on("xAxis", data => {
-        this.$refs.dschart.options.xAxis.data = data;
-      });
-    }
+  mounted: function() {
+    // var _this = this;
+    // getRequest(this.request).then(
+    //   resp => {
+    //     if (resp.status == 200) {
+    //       // _this.$refs.dschart.options.xAxis.data = resp.data.categories;
+    //       // _this.$refs.dschart.options.series[0].data = resp.data.ds;
+    //     } else {
+    //       _this.$message({ type: "error", message: "数据加载失败!" });
+    //     }
+    //   },
+    //   resp => {
+    //     _this.$message({ type: "error", message: "数据加载失败!" });
+    //   }
+    // );
   },
-  beforeDestroy() {
-    bus.$off("outputList");
-    bus.$off("xAxis");
-  },
-  mounted() {},
-  created() {
-    this.setChartData();
-  },
-  watch: {
-    situations() {
-      this.getRequestData();
-    },
-    patterns() {
-      this.getRequestData();
-    }
-  }
+  methods: {}
 };
 </script>

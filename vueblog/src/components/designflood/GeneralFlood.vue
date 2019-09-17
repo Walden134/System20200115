@@ -1,26 +1,23 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName"
-               @tab-click="handleClick"
-               type="card">
-        <div class="left"
-             style=" width:230px">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+        <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
-        <div class="top">
+        <div class="genFlood_top">
+          <div style=" width: calc((100% - 290px));">
+            <pChart :title="pinluquxian" :request="powerRequest" style="width:100%;height:100%"></pChart>
+          </div>
+        </div>
+        <div class="genFlood_bottom">
 
-          <pChart :title="pinluquxian"
-                  :request="powerRequest"
-                  style="width:1260px;height:380px"></pChart>
-        </div>
-        <div class="bottom_right">
-          <shiceTable :title="shiceTitle"
-                      style="width:600px;height:330px"></shiceTable>
-        </div>
-        <div class="bottom_right">
-          <lilunTable :title="lilunTitle"
-                      style="width:640px;height:330px"></lilunTable>
+          <div style=" width: calc((100% - 300px)  / 2)">
+            <shiceTable :title="shiceTitle" style="width:100%;height:100%"></shiceTable>
+          </div>
+          <div style=" width: calc((100% - 300px)  / 2)">
+            <lilunTable :title="lilunTitle" style="width:100%;height:100%"></lilunTable>
+          </div>
         </div>
       </el-tabs>
     </el-main>
@@ -29,17 +26,8 @@
 <script>
 import ShiceTable from "@/components/designflood/ShiceTable";
 import LilunTable from "@/components/designflood/LilunTable";
-import UploadExcel from "@/components/designflood/UploadExcel";
 import PChart from "@/components/designflood/PChart";
-import InputData from "@/components/designflood/InputData";
-import ECharts from "vue-echarts/components/ECharts.vue";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/title";
-import "echarts/theme/dark";
-import "echarts/lib/chart/bar";
+import InputData from "@/components/designflood/GenInputData";
 import { postRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { deleteRequest } from "../../utils/api";
@@ -69,10 +57,8 @@ export default {
     };
   },
   components: {
-    upload_excel: UploadExcel,
     InputData: InputData,
     pChart: PChart,
-    chart: ECharts,
     shiceTable: ShiceTable,
     lilunTable: LilunTable
   },
@@ -119,62 +105,24 @@ export default {
 };
 </script>
 <style>
-.left {
+.pane {
   float: right;
-  margin: 30px 30px 5px 5px;
-}
-.top {
-  float: left;
-  margin: 30px 30px 0px 30px;
-}
-.bottom_right {
-  float: left;
-  margin: 30px 30px 0px 30px;
-}
-.bottom_left {
-  float: left;
-  margin: 30px 30px 0px 30px;
+  margin-left: 10px;
 }
 
-.article_list > .header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
-.el-tabs__header {
-  margin: 0;
-}
-.article_list > .main {
-  /*justify-content: flex-start;*/
-  display: flex;
-  flex-direction: column;
-  padding-left: 0px;
-  background-color: #fff;
-  padding-top: 0px;
-  margin-top: 8px;
-}
-.form {
-  border: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  padding: 8px;
-}
-.label {
-  text-align: right;
-  vertical-align: middle;
+.genFlood_top > div {
+  /* width: 661px; */
+  height: 380px;
+  background-color: aliceblue;
   float: left;
-  margin-left: -128px;
-  font-size: 14px;
-  color: #606266;
-  line-height: 40px;
-  padding: 0 12px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  margin: 10px 5px;
 }
-.upload {
-  /* float: left; */
-  line-height: 40px;
-  position: relative;
-  font-size: 14px;
+.genFlood_bottom > div {
+  /* width: 661px; */
+  /* width: calc((100% - 300px) / 2); */
+  height: 330px;
+  background-color: aliceblue;
+  float: left;
+  margin: 10px 5px;
 }
 </style>

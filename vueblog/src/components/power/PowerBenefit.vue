@@ -3,26 +3,31 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
-          <!-- <inputData @situations="getSituations" @patterns="getPatterns"></inputData> -->
-          <inputData></inputData>
+          <inputData @situations="getSituations" @patterns="getPatterns"></inputData>
+          <!-- <inputData></inputData> -->
         </div>
-        <div class="top">
-          <div>
-            <charts :title="powerTitle" :request="powerRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></charts>
+        <div class="power_top">
+          <div style=" width: calc((100% - 310px)  / 3);">
+            <powerChart :request="powerRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></powerChart>
           </div>
-          <div>
-            <charts :title="outputTitle" :request="outputRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></charts>
+          <div style=" width: calc((100% - 310px)  / 3);">
+            <outputChart :request="outputRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></outputChart>
+          </div>
+          <div style=" width: calc((100% - 310px)  / 3);">
+            <powerRiskChart :request="outputRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></powerRiskChart>
           </div>
         </div>
-        <div class="bottom">
-          <div>
+        <div class="power_bottom">
+          <!-- <div style=" width: calc((100% - 300px) *2 / 3);"> -->
+          <div style=" width: calc(100% - 290px) ;">
             <powerTable :title="powerTitle" style="width:100%;height:100%"></powerTable>
           </div>
-          <div>
+          <!-- <div style=" width: calc((100% - 300px)  / 3);">
             <outputTable :title="outputTitle" style="width:100%;height:100%"></outputTable>
-          </div>
+          </div> -->
 
         </div>
       </el-tabs>
@@ -32,17 +37,10 @@
 <script>
 import OutputTable from "@/components/power/OutputTable";
 import PowerTable from "@/components/power/PowerTable";
-import Charts from "@/components/power/Charts";
-import InputData from "@/components/power/InputData";
-
-import ECharts from "vue-echarts/components/ECharts.vue";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/title";
-import "echarts/theme/dark";
-import "echarts/lib/chart/bar";
+import PowerChart from "@/components/power/PowerChart";
+import OutputChart from "@/components/power/OutputChart";
+import PowerRiskChart from "@/components/power/PowerRiskChart";
+import InputData from "@/components/power/PowerInputData";
 import { postRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { deleteRequest } from "../../utils/api";
@@ -72,61 +70,40 @@ export default {
   },
   components: {
     inputData: InputData,
-    charts: Charts,
+    powerChart: PowerChart,
+    outputChart: OutputChart,
+    powerRiskChart: PowerRiskChart,
     powerTable: PowerTable,
     outputTable: OutputTable
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    getSituations(data) {
+      this.situations = data;
+    },
+    getPatterns(data) {
+      this.patterns = data;
     }
-    // getSituations(data) {
-    //   this.situations = data;
-    // },
-    // getPatterns(data) {
-    //   this.patterns = data;
-    // }
   },
   mounted() {}
 };
 </script>
 <style>
-.pane {
-  float: right;
-}
-
-.top > div {
-  width: calc((100% - 290px) / 2);
+.power_top > div {
   /* width: 661px; */
-  height: 430px;
+  height: 380px;
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;
 }
-.bottom > div {
+.power_bottom > div {
   /* width: 661px; */
-  width: calc((100% - 290px) / 2);
+  /* width: calc((100% - 300px) / 2); */
+  height: 330px;
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;
-}
-
-.power > .header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
-.el-tabs__header {
-  margin: 0;
-}
-.power > .main {
-  display: flex;
-  flex-direction: column;
-  padding-left: 0px;
-  background-color: #fff;
-  padding-top: 0px;
-  margin-top: 8px;
 }
 </style>

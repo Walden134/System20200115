@@ -54,6 +54,57 @@ export default {
         toolbox: {
           right: "5%",
           feature: {
+            dataView: {
+              show: true,
+              readOnly: false,
+              optionToContent: function(opt) {
+                var axisData = opt.xAxis[0].data; //坐标数据
+                var series = opt.series; //折线图数据
+                var tdHeads = "<td>时间</td>"; //表头第一列
+                var tdBodys = ""; //表数据
+                //组装表头
+                var nameData = new Array(
+                  "CNRM降水",
+                  "CanESM降水",
+                  "GFDL降水",
+                  "MIROC降水",
+                  "CNRM径流",
+                  "CanESM径流",
+                  "GFDL径流",
+                  "MIROC径流"
+                );
+                for (var i = 0; i < nameData.length; i++) {
+                  tdHeads +=
+                    '<td style="padding: 0 10px">' + nameData[i] + "</td>";
+                }
+
+                var table =
+                  '<table style="width:100%;text-align:center" border="1" cellspacing="0" cellpadding="1" ><tbody><tr>' +
+                  tdHeads +
+                  " </tr>";
+
+                //组装表数据
+                for (var i = 0, l = axisData.length; i < l; i++) {
+                  for (var j = 0; j < series.length; j++) {
+                    var temp = series[j].data[i];
+                    if (temp != null && temp != undefined) {
+                      tdBodys += "<td>" + temp.toFixed(0) + "</td>";
+                    } else {
+                      tdBodys += "<td></td>";
+                    }
+                  }
+                  table +=
+                    '<tr><td style="padding: 0 10px">' +
+                    axisData[i] +
+                    "</td>" +
+                    tdBodys +
+                    "</tr>";
+                  tdBodys = "";
+                }
+                table += "</tbody></table>";
+                return table;
+              }
+            },
             // dataView: { show: true, readOnly: false },
             // magicType: {show: true, type: ['line', 'bar']},
             restore: { show: true },

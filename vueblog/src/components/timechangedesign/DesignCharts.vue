@@ -9,18 +9,13 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-
 import "echarts/lib/component/polar";
-
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 
 import { getRequest } from "../../utils/api";
-
-var colors = ["#5793f3", "#d14a61", "#675bba"];
-
 export default {
   props: ["title"],
   data: function() {
@@ -30,13 +25,23 @@ export default {
           text: this.title.title,
           left: "center"
         },
+        legend: {
+          top: 30,
+          data: ["基准期频率", "5%分位数", "50%分位数", "95%分位数"],
+          orient: "vertical",
+          right: 50,
+          backgroundColor: "#FFFFFF"
+        },
         grid: {
           top: 30,
-          bottom: 35,
+          bottom: 40,
           right: 50,
           left: 120
         },
         xAxis: {
+          name: "频率(%)",
+          nameLocation: "center",
+          nameGap: 20,
           axisTick: {
             show: false
           },
@@ -49,6 +54,9 @@ export default {
         },
         yAxis: [
           {
+            name: "流量",
+            nameLocation: "center",
+            nameGap: 48,
             type: "value",
             splitLine: {
               show: true
@@ -60,7 +68,7 @@ export default {
         ],
         series: [
           {
-            name: "2015 降水量",
+            name: "基准期频率",
             type: "line",
             smooth: true,
             data: [
@@ -125,11 +133,13 @@ export default {
               { value: [5.36387011240715, 12000], name: "95" },
               { value: [6.04536435949652, 12000], name: "99" },
               { value: [6.80924879162353, 12000], name: "99.9" },
-              { value: [7.43803297091111, 12000], name: "99.99" }
+              { value: [7.43803297091111, 12000], name: "99.99" },
+              { value: [8, 12000], name: " " }
             ]
           },
 
           {
+            name: "5%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
@@ -160,6 +170,7 @@ export default {
             ]
           },
           {
+            name: "50%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
@@ -190,6 +201,7 @@ export default {
             ]
           },
           {
+            name: "95%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
