@@ -20,4 +20,12 @@ public interface PowerMapper {
 
 	List<Runoff> getKRunoffByPatAndSitu(@Param("rcp_id") String pattern, @Param("gcm_id") String situ);
 
+	List<Runoff> getAllRunoffByPattern(@Param("rcp_id") String pattern);
+
+	List<Runoff> getFRunoffByPattern(@Param("rcp_id") String pattern);
+
+	List<Runoff> getPRunoffByPattern(@Param("rcp_id") String pattern);
+
+	List<Runoff> getKRunoffByPattern(@Param("rcp_id") String pattern);
+
 }

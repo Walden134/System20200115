@@ -9,7 +9,7 @@
         <el-table-column label="95%保证出力">
           <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
           <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
-          <el-table-column prop="assurance_rate" label="保证率(%)"> </el-table-column>
+          <!-- <el-table-column prop="assurance_rate" label="保证率(%)"> </el-table-column> -->
           <!-- <el-table-column prop="risk_rate" label="风险率(%)"> </el-table-column> -->
         </el-table-column>
         <el-table-column label="全年发电量">
@@ -46,12 +46,13 @@
           </el-table-column> -->
         </el-table-column>
       </el-table>
-      <div class="table_name" style="height: 10px;"></div>
+      <div class="table_name" style="height: 5px;"></div>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import storageUtils from "../../utils/storageUtils";
 export default {
   props: ["title"],
   data() {
@@ -134,28 +135,30 @@ export default {
         tmp.annual_amp = tmp.annual_amp.toFixed(2);
         this.tableData.push(tmp);
       }
+    },
+    inintChartData() {
+      this.category = storageUtils.readCategory();
+      this.powerList = storageUtils.readPowers();
+      this.outputList = storageUtils.readOutputs();
     }
   },
-  mounted() {},
+  mounted() {
+    this.inintChartData();
+  },
   created() {
     bus.$on("xAxis", data => {
-      console.log("xAxis", data);
       this.category = data;
     });
     bus.$on("powerList", data => {
-      console.log("powerList", data);
       this.powerList = data;
     });
     bus.$on("avgDesiginPower", data => {
-      console.log("avgDesiginPower", data);
       this.avgDesiginPower = data;
     });
     bus.$on("outputList", data => {
-      console.log("outputList", data);
       this.outputList = data;
     });
     bus.$on("outputDesign", data => {
-      console.log("outputDesign", data);
       this.outputDesign = data;
     });
   },

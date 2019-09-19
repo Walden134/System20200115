@@ -17,8 +17,7 @@ public class CalculateBean {
 	private double power;
 	private String[] situations;
 	private String[] patterns;
-
-	
+	private String pattern;
 
 	@Override
 	public String toString() {
@@ -122,6 +121,14 @@ public class CalculateBean {
 
 	public void setPower(double power) {
 		this.power = power;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 
 }

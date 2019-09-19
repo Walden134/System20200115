@@ -15,6 +15,7 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
+import storageUtils from "../../utils/storageUtils";
 export default {
   props: ["title"],
   data: function() {
@@ -47,13 +48,13 @@ export default {
         xAxis: {
           type: "category",
           data: [],
-          name: "不同情景",
-          nameLocation: "center",
-          nameGap: 25,
+          // name: "不同情景",
+          // nameLocation: "center",
+          // nameGap: 25,
           axisLabel: {
             interval: 0,
             rotate: 0,
-            fontSize: 12
+            fontSize: 10
           },
           splitLine: {
             show: false
@@ -110,13 +111,28 @@ export default {
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
       });
+    },
+    inintChartData() {
+      let data1 = storageUtils.readOutputs();
+      if (data1.length > 0) {
+        for (let j = 0; j < data1.length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = data1[j][0];
+        }
+      }
+      let data2 = storageUtils.readCategory();
+      if (data2.length > 0) {
+        this.$refs.dschart.options.xAxis.data = data2;
+      }
     }
+  },
+  mounted() {
+    this.inintChartData();
   },
   beforeDestroy() {
     bus.$off("outputList");
     bus.$off("xAxis");
   },
-  mounted() {},
+
   created() {
     this.setChartData();
   },

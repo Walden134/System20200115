@@ -1,7 +1,5 @@
 <template>
-
-  <chart :options="P3">
-  </chart>
+  <chart ref="dschart" :options="P3" style="height:100%;width:100%"> </chart>
 
 </template>
 
@@ -17,16 +15,13 @@ import "echarts/lib/chart/bar";
 
 import { getRequest } from "../../utils/api";
 
-var colors = ["#5793f3", "#d14a61", "#675bba"];
-
 export default {
-  props: ["title"],
   methods: {},
   data: function() {
     return {
       P3: {
         title: {
-          text: this.title.title,
+          text: "设计洪水频率曲线",
           left: "center"
         },
 
@@ -108,7 +103,6 @@ export default {
               [7.98390727937704, 2445.86]
             ]
           },
-
           {
             name: "刻度",
             type: "bar",
@@ -122,7 +116,6 @@ export default {
                 }
               }
             },
-
             data: [
               { value: [0, 12000], name: "0.01" },
               { value: [0.428489753963786, 12000], name: "0.02" },
@@ -236,22 +229,7 @@ export default {
   components: {
     chart: ECharts
   },
-  mounted: function() {
-    var _this = this;
-    getRequest("/article/dataStatistics").then(
-      resp => {
-        if (resp.status == 200) {
-          //   _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          //   _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
-  }
+  mounted: function() {}
 };
 </script>
 

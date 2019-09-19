@@ -70,7 +70,7 @@ export default {
         },
         title: {
           left: "center",
-          text: "GCM和BMA模型的年降水量及不确定性区间"
+          text: "年降水量的不确定性区间"
         },
         toolbox: {
           top: "15%",

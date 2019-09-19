@@ -1,15 +1,12 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">{{title.title}}</div>
+      <div class="table_name">设计洪水计算值</div>
       <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;"
         :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="number" :label="title.label1">
-        </el-table-column>
-        <el-table-column prop="frequency2" :label="title.label2">
-        </el-table-column>
-        <el-table-column prop="flow2" :label="title.label3">
-        </el-table-column>
+        <el-table-column prop="number" :label="number"> </el-table-column>
+        <el-table-column prop="frequency" :label="frequency"> </el-table-column>
+        <el-table-column prop="flow" :label="flow"> </el-table-column>
       </el-table>
       <div style="background-color:#20a0ff;height:5px"></div>
     </el-col>
@@ -18,7 +15,20 @@
 
 <script>
 export default {
-  props: ["title"],
+  data() {
+    return {
+      number: "序号",
+      frequency: "理论频率（%）",
+      flow: "理论流量(m³/s)",
+      tableData: [
+        {
+          number: 1,
+          frequency: "0.01",
+          flow: 4200
+        }
+      ]
+    };
+  },
   methods: {
     Ftable({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
@@ -27,67 +37,6 @@ export default {
         return "";
       }
     }
-  },
-  data() {
-    return {
-      tableData: [
-        {
-          number: 1,
-          frequency2: "0.01",
-          flow2: 4200
-        },
-        {
-          number: 2,
-          frequency2: "0.02",
-          flow2: 3700
-        },
-        {
-          number: 3,
-          frequency2: "0.05",
-          flow2: 3500
-        },
-        {
-          number: 4,
-          frequency2: "0.1",
-          flow2: 3350
-        },
-        {
-          number: 5,
-          frequency2: "0.2",
-          flow2: 3260
-        },
-        {
-          number: 6,
-          frequency2: "0.5",
-          flow2: 3180
-        },
-        {
-          number: 7,
-          frequency2: "1",
-          flow2: 3100
-        },
-        {
-          number: 8,
-          frequency2: "2",
-          flow2: 3050
-        },
-        {
-          number: 9,
-          frequency2: "3.3",
-          flow2: 2900
-        },
-        {
-          number: 10,
-          frequency2: "5",
-          flow2: 2860
-        },
-        {
-          number: 11,
-          frequency2: "10",
-          flow2: 2766
-        }
-      ]
-    };
   }
 };
 </script>

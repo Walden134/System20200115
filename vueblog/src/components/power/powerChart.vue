@@ -15,6 +15,7 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
+import storageUtils from "../../utils/storageUtils";
 export default {
   props: ["title"],
   data: function() {
@@ -46,14 +47,14 @@ export default {
         },
         xAxis: {
           type: "category",
-          name: "不同情景",
-          nameLocation: "center",
-          nameGap: 25,
+          // name: "不同情景",
+          // nameLocation: "center",
+          // nameGap: 25,
           data: [],
           axisLabel: {
             interval: 0,
             rotate: 0,
-            fontSize: 12
+            fontSize: 10
           },
           splitLine: {
             show: false
@@ -130,9 +131,25 @@ export default {
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
       });
+    },
+    inintChartData() {
+      let data1 = storageUtils.readPowers();
+      if (data1.length > 0) {
+        for (let j = 0; j < data1.length; j++) {
+          for (let i = 0; i < 4; i++) {
+            this.$refs.dschart.options.series[i].data[j] = data1[j][i];
+          }
+        }
+      }
+      let data2 = storageUtils.readCategory();
+      if (data2.length > 0) {
+        this.$refs.dschart.options.xAxis.data = data2;
+      }
     }
   },
-  mounted() {},
+  mounted() {
+    this.inintChartData();
+  },
   created() {
     this.setChartData();
   },
@@ -141,12 +158,12 @@ export default {
     bus.$off("xAxis");
   },
   watch: {
-    situations() {
-      this.getRequestData();
-    },
-    patterns() {
-      this.getRequestData();
-    }
+    // situations() {
+    //   this.getRequestData();
+    // },
+    // patterns() {
+    //   this.getRequestData();
+    // }
   }
 };
 </script>

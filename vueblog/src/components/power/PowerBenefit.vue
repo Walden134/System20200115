@@ -16,8 +16,8 @@
               style="width:100%;height:100%"></outputChart>
           </div>
           <div style=" width: calc((100% - 310px)  / 3);">
-            <powerRiskChart :request="outputRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></powerRiskChart>
+            <outputRateChart :request="outputRequest" :situations="situations" :patterns="patterns"
+              style="width:100%;height:100%"></outputRateChart>
           </div>
         </div>
         <div class="power_bottom">
@@ -39,7 +39,7 @@ import OutputTable from "@/components/power/OutputTable";
 import PowerTable from "@/components/power/PowerTable";
 import PowerChart from "@/components/power/PowerChart";
 import OutputChart from "@/components/power/OutputChart";
-import PowerRiskChart from "@/components/power/PowerRiskChart";
+import OutputRateChart from "@/components/power/OutputRateChart";
 import InputData from "@/components/power/PowerInputData";
 import { postRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
@@ -72,7 +72,7 @@ export default {
     inputData: InputData,
     powerChart: PowerChart,
     outputChart: OutputChart,
-    powerRiskChart: PowerRiskChart,
+    outputRateChart: OutputRateChart,
     powerTable: PowerTable,
     outputTable: OutputTable
   },

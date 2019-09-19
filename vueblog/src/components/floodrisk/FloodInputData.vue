@@ -1,6 +1,6 @@
 <template>
   <div style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="160px"
+    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
       :label-position="labelPosition">
       <!-- <el-form-item label="最优模型参数"
                     style="margin-bottom: 20px; ">
@@ -18,22 +18,22 @@
       <div class="mark">参数设置</div>
       <div class="params">
         <el-form-item label="起调水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:80px" v-model="formData.hydrostation.Level1"></el-input>
+          <el-input style=" width:100px" v-model="formData.hydrostation.Level1"></el-input>
         </el-form-item>
         <el-form-item label="设计洪水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:80px" v-model="formData.hydrostation.Level2"></el-input>
+          <el-input style=" width:100px" v-model="formData.hydrostation.Level2"></el-input>
         </el-form-item>
-        <el-form-item label="校核洪水位" style="margin-bottom: 8px; ">
-          <el-input style=" width:80px" v-model="formData.hydrostation.Level3"></el-input>
+        <el-form-item label="校核洪水位" style="margin-bottom: 1px; ">
+          <el-input style=" width:100px" v-model="formData.hydrostation.Level3"></el-input>
         </el-form-item>
-        <el-form-item label="坝顶高程" style="margin-bottom: 8px; ">
-          <el-input style=" width:80px" v-model="formData.hydrostation.Level4"></el-input>
+        <el-form-item label="坝顶高程" style="margin-bottom: 1px; ">
+          <el-input style=" width:100px" v-model="formData.hydrostation.Level4"></el-input>
         </el-form-item>
-        <el-form-item label="计算时段" style="margin-bottom: 8px; ">
-          <el-input style=" width:80px" v-model="formData.hydrostation.Level5"></el-input>
+        <el-form-item label="计算时段" style="margin-bottom: 1px; ">
+          <el-input style=" width:100px" v-model="formData.hydrostation.Level5"></el-input>
         </el-form-item>
         <el-form-item label="情景选择" style="margin-bottom: 10px; ">
-          <el-select style=" width:80px" v-model="formData.calculateBean.region" placeholder="请选择计算情景">
+          <el-select style=" width:100px" v-model="formData.calculateBean.region" placeholder="请选择计算情景">
             <el-option label="RCP2.6" value="RCP2.6"></el-option>
             <el-option label="RCP4.5" value="RCP4.5"></el-option>
             <el-option label="RCP8.5" value="RCP8.5"></el-option>

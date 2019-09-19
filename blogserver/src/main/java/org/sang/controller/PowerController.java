@@ -23,32 +23,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 @RestController
-@RequestMapping("/power")
+@RequestMapping("/flood")
 public class PowerController {
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	PowerService powerService;
 
-//	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-//	public RespBean calc(@RequestParam(value = "hydrostation") String hydrostr,
-//			@RequestParam(value = "calculateBean") String calcStr) {
-//		Hydrostation hydrostation = JSON.parseObject(hydrostr, Hydrostation.class);
-//		CalculateBean calculateBean = JSON.parseObject(calcStr, CalculateBean.class);
-//		if (hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
-//				|| hydrostation.getLeveldownOutflowCurve().getCurveData().length == 0
-//				|| hydrostation.getHeadlossOutflowCurve().getCurveData().length == 0
-//				|| hydrostation.getExpectOutputHeadCurve().getCurveData().length == 0) {
-//			// return new RespBean("error", "请重新导入数据");
-//		}
-//		int result = powerService.calcPowerAndOutput(hydrostation, calculateBean);
-//		if (result == 1) {
-//			return new RespBean("success", "计算完成");
-//		} else {
-//			return new RespBean("error", "计算失败!，请重新设置参数");
-//		}
-//	}
 	@RequestMapping(value = "/submit", method = RequestMethod.GET)
-	public Map<String, Object> calc(@RequestParam(value = "hydrostation") String hydrostr,
+	public Map<String, Object> calcPowerAndOutput(@RequestParam(value = "hydrostation") String hydrostr,
 			@RequestParam(value = "calculateBean") String calcStr) {
 		Hydrostation hydrostation = JSON.parseObject(hydrostr, Hydrostation.class);
 		CalculateBean calculateBean = JSON.parseObject(calcStr, CalculateBean.class);

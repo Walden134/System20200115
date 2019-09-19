@@ -68,10 +68,8 @@ export default {
   },
   components: {
     InputData: InputData,
-    uncertainCharts: UncertainCharts,
     designCharts: DesignCharts,
     areaChart: AreaChart,
-    threeTable: ThreeTable,
     eightTable: EightTable
   },
   methods: {

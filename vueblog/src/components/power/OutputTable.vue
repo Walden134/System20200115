@@ -12,7 +12,7 @@
           <el-table-column prop="risk_rate" label="风险率(%)"> </el-table-column>
         </el-table-column>
       </el-table>
-      <div class="table_name" style="height: 10px;"></div>
+      <div class="table_name" style="height: 5px;"></div>
     </el-col>
   </el-row>
 </template>

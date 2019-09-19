@@ -1,28 +1,27 @@
 <template>
   <div style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="160px"
-      :label-position="labelPosition">
+    <el-form :inline="true" class="demo-form-inline" label-width="160px" :label-position="labelPosition">
       <div class="mark">数据导入</div>
       <div class="input">
         <div>
           <label class="power_label" for="">水位库容关系</label>
-          <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve">
-          </upload_excel>
+          <uploadExcel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve">
+          </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">尾水流量关系</label>
-          <upload_excel :fileList="leveldownOutflowCurve" @func="getLeveldownOutflowCurve">
-          </upload_excel>
+          <uploadExcel :fileList="leveldownOutflowCurve" @func="getLeveldownOutflowCurve">
+          </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">水头损失曲线</label>
-          <upload_excel :fileList="headlossOutflowCurve" @func="getHeadlossOutflowCurve">
-          </upload_excel>
+          <uploadExcel :fileList="headlossOutflowCurve" @func="getHeadlossOutflowCurve">
+          </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">出力限制曲线</label>
-          <upload_excel :fileList="expectOutputHeadCurve" @func="getExpectOutputHeadCurve">
-          </upload_excel>
+          <uploadExcel :fileList="expectOutputHeadCurve" @func="getExpectOutputHeadCurve">
+          </uploadExcel>
         </div>
       </div>
       <div class="mark">参数设置</div>
@@ -94,12 +93,9 @@ import UploadExcel from "@/components/UploadExcel";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
-const patternOptions = ["Base", "RCP2.6", "RCP4.5", "RCP8.5"];
-const situationOptions = ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"];
-
+import storageUtils from "../../utils/storageUtils";
 export default {
   name: "inputData",
-  props: {},
   data() {
     return {
       levelCapacityCurve: [],
@@ -107,9 +103,9 @@ export default {
       headlossOutflowCurve: [],
       expectOutputHeadCurve: [],
       checkedPatterns: "Base",
-      patterns: patternOptions,
-      checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
-      situations: situationOptions,
+      patterns: ["Base", "RCP2.6", "RCP4.5", "RCP8.5"],
+      // checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
+      // situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
       labelPosition: "left",
       hydrostation: {
         drawdownDepth: "6",
@@ -128,15 +124,21 @@ export default {
       },
       calculateBean: {
         situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
-        patterns: "Base",
+        patterns: ["Base"],
+        pattern: "Base",
         levelBegin: "2094",
         levelEnd: "2094",
         deltaT: 1
-      }
+      },
+      category: [],
+      outputs: [],
+      powers: [],
+      outputratelist: [],
+      outputratexaxis: []
     };
   },
   components: {
-    upload_excel: UploadExcel
+    uploadExcel: UploadExcel
   },
   methods: {
     getLevelCapacityCurve(data) {
@@ -183,9 +185,11 @@ export default {
       });
     },
     handleCheckedPatternsChange(value) {
-      this.calculateBean.patterns = value;
+      // this.calculateBean.patterns = value;
       // this.$emit("patterns", value);
-      bus.$emit("patterns", value);
+      // bus.$emit("patterns", value);
+      this.calculateBean.pattern = value;
+      bus.$emit("pattern", value);
     },
     handleCheckedSituationsChange(value) {
       this.calculateBean.situations = value;
@@ -194,7 +198,6 @@ export default {
     },
     submitClick: function() {
       var _this = this;
-
       getRequest(
         "/power/submit" +
           "?hydrostation=" +
@@ -205,10 +208,17 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
-            _this.$store.commit("flag", true);
             bus.$emit("xAxis", resp.data.xAxis);
             bus.$emit("powerList", resp.data.powerList);
             bus.$emit("outputList", resp.data.outputList);
+            bus.$emit("outputRatexAxis", resp.data.outputRatexAxis);
+            bus.$emit("outputRateList", resp.data.outputRateList);
+
+            _this.category = resp.data.xAxis;
+            _this.powers = resp.data.powerList;
+            _this.outputs = resp.data.outputList;
+            _this.outputratelist = resp.data.outputRateList;
+            _this.outputratexaxis = resp.data.outputRatexAxis;
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -234,6 +244,26 @@ export default {
         bus.$emit("outputDesign", this.hydrostation.outputDesign);
       },
       deep: true
+    },
+    powers: {
+      deep: true,
+      handler: storageUtils.savePowers
+    },
+    outputs: {
+      deep: true,
+      handler: storageUtils.saveOutputs
+    },
+    category: {
+      deep: true,
+      handler: storageUtils.saveCategory
+    },
+    outputratelist: {
+      deep: true,
+      handler: storageUtils.saveOutputRateList
+    },
+    outputratexaxis: {
+      deep: true,
+      handler: storageUtils.saveOutputRatexAxis
     }
   }
 };

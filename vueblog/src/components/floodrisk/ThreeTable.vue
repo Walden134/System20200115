@@ -1,13 +1,16 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="number" :label="title.label1">
+      <div class="table_name">{{title}}</div>
+      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;"
+        :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="number" :label="label1">
         </el-table-column>
-        <el-table-column prop="measured_flow" :label="title.label2">
+        <el-table-column prop="measured_flow" :label="label2">
         </el-table-column>
-        <el-table-column prop="empirical_frequency" :label="title.label3">
+        <el-table-column prop="empirical_frequency" :label="label3">
+        </el-table-column>
+        <el-table-column prop="empirical_frequency" :label="label4">
         </el-table-column>
       </el-table>
       <div style="background-color:#20a0ff;height:5px"></div>
@@ -17,10 +20,15 @@
 
 <script>
 export default {
-  props: ["title"],
   methods: {},
   data() {
     return {
+      title: "防洪风险统计表",
+      label1: "年份",
+      label2: "超设计洪水风险率",
+      label3: "超校核洪水风险率",
+      label4: "超坝顶洪水风险率",
+
       tableData: [
         {
           number: 1,

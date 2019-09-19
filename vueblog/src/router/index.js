@@ -19,14 +19,14 @@ export default new Router({
     },
     {
       path: "/home",
-      name: "径流预测",
+      name: "首页",
       component: Home,
       hidden: true
     },
     {
       path: "/home",
       component: Home,
-      name: "径流预测",
+      // name: "径流预测",
       children: [
         {
           path: "/runoff",
@@ -55,7 +55,7 @@ export default new Router({
     {
       path: "/home",
       component: Home,
-      name: "发电效益",
+      // name: "发电效益",
       children: [
         {
           path: "/powerBenefit",
@@ -67,7 +67,7 @@ export default new Router({
     {
       path: "/home",
       component: Home,
-      name: "防洪风险",
+      // name: "防洪风险",
       children: [
         {
           path: "/floodRisk",

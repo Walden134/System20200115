@@ -49,12 +49,7 @@ export default {
       badingTitle: {
         title: "超坝顶高程洪水风险率"
       },
-      huizongTitle: {
-        title: "防洪风险统计表",
-        label1: "序号",
-        label2: "年份",
-        label3: "风险率"
-      },
+
       outputRequest: "/article/dataStatistics",
       powerRequest: "/article/dataStatistics"
     };
