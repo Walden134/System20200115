@@ -227,9 +227,9 @@ export default {
       });
     },
     inintChartData() {
-      let data2 = storageUtils.readCategory();
+      let data2 = storageUtils.readRiskRes();
       if (data2.length > 0) {
-        this.$refs.dschart.options.series[0].data = data[0];
+        this.$refs.dschart.options.series[0].data = data2[0];
       }
     }
   },

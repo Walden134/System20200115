@@ -20,10 +20,10 @@
           <el-input style=" width:100px" v-model="formData.hydrostation.Level1"></el-input>
         </el-form-item> -->
         <el-form-item label="设计洪水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:100px" v-model="floodRisk.levelCheck"></el-input>
+          <el-input style=" width:100px" v-model="floodRisk.levelDesign"></el-input>
         </el-form-item>
         <el-form-item label="校核洪水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:100px" v-model="floodRisk.levelDesign"></el-input>
+          <el-input style=" width:100px" v-model="floodRisk.levelCheck"></el-input>
         </el-form-item>
         <el-form-item label="坝顶高程" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="floodRisk.levelDam"></el-input>
@@ -67,9 +67,9 @@ export default {
         typicalFloods: [],
         levelCapacityCurve: { curveData: [] },
         leveldownOutflowCurve: { curveData: [] },
-        levelDesign: "2093.2",
-        levelCheck: "2094.5",
-        levelDam: "2096.8",
+        levelDesign: "2096.27",
+        levelCheck: "2099.91",
+        levelDam: "2102",
         pattern: "26"
       },
       riskRes: []
@@ -81,10 +81,14 @@ export default {
   methods: {
     getTypicalFloods(data) {
       let i = 0;
+      this.floodRisk.typicalFloods[0] = [];
+      this.floodRisk.typicalFloods[1] = [];
       data.map(val => {
-        this.floodRisk.typicalFloods[i] = [];
-        this.floodRisk.typicalFloods[i][0] = val["典型洪水过程"];
-        this.floodRisk.typicalFloods[i][1] = val["典型洪水"];
+        this.floodRisk.typicalFloods[0][i] = val["典型洪水过程"];
+        this.floodRisk.typicalFloods[1][i] = val["典型洪水"];
+        console.log(this.floodRisk.typicalFloods[0]);
+        console.log(this.floodRisk.typicalFloods[1]);
+        console.log(this.floodRisk.typicalFloods);
         i++;
       });
     },
@@ -126,7 +130,7 @@ export default {
           }
         },
         resp => {
-          _this.$alert("找不到服务器⊙﹏⊙∥!", "失败!");
+          _this.$alert("请重新登陆⊙﹏⊙∥!", "失败!");
         }
       );
     }
@@ -136,9 +140,7 @@ export default {
   },
   watch: {
     riskRes: {
-      handler: function() {
-        bus.$emit("riskRes", this.riskRes);
-      },
+      handler: storageUtils.saveRiskRes,
       deep: true
     }
   }

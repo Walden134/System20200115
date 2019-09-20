@@ -2,15 +2,16 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">{{title}}</div>
-      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;"
-        :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="number" :label="label1">
+      <el-table :data="tableData" stripe fit height="300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+        :cell-style="{padding:'0px'}">
+        <el-table-column prop="year" :label="year">
         </el-table-column>
-        <el-table-column prop="measured_flow" :label="label2">
+        <el-table-column prop="levelDesign" :label="levelDesign">
         </el-table-column>
-        <el-table-column prop="empirical_frequency" :label="label3">
+        <el-table-column prop="levelCheck" :label="levelCheck">
         </el-table-column>
-        <el-table-column prop="empirical_frequency" :label="label4">
+        <el-table-column prop="levelDam" :label="levelDam">
         </el-table-column>
       </el-table>
       <div style="background-color:#20a0ff;height:5px"></div>
@@ -19,74 +20,53 @@
 </template>
 
 <script>
+import storageUtils from "../../utils/storageUtils";
+
 export default {
-  methods: {},
   data() {
     return {
       title: "防洪风险统计表",
-      label1: "年份",
-      label2: "超设计洪水风险率",
-      label3: "超校核洪水风险率",
-      label4: "超坝顶洪水风险率",
-
-      tableData: [
-        {
-          number: 1,
-          empirical_frequency: "4200",
-          measured_flow: 1.2
-        },
-        {
-          number: 2,
-          empirical_frequency: "3700",
-          measured_flow: 1.32
-        },
-        {
-          number: 3,
-          empirical_frequency: "3500",
-          measured_flow: 1.6
-        },
-        {
-          number: 4,
-          empirical_frequency: "3350",
-          measured_flow: 1.8
-        },
-        {
-          number: 5,
-          empirical_frequency: "3260",
-          measured_flow: 2.1
-        },
-        {
-          number: 6,
-          empirical_frequency: "3180",
-          measured_flow: 2.4
-        },
-        {
-          number: 7,
-          empirical_frequency: "3100",
-          measured_flow: 2.7
-        },
-        {
-          number: 8,
-          empirical_frequency: "3050",
-          measured_flow: 3.1
-        },
-        {
-          number: 9,
-          empirical_frequency: "2900",
-          measured_flow: 3.5
-        },
-        {
-          number: 10,
-          empirical_frequency: "2860",
-          measured_flow: 3.7
-        },
-        {
-          number: 11,
-          empirical_frequency: "2750",
-          measured_flow: 3.8
-        }
-      ]
+      year: "年份",
+      levelDesign: "超设计洪水风险率",
+      levelCheck: "超校核洪水风险率",
+      levelDam: "超坝顶洪水风险率",
+      riskRes: [],
+      tableData: []
     };
+  },
+  methods: {
+    setTableData() {
+      this.tableData = [];
+      let start = 2021;
+      for (let j = 0; j < this.riskRes[0].length; j++) {
+        let tmp = {};
+        tmp.year = start + j;
+        tmp.levelDesign = this.riskRes[0][j];
+        tmp.levelCheck = this.riskRes[1][j];
+        tmp.levelDam = this.riskRes[2][j];
+        this.tableData.push(tmp);
+      }
+    },
+    inintChartData() {
+      this.riskRes = storageUtils.readRiskRes();
+    }
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    bus.$on("riskRes", data => {
+      this.riskRes = data;
+    });
+  },
+  beforeDestroy() {
+    bus.$off("riskRes");
+  },
+  computed: {},
+  watch: {
+    riskRes() {
+      this.setTableData();
+    }
   }
 };
 </script>

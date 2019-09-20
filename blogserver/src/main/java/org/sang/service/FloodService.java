@@ -58,20 +58,17 @@ public class FloodService {
 	private List<double[]> getFuturePList(String rcpId) {
 		List<FutureP> futurePList = floodMapper.getFuturePByRcp(rcpId);
 		List<double[]> list = new ArrayList<double[]>();
-		double[] objP = new double[futurePList.size()];
 		double[] cnrmP = new double[futurePList.size()];
 		double[] canesmP = new double[futurePList.size()];
 		double[] mirocP = new double[futurePList.size()];
 		double[] gfdlP = new double[futurePList.size()];
 		for (int i = 0; i < futurePList.size(); i++) {
 			FutureP futureP = futurePList.get(i);
-			objP[i] = futureP.getObjP();
 			cnrmP[i] = futureP.getCnrmP();
 			canesmP[i] = futureP.getCanesmP();
 			mirocP[i] = futureP.getMirocP();
 			gfdlP[i] = futureP.getGfdlP();
 		}
-		list.add(objP);
 		list.add(cnrmP);
 		list.add(canesmP);
 		list.add(mirocP);

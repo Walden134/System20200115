@@ -1,5 +1,6 @@
 package org.sang.bean.flood;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RserveException;
 import org.sang.bean.hydro.DoubleCurve;
 
 import com.alibaba.fastjson.JSON;
@@ -85,7 +87,57 @@ public class FloodRisk {
 		for (int i = 0; i < T; i++) {
 			bmaP[i] = w[0] * cnrm[i] + w[1] * miroc[i] + w[2] * canesm[i] + w[3] * gfdl[i];
 		}
-		return JSON.toJSONString(bmaP);
+		double[][] q = uncertainty(w, var, SimP.get(0).length, 100, g);// 蒙特卡罗抽样法
+
+		return JSON.toJSONString(q);
+	}
+
+	// ----------------蒙特卡罗不确定性抽样方法------------------------
+	private double[][] uncertainty(double[] w, double[] var, int sim_length, int time, double[][] g) {// time为抽样的场数，100表示每年抽样100
+		double[][] a = new double[sim_length][time];
+
+		double[][] q_u_l = new double[sim_length][time];
+		for (int t = 0; t < sim_length; t++) {
+			double[] b = new double[time];
+			for (int i = 0; i < time; i++) {
+				double r = Math.random();
+				if (r < w[0]) {
+					double mean = g[0][t];
+					double sd = var[0];
+					double ff = calcxF(g[0][t], mean, sd);
+					a[t][i] = ff;
+				} else {
+					double mean = g[1][t];
+					double sd = var[1];
+					double ff = calcxF(g[1][t], mean, sd);
+					a[t][i] = ff;
+				}
+			}
+			for (int j = 0; j < a[t].length; j++) {
+				b[j] = a[t][j];
+			}
+			Arrays.sort(b);
+			q_u_l[t] = b;
+		}
+		double[][] transformMatrix = transformMatrix(q_u_l);
+		return transformMatrix;
+	}
+
+	public double[][] transformMatrix(double matrix[][]) {
+		double a[][] = new double[matrix[0].length][matrix.length];
+		for (int i = 0; i < matrix[0].length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				a[i][j] = matrix[j][i];
+			}
+		}
+		return a;
+
+	}
+
+	public double calcxF(double x, double mean, double var) {
+		NormalDistribution normalDistribution = new NormalDistribution(mean, Math.sqrt(var));
+		double rand = normalDistribution.sample();
+		return rand;
 	}
 
 	private double[] calcQ(double[] w, double[][] f) {
@@ -183,6 +235,12 @@ public class FloodRisk {
 	 */
 	public Map<String, double[][]> getDesignFloods(String baseFloodJson, String bmaPJson) {
 		Map<String, double[][]> designFloods = new HashMap<>();
+//		RConnection c = null;
+//		try {
+//			c = new RConnection();
+//		} catch (RserveException e) {
+//			e.printStackTrace();
+//		}
 		designFloods.put("d_0", getDesignFlood(baseFloodJson, bmaPJson, "2"));
 		designFloods.put("d_1", getDesignFlood(baseFloodJson, bmaPJson, "3"));
 		designFloods.put("d_3", getDesignFlood(baseFloodJson, bmaPJson, "4"));
@@ -195,7 +253,7 @@ public class FloodRisk {
 		double[][] designFlood = null;
 		try {
 			RConnection c = new RConnection();
-			REXP Rservesion = c.eval("R.version.string");
+			c.eval("R.version.string");
 			/**
 			 * 1.加载R程序包，读取计算数据
 			 */
@@ -204,13 +262,15 @@ public class FloodRisk {
 			c.eval("library(PearsonDS)");
 			c.eval("library(rjson)");
 			c.eval("library(jsonlite)");
-			c.eval("json <-" + bmaPJson);
+			System.out.println("json <-'" + bmaPJson + "'");
+			System.out.println("json <-'" + baseFloodJson + "'");
+			c.eval("json <-'" + bmaPJson + "'");
 			c.eval("BmaP <- fromJSON(json)");// 基准期洪水降水数据
 			c.eval("p=data.frame(BmaP)");
-			c.eval("json <-" + baseFloodJson);
+			c.eval("json <-'" + baseFloodJson + "'");
 			c.eval("BaseFlood <- fromJSON(json)");// 基准期洪水降水数据
 			c.eval("d=data.frame(BaseFlood)");
-			c.eval("y=BaseFlood[,2]");// 基准期洪峰序列
+			c.eval("y=BaseFlood[," + bmaQ + "]");// 基准期洪峰序列
 			c.eval("P=BaseFlood[,7]");// 基准期年降水
 			c.eval("lmom = samlmu(y)");
 			c.eval("para<-pelpe3(lmom)");
@@ -287,7 +347,7 @@ public class FloodRisk {
 	}
 
 	public List<double[][]> calcEnlargeFlood(List<double[]> typicalFloods, Map<String, double[][]> designFloods) {
-		double[] flood = typicalFloods.get(0);// 典型洪水过程
+		double[] flood = typicalFloods.get(0);// 典型洪水过程//180
 		double[] dd = typicalFloods.get(1);// 典型洪峰、一日、三日、七日、十五日洪量
 		double[] wd = new double[dd.length];
 		double W_m = 5670;// 典型设计洪水
@@ -295,23 +355,23 @@ public class FloodRisk {
 		double W_31 = 13.5;
 		double W_73 = 27.4;
 		double W_157 = 47.3;
-		int years = designFloods.get("d_0").length;// 80
-		int num = designFloods.get("d_0")[0].length;// 100
+		int  num= designFloods.get("d_0").length;// 100
+		int  years= designFloods.get("d_0")[0].length;// 80
 		List<double[][]> floodHydrograph = new ArrayList<>();
 		for (int i = 0; i < years; i++) {
-			double[][] newFlood = new double[flood.length][num];
+			double[][] newFlood = new double[num][flood.length];
 			for (int j = 0; j < num; j++) {
-				double tmp_d0 = designFloods.get("d_0")[i][j];
-				double tmp_d1 = designFloods.get("d_1")[i][j];
-				double tmp_d3 = designFloods.get("d_3")[i][j];
-				double tmp_d7 = designFloods.get("d_7")[i][j];
-				double tmp_d15 = designFloods.get("d_15")[i][j];
+				double tmp_d0 = designFloods.get("d_0")[j][i];
+				double tmp_d1 = designFloods.get("d_1")[j][i];
+				double tmp_d3 = designFloods.get("d_3")[j][i];
+				double tmp_d7 = designFloods.get("d_7")[j][i];
+				double tmp_d15 = designFloods.get("d_15")[j][i];
 				double R_m = tmp_d0 / W_m;
 				double R_1 = tmp_d1 / W_1;
 				double R_31 = (tmp_d3 - tmp_d1) / (W_31 - W_1);
 				double R_73 = (tmp_d7 - tmp_d3) / (W_73 - W_31);
 				double R_157 = (tmp_d15 - tmp_d7) / (W_157 - W_73);
-				for (int k = 0; k < flood.length; k++) {
+				for (int k = 0; k < flood.length; k++) {// 180
 					if (dd[k] == W_m) {
 						wd[k] = R_m;
 					}
@@ -327,7 +387,7 @@ public class FloodRisk {
 					if (dd[k] == W_157) {
 						wd[k] = R_157;
 					}
-					newFlood[k][j] = flood[k] * wd[k];
+					newFlood[j][k] = flood[k] * wd[k];
 				}
 			}
 			floodHydrograph.add(newFlood);
@@ -368,8 +428,8 @@ public class FloodRisk {
 				double max = 0;
 				double maxq = 0;
 				int mIndex = 0;
-//				double startQ = interpolationY(V[0], "Q_V");
-				double startQ = leveldownOutflowCurve.getDeltaByV0(V[0]);
+				double startQ = interpolationY(V[0], "Q_V");
+				double startQ1 = leveldownOutflowCurve.getDeltaByV0(V[0]);
 				for (int i = 1; i < Qin.length; i++) {
 					if (Qin[i] <= startQ) {
 						q[i] = Qin[i];
@@ -388,14 +448,14 @@ public class FloodRisk {
 							double Q2 = 0.5 * 3600 * dt * (qt1 + qt) / 10000;
 							double dQ = Q1 - Q2;
 							V2 = V1 + dQ;
-//							tmpq = interpolationY(V2, "Q_V");// 蓄泄方程:q=f(V)
-							tmpq = leveldownOutflowCurve.getDeltaByV0(V[0]);
+							tmpq = interpolationY(V2, "Q_V");// 蓄泄方程:q=f(V)
+							double tmpq1 = leveldownOutflowCurve.getDeltaByV0(V[0]);
 						} while (Math.abs(qt1 - tmpq) > 0.000001);
 						q[i] = qt1;
 						V[i] = V2;
 					}
-//					level[i] = interpolationY(V[i], "Z_V");
-					level[i] = levelCapacityCurve.getDeltaByV1(V[i]);
+					level[i] = interpolationY(V[i], "Z_V");
+					double lev = levelCapacityCurve.getDeltaByV1(V[i]);
 					if (max <= level[i]) {
 						max = level[i];
 						mIndex = i;
@@ -419,9 +479,14 @@ public class FloodRisk {
 			}
 
 			// 计算三种情景下的风险率
+			DecimalFormat df = new DecimalFormat("#.00");
+			 
 			riskrate1[k] = (double) num1 / floodHydrograph.get(k).length * 0.2;
 			riskrate2[k] = (double) num2 / floodHydrograph.get(k).length * 0.2;
 			riskrate3[k] = (double) num3 / floodHydrograph.get(k).length * 0.2;
+			riskrate1[k] = Double.parseDouble(df.format(riskrate1[k]));
+			riskrate2[k] = Double.parseDouble(df.format(riskrate2[k]));
+			riskrate3[k] = Double.parseDouble(df.format(riskrate3[k]));
 		}
 		riskRes.add(riskrate1);
 		riskRes.add(riskrate2);

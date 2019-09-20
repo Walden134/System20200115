@@ -3,7 +3,6 @@ package org.sang.bean.flood;
 public class FutureP {
 	private int id;
 	private int rcpId;
-	private double objP;
 	private double cnrmP;
 	private double mirocP;
 	private double canesmP;
@@ -19,12 +18,6 @@ public class FutureP {
 	}
 	public void setRcpId(int rcpId) {
 		this.rcpId = rcpId;
-	}
-	public double getObjP() {
-		return objP;
-	}
-	public void setObjP(double objP) {
-		this.objP = objP;
 	}
 	public double getCnrmP() {
 		return cnrmP;
