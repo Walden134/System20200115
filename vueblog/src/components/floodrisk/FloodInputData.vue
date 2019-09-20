@@ -1,42 +1,41 @@
 <template>
   <div style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="140px"
-      :label-position="labelPosition">
+    <el-form :inline="true" class="demo-form-inline" label-width="140px" :label-position="labelPosition">
       <!-- <el-form-item label="最优模型参数"
                     style="margin-bottom: 20px; ">
       </el-form-item> -->
       <div class="mark">数据导入</div>
       <div class="input">
         <label class="floodrisk_label" for="">典型洪水过程线</label>
-        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+        <uploadExcel @func="getTypicalFloods"> </uploadExcel>
         <label class="floodrisk_label" for="">水位库容关系&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+        <uploadExcel @func="getLevelCapacityCurve"> </uploadExcel>
         <label class="floodrisk_label" for="">水位泄流能力&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <upload_excel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </upload_excel>
+        <uploadExcel @func="getLeveldownOutflowCurve"> </uploadExcel>
       </div>
 
       <div class="mark">参数设置</div>
       <div class="params">
-        <el-form-item label="起调水位" style="margin-bottom: 1px; ">
+        <!-- <el-form-item label="起调水位" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="formData.hydrostation.Level1"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="设计洪水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:100px" v-model="formData.hydrostation.Level2"></el-input>
+          <el-input style=" width:100px" v-model="floodRisk.levelCheck"></el-input>
         </el-form-item>
         <el-form-item label="校核洪水位" style="margin-bottom: 1px; ">
-          <el-input style=" width:100px" v-model="formData.hydrostation.Level3"></el-input>
+          <el-input style=" width:100px" v-model="floodRisk.levelDesign"></el-input>
         </el-form-item>
         <el-form-item label="坝顶高程" style="margin-bottom: 1px; ">
-          <el-input style=" width:100px" v-model="formData.hydrostation.Level4"></el-input>
+          <el-input style=" width:100px" v-model="floodRisk.levelDam"></el-input>
         </el-form-item>
-        <el-form-item label="计算时段" style="margin-bottom: 1px; ">
+        <!-- <el-form-item label="计算时段" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="formData.hydrostation.Level5"></el-input>
-        </el-form-item>
-        <el-form-item label="情景选择" style="margin-bottom: 10px; ">
-          <el-select style=" width:100px" v-model="formData.calculateBean.region" placeholder="请选择计算情景">
-            <el-option label="RCP2.6" value="RCP2.6"></el-option>
-            <el-option label="RCP4.5" value="RCP4.5"></el-option>
-            <el-option label="RCP8.5" value="RCP8.5"></el-option>
+        </el-form-item> -->
+        <el-form-item label="模式选择" style="margin-bottom: 10px; ">
+          <el-select style=" width:100px" v-model="floodRisk.pattern">
+            <el-option label="RCP2.6" value="26"></el-option>
+            <el-option label="RCP4.5" value="45"></el-option>
+            <el-option label="RCP8.5" value="85"></el-option>
           </el-select>
         </el-form-item>
       </div>
@@ -56,63 +55,71 @@ import UploadExcel from "@/components/UploadExcel";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
+import storageUtils from "../../utils/storageUtils";
 export default {
   name: "inputData",
   props: {},
   data() {
     return {
-      fileList1: [
-        {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ],
-      fileList2: [
-        {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ],
       labelPosition: "left",
-      formData: {
-        hydrostation: {
-          Level1: "1250",
-          Level2: "2093.2",
-          Level3: "2094.5",
-          Level4: "2096.8",
-          Level5: "2h"
-        },
-        calculateBean: {
-          LevelBegin: "2094",
-          LevelEnd: "2094"
-          // region: "RCP"
-        }
-      }
+
+      floodRisk: {
+        typicalFloods: [],
+        levelCapacityCurve: { curveData: [] },
+        leveldownOutflowCurve: { curveData: [] },
+        levelDesign: "2093.2",
+        levelCheck: "2094.5",
+        levelDam: "2096.8",
+        pattern: "26"
+      },
+      riskRes: []
     };
   },
   components: {
-    upload_excel: UploadExcel
+    uploadExcel: UploadExcel
   },
   methods: {
-    submitClick: function() {
+    getTypicalFloods(data) {
+      let i = 0;
+      data.map(val => {
+        this.floodRisk.typicalFloods[i] = [];
+        this.floodRisk.typicalFloods[i][0] = val["典型洪水过程"];
+        this.floodRisk.typicalFloods[i][1] = val["典型洪水"];
+        i++;
+      });
+    },
+
+    getLeveldownOutflowCurve(data) {
+      let i = 0;
+      data.map(val => {
+        this.floodRisk.leveldownOutflowCurve.curveData[i] = [];
+        this.floodRisk.leveldownOutflowCurve.curveData[i] = [];
+        this.floodRisk.leveldownOutflowCurve.curveData[i][0] = val["水位"];
+        this.floodRisk.leveldownOutflowCurve.curveData[i][1] = val["下泄流量"];
+        i++;
+      });
+    },
+    getLevelCapacityCurve(data) {
+      let i = 0;
+      data.map(val => {
+        this.floodRisk.levelCapacityCurve.curveData[i] = [];
+        this.floodRisk.levelCapacityCurve.curveData[i] = [];
+        this.floodRisk.levelCapacityCurve.curveData[i][0] = val["水位"];
+        this.floodRisk.levelCapacityCurve.curveData[i][1] = val["库容"];
+        i++;
+      });
+    },
+    submitClick() {
       var _this = this;
-      alert("开始计算，请稍等。。。");
-      postRequest("/power/submit", {
-        hydrostation: _this.formData.hydrostation,
-        calculateBean: _this.formData.calculateBean
-      }).then(
+      getRequest(
+        "/flood/calcRisk" + "?floodRisk=" + JSON.stringify(_this.floodRisk)
+      ).then(
         resp => {
           if (resp.status == 200) {
             //成功
-            var json = resp.data;
-            if (json.status == "success") {
-              _this.$alert("计算成功!", "成功!");
-              // _this.$router.replace({ path: "/home" });
-            } else {
-              _this.$alert("计算失败!", "失败!");
-            }
+            bus.$emit("riskRes", resp.data.riskRes);
+            _this.riskRes = resp.data.riskRes;
+            _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -122,6 +129,17 @@ export default {
           _this.$alert("找不到服务器⊙﹏⊙∥!", "失败!");
         }
       );
+    }
+  },
+  created() {
+    bus.$emit("riskRes", this.riskRes);
+  },
+  watch: {
+    riskRes: {
+      handler: function() {
+        bus.$emit("riskRes", this.riskRes);
+      },
+      deep: true
     }
   }
 };

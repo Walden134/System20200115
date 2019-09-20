@@ -95,7 +95,9 @@ export default {
     paramEstClick() {
       var _this = this;
       getRequest(
-        "/flood/paramsEst" + "?params=" + JSON.stringify(_this.params)
+        "/flood/paramsEst" +
+          "?mesureData=" +
+          JSON.stringify(_this.params.mesureData)
       ).then(
         resp => {
           if (resp.status == 200) {

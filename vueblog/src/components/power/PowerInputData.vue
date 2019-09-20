@@ -5,23 +5,19 @@
       <div class="input">
         <div>
           <label class="power_label" for="">水位库容关系</label>
-          <uploadExcel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve">
-          </uploadExcel>
+          <uploadExcel @func="getLevelCapacityCurve"> </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">尾水流量关系</label>
-          <uploadExcel :fileList="leveldownOutflowCurve" @func="getLeveldownOutflowCurve">
-          </uploadExcel>
+          <uploadExcel @func="getLeveldownOutflowCurve"> </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">水头损失曲线</label>
-          <uploadExcel :fileList="headlossOutflowCurve" @func="getHeadlossOutflowCurve">
-          </uploadExcel>
+          <uploadExcel @func="getHeadlossOutflowCurve"> </uploadExcel>
         </div>
         <div>
           <label class="power_label" for="">出力限制曲线</label>
-          <uploadExcel :fileList="expectOutputHeadCurve" @func="getExpectOutputHeadCurve">
-          </uploadExcel>
+          <uploadExcel @func="getExpectOutputHeadCurve"> </uploadExcel>
         </div>
       </div>
       <div class="mark">参数设置</div>
@@ -98,10 +94,10 @@ export default {
   name: "inputData",
   data() {
     return {
-      levelCapacityCurve: [],
-      leveldownOutflowCurve: [],
-      headlossOutflowCurve: [],
-      expectOutputHeadCurve: [],
+      // levelCapacityCurve: [],
+      // leveldownOutflowCurve: [],
+      // headlossOutflowCurve: [],
+      // expectOutputHeadCurve: [],
       checkedPatterns: "Base",
       patterns: ["Base", "RCP2.6", "RCP4.5", "RCP8.5"],
       // checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],

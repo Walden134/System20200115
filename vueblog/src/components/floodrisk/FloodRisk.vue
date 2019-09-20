@@ -3,22 +3,22 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
-          <InputData></InputData>
+          <inputData></inputData>
         </div>
         <div class="flood_top">
           <div style=" width: calc((100% - 300px)  / 2);">
-            <shejicharts :title="shejiTitle" :request="outputRequest" style="width:100%;height:100%"></shejicharts>
+            <shejicharts style="width:100%;height:100%"></shejicharts>
           </div>
           <div style=" width: calc((100% - 300px)  / 2);">
-            <badingcharts :title="badingTitle" :request="powerRequest" style="width:100%;height:100%"></badingcharts>
+            <badingcharts style="width:100%;height:100%"></badingcharts>
           </div>
         </div>
         <div class="flood_bottom">
           <div style=" width: calc((100% - 300px)  / 2);">
-            <jiaohecharts :title="jiaoheTitle" :request="powerRequest" style="width:100%;height:100%"></jiaohecharts>
+            <jiaohecharts style="width:100%;height:100%"></jiaohecharts>
           </div>
           <div style=" width: calc((100% - 300px)  / 2);">
-            <threeTable :title="huizongTitle" style="width:100%;height:100%"></threeTable>
+            <threeTable style="width:100%;height:100%"></threeTable>
           </div>
         </div>
       </el-tabs>
@@ -39,23 +39,11 @@ export default {
   data() {
     return {
       activeName: "post",
-      isAdmin: false,
-      shejiTitle: {
-        title: "超设计洪水风险率"
-      },
-      jiaoheTitle: {
-        title: "超校核洪水风险率"
-      },
-      badingTitle: {
-        title: "超坝顶高程洪水风险率"
-      },
-
-      outputRequest: "/article/dataStatistics",
-      powerRequest: "/article/dataStatistics"
+      isAdmin: false
     };
   },
   components: {
-    InputData: InputData,
+    inputData: InputData,
     shejicharts: ShejiCharts,
     jiaohecharts: JiaoheCharts,
     badingcharts: BadingCharts,

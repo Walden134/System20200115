@@ -3,6 +3,7 @@ package org.sang.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sang.bean.flood.FloodRisk;
 import org.sang.bean.flood.GeneralFlood;
 import org.sang.service.FloodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 
 @RestController
-@RequestMapping("/power")
+@RequestMapping("/flood")
 public class FloodController {
 	@Autowired
 	FloodService floodService;
@@ -29,7 +30,16 @@ public class FloodController {
 	@RequestMapping(value = "/drawLine", method = RequestMethod.GET)
 	public Map<String, Object> drawLine(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
+
 		Map<String, Object> map = new HashMap<String, Object>();
+		return map;
+	}
+
+	@RequestMapping(value = "/calcRisk", method = RequestMethod.GET)
+	public Map<String, Object> calcRisk(@RequestParam(value = "floodRisk") String paramsStr) {
+		FloodRisk floodRisk = JSON.parseObject(paramsStr, FloodRisk.class);
+		System.out.println(floodRisk);
+		Map<String, Object> map =floodService.calcRisk(floodRisk);
 		return map;
 	}
 }

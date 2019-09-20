@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 @RestController
-@RequestMapping("/flood")
+@RequestMapping("/power")
 public class PowerController {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

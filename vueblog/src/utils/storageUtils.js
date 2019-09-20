@@ -10,6 +10,7 @@ const OUTPUTS_KEY = 'outputs_key'
 const CATEGORY_KEY = 'category_key'
 const OUTPUTRATELIST_KEY = 'outputratelist_key'
 const OUTPUTRATEXAXIS_KEY = 'outputratexaxis_key'
+const RISKRES_KEY = 'riskres_key'
 
 export default {
   readPowers() {
@@ -43,6 +44,13 @@ export default {
   },
   saveOutputRatexAxis(outputratexaxis) {
     localStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
+  },
+
+  readRiskRes() {
+    return JSON.parse(localStorage.getItem(RISKRES_KEY) || '[]')
+  },
+  saveRiskRes(riskres) {
+    localStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
   }
 }
 

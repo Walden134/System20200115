@@ -5,7 +5,7 @@ public class GeneralFlood {
 	private double cs;
 	private double cv;
 	private double fitError;
-	private double[] mesureData;
+	private double[][] mesureData;
 
 	public double getEx() {
 		return ex;
@@ -39,11 +39,11 @@ public class GeneralFlood {
 		this.fitError = fitError;
 	}
 
-	public double[] getMesureData() {
+	public double[][] getMesureData() {
 		return mesureData;
 	}
 
-	public void setMesureData(double[] mesureData) {
+	public void setMesureData(double[][] mesureData) {
 		this.mesureData = mesureData;
 	}
 

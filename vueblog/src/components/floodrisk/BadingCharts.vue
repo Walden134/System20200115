@@ -15,13 +15,14 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
+import storageUtils from "../../utils/storageUtils";
+
 export default {
-  props: ["title", "chartdatas", "request"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: this.title.title,
+          text: "超坝顶高程洪水风险率",
           left: "center"
         },
         toolbox: {
@@ -219,22 +220,27 @@ export default {
   components: {
     chart: ECharts
   },
-  mounted: function() {
-    var _this = this;
-    getRequest(this.request).then(
-      resp => {
-        if (resp.status == 200) {
-          // _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          // _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
+  methods: {
+    setChartData() {
+      bus.$on("riskRes", data => {
+        this.$refs.dschart.options.series[0].data = data[2];
+      });
+    },
+    inintChartData() {
+      let data2 = storageUtils.readCategory();
+      if (data2.length > 0) {
+        this.$refs.dschart.options.series[0].data = data[2];
       }
-    );
+    }
   },
-  methods: {}
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    this.setChartData();
+  },
+  beforeDestroy() {
+    bus.$off("riskRes");
+  }
 };
 </script>
