@@ -20,13 +20,18 @@ public class FloodController {
 	@Autowired
 	FloodService floodService;
 
+	@RequestMapping(value = "/expFrequency", method = RequestMethod.GET)
+	public Map<String, Object> inputData(@RequestParam(value = "params") String paramsStr) {
+		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
+		Map<String, Object> map = floodService.getExpFrequency(generalFlood);
+		return map;
+	}
 	@RequestMapping(value = "/paramEst", method = RequestMethod.GET)
 	public Map<String, Object> paramEst(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = null;
 		return map;
 	}
-
 	@RequestMapping(value = "/drawLine", method = RequestMethod.GET)
 	public Map<String, Object> drawLine(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
@@ -39,7 +44,7 @@ public class FloodController {
 	public Map<String, Object> calcRisk(@RequestParam(value = "floodRisk") String paramsStr) {
 		FloodRisk floodRisk = JSON.parseObject(paramsStr, FloodRisk.class);
 		System.out.println(floodRisk);
-		Map<String, Object> map =floodService.calcRisk(floodRisk);
+		Map<String, Object> map = floodService.calcRisk(floodRisk);
 		return map;
 	}
 }

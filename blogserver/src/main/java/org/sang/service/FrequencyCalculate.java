@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.apache.commons.math3.special.Gamma;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -12,12 +13,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class FrequencyCalculate {
-	public static double[] readXLSXFile1() {
+
+	public double[] readFloodData() {
 		InputStream ExcelFileToRead = null;
 		XSSFWorkbook wb = null;
 		try {
-			ExcelFileToRead = new FileInputStream(
-					"D:/Workspace_java/huadongyuan/huadongyuan/blogserver/src/main/java/org/sang/bean/hydro/test.xlsx");
+			ExcelFileToRead = new FileInputStream("D:/tes_flood.xlsx");
+
 			wb = new XSSFWorkbook(ExcelFileToRead);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -76,7 +78,7 @@ public class FrequencyCalculate {
 
 	}
 
-	public static double[] readXLSXFile(double cs) {
+	public double[] readXLSXFile(double cs) {
 		InputStream ExcelFileToRead = null;
 		XSSFWorkbook wb = null;
 		try {
@@ -148,148 +150,201 @@ public class FrequencyCalculate {
 		return b1;
 	}
 
-	public static double[] sortNumber(double[] test) {
+	public double[] sortNumber(double[] folw_data) {
 		double temp;
-		for (int i = 0; i <= test.length - 1; i++) {
-			for (int j = 0; j <= test.length - 2; j++) {
-				if (test[j] < test[j + 1]) {
-					temp = test[j];
-					test[j] = test[j + 1];
-					test[j + 1] = temp;
+		for (int i = 0; i <= folw_data.length - 1; i++) {
+			for (int j = 0; j <= folw_data.length - 2; j++) {
+				if (folw_data[j] < folw_data[j + 1]) {
+					temp = folw_data[j];
+					folw_data[j] = folw_data[j + 1];
+					folw_data[j + 1] = temp;
 
 				}
 			}
 		}
-		return test;
+		return folw_data;
 	}
 
-	public static double[] getEmpiricalFrequency(double[] test) {
+	public double[] frequencyCal(double[] test, double N, int a, int l) {
+
 		double[] p = new double[test.length]; // 经验频率
-		for (int i = 0; i <= test.length - 1; i++) {
-			p[i] = (i + 1) * 1.0 / (test.length + 1) * 100;
+		int n = test.length - a;
+
+		for (int i = 1; i <= a; i++) {
+			p[i - 1] = i / (N + 1);
+		}
+
+		for (int i = 1; i <= test.length - a; i++) {
+			p[i + a - 1] = p[a - 1] + (1 - p[a - 1]) * i / (n - l + 1);
 		}
 		return p;
 	}
 
-	public static double getAvg(double[] test) {
-		double sum = 0.0;
-		double avg = 0.0;
-		for (int i = 0; i <= test.length - 1; i++) {
-			sum = sum + test[i];
-			avg = sum / test.length; // 计算均值
-		}
-		return avg;
-	}
+	public double[][] frequencyCal_output(double[] test, double N, int a, int l) {
 
-	public static double getCV(double[] test, double avg) {
-		double sum1 = 0.0, sum2 = 0.0;
-		double Cv = 0.0;
-		double[] K = new double[test.length]; // 模比系数
-		for (int i = 0; i <= test.length - 1; i++) {
-			K[i] = test[i] / avg;
-			sum1 = sum1 + (K[i] - 1) * (K[i] - 1);
-			sum2 = sum2 + (K[i] - 1) * (K[i] - 1) * (K[i] - 1);
-		}
-
-		Cv = Math.sqrt(sum1 / (test.length - 1));
-		return Cv;
-	}
-
-	public static double getCS(double[] test, double Cv, double avg) {
-		double sum2 = 0.0;
-		double Cs;
-		double[] K = new double[test.length]; // 模比系数
-		for (int i = 0; i <= test.length - 1; i++) {
-			K[i] = test[i] / avg;
-			sum2 = sum2 + (K[i] - 1) * (K[i] - 1) * (K[i] - 1);
-		}
-		Cs = sum2 / ((test.length - 3) * Math.pow(Cv, 3));
-		BigDecimal bg = new BigDecimal(Cs);
-		double Cs1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		return Cs1;
-	}
-
-	public static double[] getTheoreticFrequency(double cs, double avg, double cv, double[] Qw) {
-		double b3[] = new double[Qw.length];
-		for (int i1 = 1; i1 < Qw.length; i1++) {
-			b3[i1] = (Qw[i1] * cv + 1.0) * avg;
-		}
-		return b3;
-	}
-
-	public static void main(String[] args) throws IOException {
-
-		double sum = 0.0, sum1 = 0.0, sum2 = 0.0;
-		double temp;
-		double avg = 0.0;
-		double Cv = 0.0;
-		double Cs;
-		int i, j;
-		double[] test = readXLSXFile1();
 		double[] p = new double[test.length]; // 经验频率
-		double[] K = new double[test.length]; // 模比系数
+		double[][] p1 = new double[2][test.length];
+		int n = test.length - a;
 
-//		for(i=0;i<test.length;i++) {
-//			System.out.print("  "+test[i]+" ");
-//		}
-//		System.out.println();
+		for (int i = 1; i <= a; i++) {
+			p[i - 1] = i / (N + 1);
+		}
 
-//  1.前端获取的数据进行排序
-		for (i = 0; i <= test.length - 1; i++) {
-			for (j = 0; j <= test.length - 2; j++) {
-				if (test[j] < test[j + 1]) {
-					temp = test[j];
-					test[j] = test[j + 1];
-					test[j + 1] = temp;
+		for (int i = 1; i <= test.length - a; i++) {
+			p[i + a - 1] = p[a - 1] + (1 - p[a - 1]) * i / (n - l + 1);
+		}
 
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < test.length; j++) {
+				p1[i][j] = p[j];
+			}
+		}
+		for (int i = 1; i < 2; i++) {
+			for (int j = 0; j < test.length; j++) {
+				p1[i][j] = test[j];
+			}
+		}
+		return p1;
+	}
+
+	public double parameterCal_avg(double[] test, double N, int a, int l) {
+
+		double sum1 = 0.0, sum2 = 0.0;
+		double avg = 0.0;
+		int n = test.length - a;
+
+		for (int i = 0; i < a; i++) {
+			sum1 = sum1 + test[i];
+		}
+		for (int i = a; i < test.length; i++) {
+			sum2 = sum2 + test[i];
+		}
+
+		avg = (sum1 + sum2 * (N - a) / (n - l)) / N; // 计算均值
+		BigDecimal bg = new BigDecimal(avg);
+		double avg1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return avg1;
+	}
+
+	public double parameterCal_Cv(double[] test, double N, int a, int l) {
+
+		double sum1 = 0.0, sum2 = 0.0;
+		double sum3 = 0.0, sum4 = 0.0, sum5 = 0.0;
+		double avg = 0.0;
+		int n = test.length - a;
+		double Cv = 0.0;
+
+		for (int i = 0; i < a; i++) {
+			sum1 = sum1 + test[i];
+		}
+		for (int i = a; i < test.length; i++) {
+			sum2 = sum2 + test[i];
+		}
+		avg = (sum1 + sum2 * (N - a) / (n - l)) / N; // 计算均值
+
+		for (int i = 0; i < a; i++) {
+			sum3 = sum3 + Math.pow(test[i] - avg, 2);
+		}
+		for (int i = a; i < test.length; i++) {
+			sum4 = sum4 + Math.pow(test[i] - avg, 2);
+		}
+		sum5 = (sum3 + sum4 * (N - a) / (n - l)) / (N - 1);
+
+		Cv = Math.sqrt(sum5) / avg;
+		BigDecimal bg = new BigDecimal(Cv);
+		double Cv1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+		return Cv1;
+	}
+
+	public double parameterCal_Cs(double Cv, double n) {
+
+		return n * Cv;
+
+	}
+
+	public double parameterCal_a(double Cs) {
+		return 4.0 / Math.pow(Cs, 2);
+	}
+
+	public double parameterCal_b(double Cs, double Cv, double avg) {
+		return 2.0 / (avg * Cv * Cs);
+	}
+
+	public double parameterCal_a0(double Cs, double Cv, double avg) {
+		return avg * (1 - 2.0 * Cv / Cs);
+	}
+
+	public double[][] frequencycurveCal(double[] test, double a, double b, double a0) {
+
+		double[] sum = new double[test.length];
+		double[][] p = new double[2][test.length];
+		double[] q = new double[100000];
+		double sum1 = 0.0;
+
+		// 求和，循环从第一个区间叠加到第100000个
+		for (int i = 0; i < test.length; i++) {
+
+			if (test[i] > a0) {
+				for (int j = 0; j < 100000; j++) {
+					double x = j / 100000.0;
+					q[j] = Math.pow(b, a) * Math.pow(test[i] + (x / (1 - x)) - a0, a - 1)
+							* Math.pow(Math.E, -b * (test[i] + x / (1 - x) - a0)) / Gamma.gamma(a) / Math.pow(1 - x, 2);
+					sum1 = sum1 + q[j];
 				}
+				sum[i] = sum1 / 100000.0;
+				sum1 = 0.0;
+			} else {
+				sum[i] = 1;
 			}
 		}
 
-//  2.对已排序的数据进行经验频率计算	
-		for (i = 0; i <= test.length - 1; i++) {
-			p[i] = (i + 1) * 1.0 / (test.length + 1) * 100;
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < test.length; j++) {
+				p[i][j] = sum[j];
+			}
 		}
-//	   
-//		for(i=0;i<test.length-1;i++) {
-//		System.out.print(" "+p[i]+" ");
-//	}	
-
-//	 3.按无偏估值公式计算统计参数
-		for (i = 0; i <= test.length - 1; i++) {
-			sum = sum + test[i];
-			avg = sum / test.length; // 计算均值
-
+		for (int i = 1; i < 2; i++) {
+			for (int j = 0; j < test.length; j++) {
+				p[i][j] = test[j];
+			}
 		}
-		for (i = 0; i <= test.length - 1; i++) {
-			K[i] = test[i] / avg;
-			sum1 = sum1 + (K[i] - 1) * (K[i] - 1);
-			sum2 = sum2 + (K[i] - 1) * (K[i] - 1) * (K[i] - 1);
-		}
-
-		Cv = Math.sqrt(sum1 / (test.length - 1));
-		Cs = sum2 / ((test.length - 3) * Math.pow(Cv, 3));
-
-//		System.out.println();
-//		System.out.println(avg);
-//		System.out.println(Cv);
-//		System.out.println(Cs);
-
-//   4.选配皮尔逊频率曲线 
-		double b3[] = new double[16];
-		BigDecimal bg = new BigDecimal(Cs);
-		double Cs1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		System.out.println(Cs1);
-		double[] b2 = readXLSXFile(Cs1);
-		for (int i1 = 1; i1 < b2.length; i1++) {
-			b3[i1] = (b2[i1] * Cv + 1.0) * avg;
-		}
-//         for (int i1 = 1; i1 < b2.length; i1++) {			
-//			System.out.print(" " + b2[i1] + " ");}	
-//         
-// 			System.out.println();
-		for (int i1 = 1; i1 < b3.length; i1++) {
-			System.out.print(" " + b3[i1] + " ");
-		}
+		return p;
 	}
+
+	public double parameterCal_fit(double[] test, double[] fre_p, double a, double b, double a0) {
+
+		double[] sum = new double[test.length];
+		double[][] p = new double[2][test.length];
+		double[] q = new double[100000];
+		double[] p1 = new double[test.length];
+		double sum1 = 0.0;
+
+		// 求和，循环从第一个区间叠加到第100000个
+		for (int i = 0; i < test.length; i++) {
+
+			if (test[i] > a0) {
+				for (int j = 0; j < 100000; j++) {
+					double x = j / 100000.0;
+					q[j] = Math.pow(b, a) * Math.pow(test[i] + (x / (1 - x)) - a0, a - 1)
+							* Math.pow(Math.E, -b * (test[i] + x / (1 - x) - a0)) / Gamma.gamma(a) / Math.pow(1 - x, 2);
+					sum1 = sum1 + q[j];
+				}
+				sum[i] = sum1 / 100000.0;
+				sum1 = 0.0;
+			} else {
+				sum[i] = 1;
+			}
+		}
+
+		for (int i = 0; i < test.length; i++) {
+			if (fre_p[i] != 1) {
+				sum1 = sum1 + Math.pow(sum[i] - fre_p[i], 2);
+			}
+		}
+		double fit = 1 - Math.sqrt(sum1 / test.length);
+
+		return fit;
+	}
+
 }

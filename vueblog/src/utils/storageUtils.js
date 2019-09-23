@@ -11,8 +11,18 @@ const CATEGORY_KEY = 'category_key'
 const OUTPUTRATELIST_KEY = 'outputratelist_key'
 const OUTPUTRATEXAXIS_KEY = 'outputratexaxis_key'
 const RISKRES_KEY = 'riskres_key'
+const EXPFREQUENCY_KEY = 'expfrequency_key'
+
 
 export default {
+  readExpFrequency() {
+    console.log("ooo", localStorage.getItem(EXPFREQUENCY_KEY))
+    return JSON.parse(localStorage.getItem(EXPFREQUENCY_KEY) || '[]')
+  },
+  saveExpFrequency(expfrequency) {
+    localStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
+  },
+
   readPowers() {
     return JSON.parse(localStorage.getItem(POWERS_KEY) || '[]')
   },

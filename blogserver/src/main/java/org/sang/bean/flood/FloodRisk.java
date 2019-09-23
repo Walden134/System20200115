@@ -355,8 +355,8 @@ public class FloodRisk {
 		double W_31 = 13.5;
 		double W_73 = 27.4;
 		double W_157 = 47.3;
-		int  num= designFloods.get("d_0").length;// 100
-		int  years= designFloods.get("d_0")[0].length;// 80
+		int num = designFloods.get("d_0").length;// 100
+		int years = designFloods.get("d_0")[0].length;// 80
 		List<double[][]> floodHydrograph = new ArrayList<>();
 		for (int i = 0; i < years; i++) {
 			double[][] newFlood = new double[num][flood.length];
@@ -480,7 +480,7 @@ public class FloodRisk {
 
 			// 计算三种情景下的风险率
 			DecimalFormat df = new DecimalFormat("#.00");
-			 
+
 			riskrate1[k] = (double) num1 / floodHydrograph.get(k).length * 0.2;
 			riskrate2[k] = (double) num2 / floodHydrograph.get(k).length * 0.2;
 			riskrate3[k] = (double) num3 / floodHydrograph.get(k).length * 0.2;

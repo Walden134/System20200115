@@ -35,6 +35,12 @@ export default {
           }
         },
         xAxis: {
+          name: "年份",
+          nameLocation: "center",
+          nameGap: 20,
+          axisTick: {
+            inside: true
+          },
           data: [
             "2021",
             "2022",
@@ -118,7 +124,17 @@ export default {
             "2100"
           ]
         },
-        yAxis: {},
+        yAxis: {
+          name: "风险率（%）",
+          nameLocation: "center",
+          nameGap: 35,
+          axisTick: {
+            inside: true
+          },
+          splitLine: {
+            show: false
+          }
+        },
         series: [
           {
             data: [
@@ -207,7 +223,7 @@ export default {
           }
         ],
         grid: {
-          left: "5%", // 与容器左侧的距离
+          left: "10%", // 与容器左侧的距离
           right: "5%", // 与容器右侧的距离
           top: "10%", // 与容器顶部的距离
           bottom: "10%" // 与容器底部的距离

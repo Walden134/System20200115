@@ -1,7 +1,7 @@
 <template>
   <div style="width:100%">
     <el-form :inline="true" class="demo-form-inline" label-width="130px" :label-position="labelPosition">
-      <div class="gen_mark">数据导入</div>
+      <div class="gen_mark">初始化参数</div>
       <div class="input">
         <el-form-item label="洪水系列选择" style="margin-bottom: 1px; ">
           <el-select style=" width:110px" v-model="dataFlag">
@@ -14,8 +14,20 @@
         </el-form-item>
         <label class="gen_label" for="">实测洪水&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <uploadExcel style="margin-top: 10px;" @func="getMesureData"> </uploadExcel>
+        <el-form-item label="历史调查期年数N" style="margin-bottom: 1px; ">
+          <el-input style=" width:110px" v-model="params.n"></el-input>
+        </el-form-item>
+        <el-form-item label="特大洪水项数a" style="margin-bottom: 1px; ">
+          <el-input style=" width:110px" v-model="params.a"></el-input>
+        </el-form-item>
+        <el-form-item label="实测系列的年数l" style="margin-bottom: 1px; ">
+          <el-input style=" width:110px" v-model="params.l"></el-input>
+        </el-form-item>
       </div>
-      <div class="gen_mark">参数设置</div>
+      <el-form-item style="margin-top: 10px;margin-bottom: 0px">
+        <el-button type="warning" @click.native.prevent="expFrequencyClick">经验频率计算</el-button>
+      </el-form-item>
+      <div class="gen_mark">参数优化</div>
       <div class="params">
         <el-form-item label="样本均值Ex" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.ex"></el-input>
@@ -43,6 +55,7 @@ import UploadExcel from "@/components/UploadExcel";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
+import storageUtils from "../../utils/storageUtils";
 export default {
   name: "inputData",
   props: {},
@@ -50,13 +63,17 @@ export default {
     return {
       labelPosition: "left",
       params: {
+        n: "",
+        a: "",
+        l: "",
         ex: "",
         cv: "",
         cs: "",
         fitError: "",
         mesureData: []
       },
-      dataFlag: "洪峰"
+      dataFlag: "洪峰",
+      expFrequency: []
     };
   },
   components: {
@@ -71,16 +88,7 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
-            bus.$emit("xAxis", resp.data.xAxis);
-            bus.$emit("powerList", resp.data.powerList);
-            bus.$emit("outputList", resp.data.outputList);
-            bus.$emit("outputRatexAxis", resp.data.outputRatexAxis);
-            bus.$emit("outputRateList", resp.data.outputRateList);
-            _this.category = resp.data.xAxis;
-            _this.powers = resp.data.powerList;
-            _this.outputs = resp.data.outputList;
-            _this.outputratelist = resp.data.outputRateList;
-            _this.outputratexaxis = resp.data.outputRatexAxis;
+
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -92,26 +100,16 @@ export default {
         }
       );
     },
-    paramEstClick() {
+    expFrequencyClick() {
       var _this = this;
       getRequest(
-        "/flood/paramsEst" +
-          "?mesureData=" +
-          JSON.stringify(_this.params.mesureData)
+        "/flood/expFrequency" + "?params=" + JSON.stringify(_this.params)
       ).then(
         resp => {
           if (resp.status == 200) {
             //成功
-            bus.$emit("xAxis", resp.data.xAxis);
-            bus.$emit("powerList", resp.data.powerList);
-            bus.$emit("outputList", resp.data.outputList);
-            bus.$emit("outputRatexAxis", resp.data.outputRatexAxis);
-            bus.$emit("outputRateList", resp.data.outputRateList);
-            _this.category = resp.data.xAxis;
-            _this.powers = resp.data.powerList;
-            _this.outputs = resp.data.outputList;
-            _this.outputratelist = resp.data.outputRateList;
-            _this.outputratexaxis = resp.data.outputRatexAxis;
+            bus.$emit("expFrequency", resp.data.expFrequency);
+            _this.expFrequency = resp.data.expFrequency;
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -126,16 +124,21 @@ export default {
     getMesureData(data) {
       let i = 0;
       data.map(val => {
-        this.params.mesureData[i] = [];
-        this.params.mesureData[i][0] = val["系列值"];
-        this.params.mesureData[i][1] = val["经验频率"];
+        this.params.mesureData[i] = val["实测洪水"];
         i++;
       });
     }
   },
+  created() {
+    bus.$emit("expFrequency", this.expFrequency);
+  },
   watch: {
     dataFlag(newVal, oldVal) {
       console.log("newVal=", newVal, "oldVal=", oldVal);
+    },
+    expFrequency: {
+      deep: true,
+      handler: storageUtils.saveExpFrequency
     }
   }
 };
