@@ -2,8 +2,8 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">发电量和保证出力</div>
-      <el-table :data="tableData" :cell-class-name="Ftable" fit height="300" max-height="300"
-        style="width:calc(100% - 5px);" :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" stripe fit height="300" max-height="300" style="width:calc(100% - 5px);"
+        :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
         <el-table-column prop="circumstances" label="情景" style="width:140px">
         </el-table-column>
         <el-table-column label="95%保证出力">
@@ -86,13 +86,6 @@ export default {
     };
   },
   methods: {
-    Ftable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        return "firstcolumn";
-      } else {
-        return "";
-      }
-    },
     setTableData() {
       let old = {
         circumstances: "设计值",
@@ -251,10 +244,6 @@ export default {
 .designfloodtable {
   width: 100%;
   height: 100%;
-}
-
-.firstcolumn {
-  background: #d9e4ec;
 }
 </style>
 
