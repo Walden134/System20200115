@@ -2,8 +2,9 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">实测点距信息</div>
-      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;"
-        :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" stripe fit height=" 300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+        :cell-style="{padding:'0px'}">
         <el-table-column prop="number" :label="number"> </el-table-column>
         <el-table-column prop="frequency" :label="frequency"> </el-table-column>
         <el-table-column prop="flow" :label="flow"> </el-table-column>
@@ -14,22 +15,52 @@
 </template>
 
 <script>
+import storageUtils from "../../utils/storageUtils";
 export default {
   data() {
     return {
       number: "序号",
       frequency: "经验频率（%）",
       flow: "实测流量(m³/s)",
-      tableData: [
-        {
-          number: 1,
-          frequency: "1.2",
-          flow: 4200
-        }
-      ]
+      tableData: [],
+      expFrequency: []
     };
   },
-  methods: {}
+
+  methods: {
+    setTableData() {
+      if (this.expFrequency.length > 0) {
+        let start = 1;
+        for (let j = 0; j < this.expFrequency[0].length; j++) {
+          let tmp = {};
+          tmp.number = start + j;
+          tmp.frequency = Math.round(this.expFrequency[0][j] * 10000) / 100;
+          tmp.flow = this.expFrequency[1][j];
+          this.tableData.push(tmp);
+        }
+      }
+    },
+    inintChartData() {
+      this.expFrequency = storageUtils.readExpFrequency();
+    }
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    bus.$on("expFrequency", data => {
+      this.expFrequency = data;
+    });
+  },
+  beforeDestroy() {
+    bus.$off("expFrequency");
+  },
+  computed: {},
+  watch: {
+    expFrequency() {
+      this.setTableData();
+    }
+  }
 };
 </script>
 

@@ -14,9 +14,16 @@ const RISKRES_KEY = 'riskres_key'
 const EXPFREQUENCY_KEY = 'expfrequency_key'
 const PARAMS_KEY = 'params_key'
 const UNCERTAIN_KEY = 'uncertain_key'
+const THEORYFREQUENCY_KEY = 'theoryfrequency_key'
 
 
 export default {
+  readTheoryFrequency() {
+    return JSON.parse(localStorage.getItem(THEORYFREQUENCY_KEY) || "[]");
+  },
+  saveTheoryFrequency(theoryfrequency) {
+    localStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
+  },
   readQ() {
     return JSON.parse(localStorage.getItem(UNCERTAIN_KEY) || "[]");
   },

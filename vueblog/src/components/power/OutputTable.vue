@@ -67,15 +67,12 @@ export default {
   mounted() {},
   created() {
     bus.$on("outputList", data => {
-      console.log("outputList", data);
       this.outputList = data;
     });
     bus.$on("xAxis", data => {
-      console.log("xAxis", data);
       this.category = data;
     });
     bus.$on("outputDesign", data => {
-      console.log("outputDesign", data);
       this.outputDesign = data;
     });
   },
@@ -84,11 +81,7 @@ export default {
     bus.$off("xAxis");
     bus.$off("outputDesign");
   },
-  computed: {
-    flag() {
-      return this.$store.state.flag;
-    }
-  },
+  computed: {},
   watch: {
     outputList() {
       this.setTableData();

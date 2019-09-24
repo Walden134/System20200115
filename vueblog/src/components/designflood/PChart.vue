@@ -138,10 +138,69 @@ export default {
     chart: ECharts
   },
   methods: {
+    normsinv(p) {
+      let LOW = 0.02425;
+      let HIGH = 0.97575;
+      let a = [
+        -3.969683028665376e1,
+        2.209460984245205e2,
+        -2.759285104469687e2,
+        1.38357751867269e2,
+        -3.066479806614716e1,
+        2.506628277459239
+      ];
+      let b = [
+        -5.447609879822406e1,
+        1.615858368580409e2,
+        -1.556989798598866e2,
+        6.680131188771972e1,
+        -1.328068155288572e1
+      ];
+      let c = [
+        -7.784894002430293e-3,
+        -3.223964580411365e-1,
+        -2.400758277161838,
+        -2.549732539343734,
+        4.374664141464968,
+        2.938163982698783
+      ];
+      let d = [
+        7.784695709041462e-3,
+        3.224671290700398e-1,
+        2.445134137142996,
+        3.754408661907416
+      ];
+      let q, r;
+      if (p < LOW) {
+        q = Math.sqrt(-2 * Math.log(p));
+        return (
+          (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q +
+            c[5]) /
+          ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+        );
+      } else if (p > HIGH) {
+        q = Math.sqrt(-2 * Math.log(1 - p));
+        return (
+          -(
+            ((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q +
+            c[5]
+          ) /
+          ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+        );
+      } else {
+        q = p - 0.5;
+        r = q * q;
+        return (
+          ((((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r +
+            a[5]) *
+            q) /
+          (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+        );
+      }
+    },
     setChartData() {
       bus.$on("a", data => {
         this.a = data;
-        console.log(this.a);
       });
       bus.$on("expFrequency", data => {
         this.$refs.dschart.options.series[2].data = [];
@@ -150,12 +209,13 @@ export default {
           if (j >= this.a) {
             this.$refs.dschart.options.series[3].data[j - this.a] = [];
             this.$refs.dschart.options.series[3].data[j - this.a][0] =
-              data[0][j];
+              this.normsinv(data[0][j]) + 3.719016485;
             this.$refs.dschart.options.series[3].data[j - this.a][1] =
               data[1][j];
           } else {
             this.$refs.dschart.options.series[2].data[j] = [];
-            this.$refs.dschart.options.series[2].data[j][0] = data[0][j];
+            this.$refs.dschart.options.series[2].data[j][0] =
+              this.normsinv(data[0][j]) + 3.719016485;
             this.$refs.dschart.options.series[2].data[j][1] = data[1][j];
           }
         }
@@ -167,20 +227,32 @@ export default {
         let Pchart = echarts.init(document.getElementById("Pchart"));
         Pchart.setOption(this.chartdata, true);
       });
+      bus.$on("theoryFrequency", data => {
+        this.$refs.dschart.options.series[0].data = [];
+        for (let j = 0; j < data[0].length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = [];
+          this.$refs.dschart.options.series[0].data[j][0] =
+            this.normsinv(data[0][j]) + 3.719016485;
+          this.$refs.dschart.options.series[0].data[j][1] = data[1][j];
+        }
+        let Pchart = echarts.init(document.getElementById("Pchart"));
+        Pchart.setOption(this.chartdata, true);
+      });
     },
     inintChartData() {
       let data1 = storageUtils.readExpFrequency();
       let a = storageUtils.readParams().a;
-      console.log(a);
       if (data1.length > 0) {
         for (let j = 0; j < data1[0].length; j++) {
           if (j >= a) {
             this.$refs.dschart.options.series[3].data[j - a] = [];
-            this.$refs.dschart.options.series[3].data[j - a][0] = data1[0][j];
+            this.$refs.dschart.options.series[3].data[j - a][0] =
+              this.normsinv(data1[0][j]) + 3.719016485;
             this.$refs.dschart.options.series[3].data[j - a][1] = data1[1][j];
           } else {
             this.$refs.dschart.options.series[2].data[j] = [];
-            this.$refs.dschart.options.series[2].data[j][0] = data1[0][j];
+            this.$refs.dschart.options.series[2].data[j][0] =
+              this.normsinv(data1[0][j]) + 3.719016485;
             this.$refs.dschart.options.series[2].data[j][1] = data1[1][j];
           }
         }
@@ -188,6 +260,16 @@ export default {
         let barData = this.$refs.dschart.options.series[1].data;
         for (let j = 0; j < barData.length; j++) {
           barData[j].value[1] = max;
+        }
+      }
+      let data2 = storageUtils.readTheoryFrequency();
+      if (data2.length > 0) {
+        this.$refs.dschart.options.series[0].data = [];
+        for (let j = 0; j < data2[0].length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = [];
+          this.$refs.dschart.options.series[0].data[j][0] =
+            this.normsinv(data2[0][j]) + 3.719016485;
+          this.$refs.dschart.options.series[0].data[j][1] = data2[1][j];
         }
       }
       let Pchart = echarts.init(document.getElementById("Pchart"));
@@ -201,6 +283,7 @@ export default {
     this.setChartData();
   },
   beforeDestroy() {
+    bus.$off("theoryFrequency");
     bus.$off("expFrequency");
     bus.$off("a");
   },

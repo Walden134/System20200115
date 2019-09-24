@@ -24,15 +24,15 @@
       <div class="run_mark">数据输入</div>
       <div class="input">
         <div>
-          <label class="run_label" for="" style="width:68px">气温</label>
+          <label class="run_label" for="" style="width:68px">未来气温</label>
           <upload_excel :fileList="temperature" @func="getTemperature"> </upload_excel>
         </div>
         <div>
-          <label class="run_label" for="" style="width:68px">降水</label>
+          <label class="run_label" for="" style="width:68px">未来降水</label>
           <upload_excel :fileList="precipitation" @func="getPrecipitation"> </upload_excel>
         </div>
         <div>
-          <label class="run_label" for="" style="width:68px">径流</label>
+          <label class="run_label" for="" style="width:68px">实测径流</label>
           <upload_excel :fileList="runoff" @func="getRunoff"> </upload_excel>
         </div>
       </div>

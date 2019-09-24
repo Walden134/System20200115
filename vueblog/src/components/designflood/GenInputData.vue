@@ -89,6 +89,8 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
+            bus.$emit("theoryFrequency", resp.data.theoryFrequency);
+            _this.theoryFrequency = resp.data.theoryFrequency;
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -130,8 +132,10 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
-            bus.$emit("theoryFrequency", resp.data.theoryFrequency);
-            _this.theoryFrequency = resp.data.theoryFrequency;
+            _this.params.ex = resp.data.ex;
+            _this.params.cv = resp.data.cv;
+            _this.params.cs = resp.data.cs;
+            _this.params.fitError = resp.data.fitError;
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -152,6 +156,7 @@ export default {
     }
   },
   created() {
+    bus.$emit("theoryFrequency", this.theoryFrequency);
     bus.$emit("expFrequency", this.expFrequency);
     bus.$emit("a", this.a);
   },
@@ -159,6 +164,10 @@ export default {
     expFrequency: {
       deep: true,
       handler: storageUtils.saveExpFrequency
+    },
+    theoryFrequency: {
+      deep: true,
+      handler: storageUtils.saveTheoryFrequency
     },
     params: {
       deep: true,

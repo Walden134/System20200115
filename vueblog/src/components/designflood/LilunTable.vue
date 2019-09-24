@@ -2,8 +2,9 @@
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
       <div class="table_name">设计洪水计算值</div>
-      <el-table :data="tableData" stripe style="width:calc(100% - 5px);height:300px;border:2px;"
-        :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" stripe fit height=" 300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+        :cell-style="{padding:'0px'}">
         <el-table-column prop="number" :label="number"> </el-table-column>
         <el-table-column prop="frequency" :label="frequency"> </el-table-column>
         <el-table-column prop="flow" :label="flow"> </el-table-column>
@@ -14,28 +15,49 @@
 </template>
 
 <script>
+import storageUtils from "../../utils/storageUtils";
 export default {
   data() {
     return {
       number: "序号",
       frequency: "理论频率（%）",
       flow: "理论流量(m³/s)",
-      tableData: [
-        {
-          number: 1,
-          frequency: "0.01",
-          flow: 4200
-        }
-      ]
+      theoryFrequency: [],
+      tableData: []
     };
   },
   methods: {
-    Ftable({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        return "firstcolumn";
-      } else {
-        return "";
+    setTableData() {
+      if (this.theoryFrequency.length > 0) {
+        let start = 1;
+        for (let j = 0; j < this.theoryFrequency[0].length; j++) {
+          let tmp = {};
+          tmp.number = start + j;
+          tmp.frequency = Math.round(this.theoryFrequency[0][j] * 10000) / 100;
+          tmp.flow = this.theoryFrequency[1][j];
+          this.tableData.push(tmp);
+        }
       }
+    },
+    inintChartData() {
+      this.theoryFrequency = storageUtils.readTheoryFrequency();
+    }
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    bus.$on("theoryFrequency", data => {
+      this.theoryFrequency = data;
+    });
+  },
+  beforeDestroy() {
+    bus.$off("theoryFrequency");
+  },
+  computed: {},
+  watch: {
+    theoryFrequency() {
+      this.setTableData();
     }
   }
 };

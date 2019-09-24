@@ -41,15 +41,13 @@ public class GeneralFlood {
 		DecimalFormat df = new DecimalFormat("#.00");
 		ex = Double.parseDouble(df.format(avg));
 		cv = Double.parseDouble(df.format(Math.sqrt(sum5) / avg));
-		cs = Double.parseDouble(df.format(n * cv));
+		cs = Double.parseDouble(df.format(3 * cv));
 	}
 
 	public double[][] getTheoryFrequency() {
-		
 		double a = 4.0 / Math.pow(cs, 2);
 		double b = 2.0 / (ex * cv * cs);
 		double a0 = ex * (1 - 2.0 * cv / cs);
-
 		double[] sum = new double[mesureData.length];
 		double[][] p = new double[2][mesureData.length];
 		double[] q = new double[100000];
@@ -70,15 +68,10 @@ public class GeneralFlood {
 				sum[i] = 1;
 			}
 		}
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < mesureData.length; j++) {
-				p[i][j] = sum[j];
-			}
-		}
-		for (int i = 1; i < 2; i++) {
-			for (int j = 0; j < mesureData.length; j++) {
-				p[i][j] = mesureData[j];
-			}
+		for (int j = 0; j < mesureData.length; j++) {
+			p[1][j] = mesureData[j];
+//			p[0][j] = normsinv(sum[j]) + 3.719016485;
+			p[0][j] = sum[j];
 		}
 		return p;
 	}
@@ -96,16 +89,10 @@ public class GeneralFlood {
 		for (int i = 1; i <= obs.length - a; i++) {
 			p[i + a - 1] = p[a - 1] + (1 - p[a - 1]) * i / (n - l + 1);
 		}
-
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < obs.length; j++) {
-				p1[i][j] = normsinv(p[j]) + 3.719016485;
-			}
-		}
-		for (int i = 1; i < 2; i++) {
-			for (int j = 0; j < obs.length; j++) {
-				p1[i][j] = obs[j];
-			}
+		for (int j = 0; j < obs.length; j++) {
+//			p1[0][j] = normsinv(p[j]) + 3.719016485;
+			p1[0][j] = p[j];
+			p1[1][j] = obs[j];
 		}
 		return p1;
 	}
@@ -113,20 +100,14 @@ public class GeneralFlood {
 	public double normsinv(double p) {
 		double LOW = 0.02425;
 		double HIGH = 0.97575;
-
 		double a[] = { -3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577518672690e+02,
 				-3.066479806614716e+01, 2.506628277459239e+00 };
-
 		double b[] = { -5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01,
 				-1.328068155288572e+01 };
-
 		double c[] = { -7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00,
 				4.374664141464968e+00, 2.938163982698783e+00 };
-
 		double d[] = { 7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00 };
-
 		double q, r;
-
 		if (p < LOW) {
 			q = Math.sqrt(-2 * Math.log(p));
 			return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5])

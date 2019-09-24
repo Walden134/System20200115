@@ -2,6 +2,7 @@
   <el-container class="article_list">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+
         <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
@@ -54,7 +55,7 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      //        console.log(tab, event);
+      //console.log(tab, event);
     }
   },
   components: {
@@ -80,7 +81,7 @@ export default {
   margin: 10px 5px;
 }
 .runoff_bottom > div {
-  height: 330px;
+  height: 380px;
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;
