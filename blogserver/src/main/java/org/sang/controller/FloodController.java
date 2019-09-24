@@ -36,8 +36,7 @@ public class FloodController {
 	@RequestMapping(value = "/drawLine", method = RequestMethod.GET)
 	public Map<String, Object> drawLine(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
-
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = floodService.drawLine(generalFlood);
 		return map;
 	}
 

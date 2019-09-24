@@ -56,7 +56,6 @@ public class GeneralFlood {
 		double sum1 = 0.0;
 		// 求和，循环从第一个区间叠加到第100000个
 		for (int i = 0; i < mesureData.length; i++) {
-
 			if (mesureData[i] > a0) {
 				for (int j = 0; j < 100000; j++) {
 					double x = j / 100000.0;
@@ -71,7 +70,6 @@ public class GeneralFlood {
 				sum[i] = 1;
 			}
 		}
-
 		for (int i = 0; i < 1; i++) {
 			for (int j = 0; j < mesureData.length; j++) {
 				p[i][j] = sum[j];

@@ -29,6 +29,9 @@ public class FloodService {
 
 	public Map<String, Object> drawLine(GeneralFlood generalFlood) {
 		Map<String, Object> map = new HashMap<>();
+		double[][] theoryFrequency = generalFlood.getTheoryFrequency();
+		map.put("theoryFrequency", theoryFrequency);
+		map.put("fitError", generalFlood.getFitError());
 		return map;
 	}
 
@@ -37,18 +40,21 @@ public class FloodService {
 		double N = generalFlood.getN();
 		int a = generalFlood.getA();
 		int l = generalFlood.getL();
-		if (obs == null || N == 0 || a == 0 || l == 0) {
-			generalFlood.CalcParams();
-		} else {
-			generalFlood.CalcParams();
+		double ex = generalFlood.getEx();
+		double cv = generalFlood.getCv();
+		double cs = generalFlood.getCs();
+		if (obs.length < 1 & N == 0 & a == 0 & l == 0) {
+			return null;
 		}
-//		double[][] theoryFrequency = generalFlood.getTheoryFrequency();
+		if (ex == 0 & cv == 0 & cs == 0) {
+			return null;
+		}
+		generalFlood.CalcParams();
 		Map<String, Object> map = new HashMap<>();
-//		map.put("theoryFrequency", theoryFrequency);
 		map.put("ex", generalFlood.getEx());
 		map.put("cv", generalFlood.getCv());
 		map.put("cs", generalFlood.getCs());
-//		map.put("fitError", generalFlood.getFitError());
+		map.put("fitError", generalFlood.getFitError());
 		return map;
 	}
 
