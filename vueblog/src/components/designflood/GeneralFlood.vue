@@ -3,7 +3,7 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
-          <inputData></inputData>
+          <inputData ></inputData>
         </div>
         <div class="genFlood_top">
           <div style=" width: calc((100% - 290px));">
@@ -45,7 +45,8 @@ export default {
     lilunTable: LilunTable
   },
   methods: {
-    handleClick() {}
+    handleClick() {},
+    
   },
   mounted() {}
 };

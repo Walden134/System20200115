@@ -73,7 +73,8 @@ export default {
         mesureData: []
       },
       dataFlag: "洪峰",
-      expFrequency: []
+      expFrequency: [],
+      theoryFrequency: []
     };
   },
   components: {
@@ -88,7 +89,6 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
-
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -108,8 +108,30 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
+            bus.$emit("a", this.params.a);
             bus.$emit("expFrequency", resp.data.expFrequency);
             _this.expFrequency = resp.data.expFrequency;
+            _this.$alert("计算成功!", "成功!");
+          } else {
+            //失败
+            _this.$alert("计算失败!", "失败!");
+          }
+        },
+        resp => {
+          _this.$alert("找不到服务器⊙﹏⊙∥!", "失败!");
+        }
+      );
+    },
+    paramEstClick() {
+      var _this = this;
+      getRequest(
+        "/flood/paramEst" + "?params=" + JSON.stringify(_this.params)
+      ).then(
+        resp => {
+          if (resp.status == 200) {
+            //成功
+            bus.$emit("theoryFrequency", resp.data.theoryFrequency);
+            _this.theoryFrequency = resp.data.theoryFrequency;
             _this.$alert("计算成功!", "成功!");
           } else {
             //失败
@@ -131,14 +153,16 @@ export default {
   },
   created() {
     bus.$emit("expFrequency", this.expFrequency);
+    bus.$emit("a", this.a);
   },
   watch: {
-    dataFlag(newVal, oldVal) {
-      console.log("newVal=", newVal, "oldVal=", oldVal);
-    },
     expFrequency: {
       deep: true,
       handler: storageUtils.saveExpFrequency
+    },
+    params: {
+      deep: true,
+      handler: storageUtils.saveParams
     }
   }
 };

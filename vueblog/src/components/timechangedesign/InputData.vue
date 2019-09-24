@@ -1,37 +1,57 @@
 <template>
   <div style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" label-width="160px"
-      :label-position="labelPosition">
+    <el-form :inline="true"
+             class="demo-form-inline"
+             label-width="160px"
+             :label-position="labelPosition">
       <div class="time_mark">降水不确定性分析</div>
       <div class="pattern">
-        <label class="time_label" for="">基准期降水</label>
-        <uploadExcel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </uploadExcel>
-        <label class="time_label" for="">未来降水</label>
-        <el-radio-group v-model="checkedPatterns" @change="handleCheckedPatternsChange" :min="1" size="mini">
-          <el-radio v-for="pattern in patterns" :label="pattern" :key="pattern" border></el-radio>
-        </el-radio-group>
+        <label class="time_label"
+               for="">基准期降水</label>
+        <uploadExcel @func="getBaseP"> </uploadExcel>
+        <el-form-item label="未来降水"
+                      style="margin-bottom: 10px; ">
+          <el-select style=" width:80px"
+                     v-model="time.pattern">
+            <el-option label="RCP2.6"
+                       value="26"></el-option>
+            <el-option label="RCP4.5"
+                       value="45"></el-option>
+            <el-option label="RCP8.5"
+                       value="85"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item style="margin-top: 10px;margin-bottom: 0px">
-          <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
+          <el-button type="primary"
+                     @click.native.prevent="submitClick">开始计算</el-button>
           <el-button>保存</el-button>
         </el-form-item>
       </div>
 
       <div class="time_mark">时变设计洪水</div>
       <div class="pattern">
-        <label class="time_label" for="">降水径流数据</label>
-        <uploadExcel :fileList="levelCapacityCurve" @func="getLevelCapacityCurve"> </uploadExcel>
+        <label class="time_label"
+               for="">降水径流数据</label>
+        <uploadExcel> </uploadExcel>
         <el-form-item label="结果显示">
-          <el-select style="width:80px;" v-model="formData.calculateBean.region">
-            <el-option label="洪峰" value="洪峰"></el-option>
-            <el-option label="24h洪量" value="24h洪量"></el-option>
-            <el-option label="3日洪量" value="3日洪量"></el-option>
-            <el-option label="7日洪量" value="7日洪量"></el-option>
-            <el-option label="15日洪量" value="15日洪量"></el-option>
+          <el-select style="width:80px;"
+                     v-model="time.pattern">
+            <el-option label="洪峰"
+                       value="洪峰"></el-option>
+            <el-option label="24h洪量"
+                       value="24h洪量"></el-option>
+            <el-option label="3日洪量"
+                       value="3日洪量"></el-option>
+            <el-option label="7日洪量"
+                       value="7日洪量"></el-option>
+            <el-option label="15日洪量"
+                       value="15日洪量"></el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item style="margin-top: 10px;margin-bottom: 0px">
-          <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
+          <el-button type="primary"
+                     @click.native.prevent="submitClick">开始计算</el-button>
           <el-button>保存</el-button>
         </el-form-item>
       </div>
@@ -46,67 +66,71 @@ import UploadExcel from "@/components/UploadExcel";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
-const patternOptions = ["RCP2.6", "RCP4.5", "RCP8.5"];
+import storageUtils from "../../utils/storageUtils";
 export default {
   name: "inputData",
   props: {},
   data() {
     return {
-      checkedPatterns: "RCP2.6",
-      patterns: patternOptions,
-      fileList1: [
-        {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ],
-      fileList2: [
-        {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ],
       labelPosition: "left",
-      formData: {
-        hydrostation: {},
-        calculateBean: {
-          region1: "RCP "
-        }
-      }
+      time: {
+        ObjP: [],
+        pattern: "26"
+      },
+      q: []
     };
   },
   components: {
     uploadExcel: UploadExcel
   },
   methods: {
+    getBaseP(data) {
+      let i = 0;
+      this.time.ObjP[0] = [];
+      this.time.ObjP[1] = [];
+      this.time.ObjP[2] = [];
+      this.time.ObjP[3] = [];
+      this.time.ObjP[4] = [];
+      data.map(val => {
+        this.time.ObjP[0][i] = val["obj_P"];
+        this.time.ObjP[1][i] = val["cnrm_P"];
+        this.time.ObjP[2][i] = val["miroc_P"];
+        this.time.ObjP[3][i] = val["canesm_P"];
+        this.time.ObjP[4][i] = val["gfdl_P"];
+        i++;
+      });
+      console.log(this.time.ObjP);
+    },
     submitClick: function() {
       var _this = this;
-      alert("开始计算，请稍等。。。");
-      postRequest("/power/submit", {
-        hydrostation: _this.formData.hydrostation,
-        calculateBean: _this.formData.calculateBean
-      }).then(
+      getRequest(
+        "/flood/readBaseP" + "?time=" + JSON.stringify(_this.time)
+      ).then(
         resp => {
           if (resp.status == 200) {
             //成功
-            var json = resp.data;
-            if (json.status == "success") {
-              _this.$alert("计算成功!", "成功!");
-              // _this.$router.replace({ path: "/home" });
-            } else {
-              _this.$alert("计算失败!", "失败!");
-            }
+            bus.$emit("q", resp.data.q);
+            console.log(resp.data.q);
+            _this.q = resp.data.q;
+            _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
           }
         },
         resp => {
-          _this.$alert("找不到服务器⊙﹏⊙∥!", "失败!");
+          _this.$alert("请重新登陆⊙﹏⊙∥!", "失败!");
         }
       );
+    }
+  },
+  created() {
+    bus.$emit("q", this.q);
+  },
+  watch: {
+    q: {
+      handler: storageUtils.saveQ,
+      deep: true
     }
   }
 };

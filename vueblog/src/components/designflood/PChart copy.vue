@@ -1,12 +1,9 @@
 <template>
-  <chart ref="dschart" id="Pchart" :options="chartdata" style="height:100%;width:100%"></chart>
+  <chart class="PChart" ref="dschart" :options="P3" style="height:100%;width:100%"> </chart>
 </template>
 
-<style>
-</style>
-
 <script>
-import ECharts from "vue-echarts/components/ECharts";
+import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/polar";
@@ -14,18 +11,31 @@ import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
-import echarts from "echarts";
 
 import { getRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
 export default {
+  methods: {},
   data: function() {
     return {
-      a: 3,
-      chartdata: {
+      P3: {
         title: {
           text: "设计洪水频率曲线",
           left: "center"
+        },
+
+        grid: {
+          top: 25,
+          bottom: 45,
+          right: 5,
+          left: 60
+        },
+        legend: {
+          top: 25, //与grid中top一致
+          data: ["历史洪水", "经验频率", "理论频率"],
+          orient: "vertical",
+          right: "1%",
+          backgroundColor: "#FFFFFF"
         },
         xAxis: {
           type: "value",
@@ -46,9 +56,8 @@ export default {
         yAxis: {
           name: "流量",
           nameLocation: "middle",
-          nameGap: 40, //坐标轴名字与坐标轴距离
+          nameGap: 50, //坐标轴名字与坐标轴距离
           type: "value",
-
           splitLine: {
             show: true
           },
@@ -61,7 +70,37 @@ export default {
             name: "理论频率",
             type: "line",
             smooth: true,
-            data: []
+            data: [
+              [0.01, 11481.83],
+              [0.315810296178081, 10496.33],
+              [0.428489753963786, 10160.68],
+              [0.628784179287867, 9584.61],
+              [0.840854746360197, 9003.17],
+              [1.00593145845897, 8570.71],
+              [1.14318718190678, 8224.44],
+              [1.39266861141484, 7625.71],
+              [1.66526757482386, 7016.18],
+              [1.88509735919476, 6558.12],
+              [2.07416285850421, 6187.7],
+              [2.43746491991108, 5535.79],
+              [2.87739525188277, 4848.71],
+              [3.0445267352596, 4616.07],
+              [3.19461597274764, 4420.08],
+              [3.46566938231988, 4096.25],
+              [3.71901648545568, 3827.42],
+              [3.97236358859148, 3589.82],
+              [4.24341699816372, 3368.37],
+              [4.39350623565176, 3259.55],
+              [4.56063771902859, 3149.38],
+              [4.75544987494947, 3034.85],
+              [5.00056805100028, 2910.63],
+              [5.36387011240715, 2763.32],
+              [5.59981009360693, 2688.44],
+              [6.04536435949652, 2584.26],
+              [6.80924879162353, 2488.55],
+              [7.43803297091111, 2456.79],
+              [7.98390727937704, 2445.86]
+            ]
           },
           {
             name: "刻度",
@@ -107,7 +146,12 @@ export default {
             name: "历史洪水",
             type: "scatter",
             symbolsize: 2,
-            data: []
+            data: [
+              [1.5589720622714, 7380],
+              [1.84940983833678, 7200],
+              [2.03566822145207, 7200],
+              [2.17703018660123, 6470]
+            ]
           },
           {
             name: "经验频率",
@@ -116,94 +160,48 @@ export default {
             symbolsize: 10,
             data: []
           }
-        ],
-        grid: {
-          top: 25,
-          bottom: 45,
-          right: 10,
-          left: 60
-        },
-        legend: {
-          top: 25,
-          data: ["历史洪水", "经验频率", "理论频率"],
-          orient: "vertical",
-          right: "1%",
-          backgroundColor: "#FFFFFF"
-        }
+        ]
       }
     };
   },
-  computed: {},
   components: {
     chart: ECharts
   },
   methods: {
     setChartData() {
-      bus.$on("a", data => {
-        this.a = data;
-        console.log(this.a);
-      });
       bus.$on("expFrequency", data => {
-        this.$refs.dschart.options.series[2].data = [];
-        this.$refs.dschart.options.series[3].data = [];
         for (let j = 0; j < data[0].length; j++) {
-          if (j >= this.a) {
-            this.$refs.dschart.options.series[3].data[j - this.a] = [];
-            this.$refs.dschart.options.series[3].data[j - this.a][0] =
-              data[0][j];
-            this.$refs.dschart.options.series[3].data[j - this.a][1] =
-              data[1][j];
-          } else {
-            this.$refs.dschart.options.series[2].data[j] = [];
-            this.$refs.dschart.options.series[2].data[j][0] = data[0][j];
-            this.$refs.dschart.options.series[2].data[j][1] = data[1][j];
-          }
+          this.$refs.dschart.options.series[3].data[j] = [];
+          this.$refs.dschart.options.series[3].data[j][0] = data[0][j];
+          this.$refs.dschart.options.series[3].data[j][1] = data[1][j];
+          console.log(this.$refs["dschart"].$options.updated);
         }
-        let max = Math.max.apply(null, data[1]);
-        let barData = this.$refs.dschart.options.series[1].data;
-        for (let j = 0; j < barData.length; j++) {
-          barData[j].value[1] = max;
-        }
-        let Pchart = echarts.init(document.getElementById("Pchart"));
-        Pchart.setOption(this.chartdata, true);
       });
     },
     inintChartData() {
       let data1 = storageUtils.readExpFrequency();
-      let a = storageUtils.readParams().a;
-      console.log(a);
       if (data1.length > 0) {
         for (let j = 0; j < data1[0].length; j++) {
-          if (j >= a) {
-            this.$refs.dschart.options.series[3].data[j - a] = [];
-            this.$refs.dschart.options.series[3].data[j - a][0] = data1[0][j];
-            this.$refs.dschart.options.series[3].data[j - a][1] = data1[1][j];
-          } else {
-            this.$refs.dschart.options.series[2].data[j] = [];
-            this.$refs.dschart.options.series[2].data[j][0] = data1[0][j];
-            this.$refs.dschart.options.series[2].data[j][1] = data1[1][j];
-          }
-        }
-        let max = Math.max.apply(null, data1[1]);
-        let barData = this.$refs.dschart.options.series[1].data;
-        for (let j = 0; j < barData.length; j++) {
-          barData[j].value[1] = max;
+          this.$refs.dschart.options.series[3].data[j] = [];
+          this.$refs.dschart.options.series[3].data[j][0] = data1[0][j];
+          this.$refs.dschart.options.series[3].data[j][1] = data1[1][j];
         }
       }
-      let Pchart = echarts.init(document.getElementById("Pchart"));
-      Pchart.setOption(this.chartdata, true);
     }
   },
   mounted() {
     this.inintChartData();
   },
-  created() {
-    this.setChartData();
-  },
   beforeDestroy() {
     bus.$off("expFrequency");
-    bus.$off("a");
+  },
+
+  created() {
+    this.setChartData();
   },
   watch: {}
 };
 </script>
+
+<style>
+</style>

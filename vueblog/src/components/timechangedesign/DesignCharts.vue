@@ -35,13 +35,13 @@ export default {
         grid: {
           top: 30,
           bottom: 40,
-          right: 50,
-          left: 120
+          left: "7%",
+          right: "3%"
         },
         xAxis: {
           name: "频率(%)",
           nameLocation: "center",
-          nameGap: 20,
+          nameGap: 25,
           axisTick: {
             show: false
           },
@@ -54,12 +54,13 @@ export default {
         },
         yAxis: [
           {
-            name: "流量",
+            name: "流量(m³/s)",
             nameLocation: "center",
             nameGap: 48,
             type: "value",
             splitLine: {
               show: true
+              // color: "black"
             },
             axisTick: {
               show: false
