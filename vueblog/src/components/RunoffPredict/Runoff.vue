@@ -3,11 +3,11 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
-          <inputData></inputData>
+          <InputData></InputData>
         </div>
         <div class="runoff_top">
           <div style=" width: calc((100% - 290px));">
-            <charts style="width:100%;height:100%"></charts>
+            <Charts style="width:100%;height:100%"></Charts>
           </div>
         </div>
         <div class="runoff_mid">
@@ -20,7 +20,7 @@
         </div>
         <div class="runoff_bottom">
           <div style=" width: calc((100% - 290px));">
-            <!-- <areaChart style="width:100%;height:100%"></areaChart> -->
+            <AreaChart style="width:100%;height:100%"></AreaChart>
           </div>
         </div>
       </el-tabs>
@@ -29,13 +29,10 @@
 </template>
 <script>
 import Charts from "@/components/RunoffPredict/Charts";
-import LineCharts from "@/components/RunoffPredict/LineCharts";
-import BarCharts from "@/components/RunoffPredict/BarCharts";
+import lineCharts from "@/components/RunoffPredict/lineCharts";
+import barCharts from "@/components/RunoffPredict/barCharts";
 import InputData from "@/components/RunoffPredict/InputData";
 import AreaChart from "@/components/RunoffPredict/AreaChart";
-import { postRequest } from "../../utils/api";
-import { putRequest } from "../../utils/api";
-import { deleteRequest } from "../../utils/api";
 import { getRequest } from "../../utils/api";
 export default {
   mounted: function() {
@@ -56,11 +53,11 @@ export default {
     handleClick(tab, event) {}
   },
   components: {
-    charts: Charts,
-    lineCharts: LineCharts,
-    barCharts: BarCharts,
-    inputData: InputData,
-    areaChart: AreaChart
+    Charts: Charts,
+    lineCharts: lineCharts,
+    barCharts: barCharts,
+    InputData: InputData,
+    AreaChart: AreaChart
   }
 };
 </script>

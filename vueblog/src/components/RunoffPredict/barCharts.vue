@@ -18,22 +18,7 @@ export default {
   components: {
     chart: ECharts
   },
-  mounted: function() {
-    var _this = this;
-    getRequest("/article/dataStatistics").then(
-      resp => {
-        if (resp.status == 200) {
-          // _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          // _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
-  },
+  mounted: function() {},
   methods: {},
   data: function() {
     return {
@@ -48,7 +33,7 @@ export default {
           }
         },
         toolbox: {
-          right: "10%",
+          right: "15px",
           feature: {
             // dataView: {
             //   show: true,
@@ -105,12 +90,12 @@ export default {
         },
         grid: {
           left: "10%", // 与容器左侧的距离
-          right: "10%", // 与容器右侧的距离
+          right: "15px", // 与容器右侧的距离
           top: "8%" // 与容器顶部的距离
           // bottom: '5%', // 与容器底部的距离
         },
         title: {
-          text: "RCP2.6情景下各气候模式未来输出径流年均值对比",
+          text: "各气候模式未来输出径流年均值对比",
           //   textStyle: {
           //     fontSize: 16
           //   },

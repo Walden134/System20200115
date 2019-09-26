@@ -99,7 +99,8 @@ public class UncertainP {
 			c.eval("ppp<-mydf");
 			c.eval("mu<-array(exp(pa[1]+pa[2]*ppp),dim=c(1,3))");
 			c.eval("sigma<-rep(exp(pa[3]),3)");
-			c.eval("nu<-c(0.175,0.235,0.21)");
+			c.eval("nu<-array(pa[4],dim=c(1,3))");
+
 			c.eval("a<-array(0,dim=c(23,3))");
 			c.eval("for(i in 1:23){\n" + "" + "qpiii<-qPearsonTypeIII(pi[i,1],mu,sigma,nu)\n" + "" + "a[i,]<-qpiii}");
 			REXP eval = c.eval("a");

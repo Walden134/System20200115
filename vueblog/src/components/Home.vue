@@ -122,10 +122,10 @@ export default {
   display: flex;
   justify-content: flex-start;
 }
-.el-tabs__header {
+.article_list .el-tabs__header {
   margin: 0;
 }
-.main {
+.article_list .main {
   /*justify-content: flex-start;*/
   display: flex;
   flex-direction: column;

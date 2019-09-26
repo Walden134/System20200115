@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 @RestController
 @RequestMapping("/power")
 public class PowerController {
-	
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	PowerService powerService;

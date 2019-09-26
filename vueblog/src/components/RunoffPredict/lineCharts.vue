@@ -48,7 +48,7 @@ export default {
           }
         },
         toolbox: {
-          right: "8%",
+          right: "15px",
           feature: {
             // dataView: { show: true, readOnly: false },
             // magicType: { show: true, type: ["line", "bar"] },
@@ -58,12 +58,12 @@ export default {
         },
         grid: {
           left: "10%", // 与容器左侧的距离
-          right: "10%", // 与容器右侧的距离
+          right: "15px", // 与容器右侧的距离
           top: "8%" // 与容器顶部的距离
           // bottom: '5%', // 与容器底部的距离
         },
         title: {
-          text: "RCP2.6情景下各气候模式未来输出径流月平均过程对比",
+          text: "各气候模式未来输出径流月平均过程对比",
           // textStyle: {
           //   fontSize: 16
           // },

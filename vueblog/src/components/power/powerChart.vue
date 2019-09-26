@@ -1,10 +1,6 @@
 <template>
   <chart ref="dschart" :options="chartdata" style="height:100%;width:100%"></chart>
 </template>
-
-<style>
-</style>
-
 <script>
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
@@ -167,3 +163,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>

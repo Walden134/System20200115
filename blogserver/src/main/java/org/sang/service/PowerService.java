@@ -43,13 +43,26 @@ public class PowerService {
 		List<double[]> powerList = new ArrayList<double[]>();
 		List<double[]> outputList = new ArrayList<double[]>();
 		List<String> xAxis = new ArrayList<String>();
-
+		switch (pattern) {
+		case "RCP2.6":
+			pattern = "26";
+			break;
+		case "RCP4.5":
+			pattern = "45";
+			break;
+		case "RCP8.5":
+			pattern = "85";
+			break;
+		default:
+			pattern = "base";
+			break;
+		}
 		List<Runoff> all = powerMapper.getAllRunoffByPattern(pattern);
 		List<Runoff> qf = powerMapper.getFRunoffByPattern(pattern);
 		List<Runoff> qp = powerMapper.getPRunoffByPattern(pattern);
 		List<Runoff> qk = powerMapper.getKRunoffByPattern(pattern);
 		for (int i = 0; i < situations.length; i++) {
-			String key = patterns + "_" + situations[i];
+			String key = pattern + "_" + situations[i];
 			xAxis.add(key);
 			double[][] res = new double[4][2];
 			res[0] = calPowerAndOutput(hydrostation, calculateBean, all);
@@ -73,7 +86,7 @@ public class PowerService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String[] situations = calculateBean.getSituations();
 		String[] patterns = calculateBean.getPatterns();
-//		String pattern = calculateBean.getPattern();
+		String pattern = calculateBean.getPattern();
 		DoubleCurve levelCapacityCurve = new DoubleCurve(hydrostation.getLevelCapacityCurve().getCurveData());
 		DoubleCurve leveldownOutflowCurve = new DoubleCurve(hydrostation.getLeveldownOutflowCurve().getCurveData());
 		DoubleCurve headlossOutflowCurve = new DoubleCurve(hydrostation.getHeadlossOutflowCurve().getCurveData());
@@ -87,59 +100,61 @@ public class PowerService {
 		List<double[]> outputRateList = new ArrayList<double[]>();
 		List<String> xAxis = new ArrayList<String>();
 		for (int i = 0; i < situations.length; i++) {
-			for (int j = 0; j < patterns.length; j++) {
-				String key = patterns[j] + "_" + situations[i];
-				String pattern = null;
-				String situ = null;
-				switch (patterns[j]) {
-				case "RCP2.6":
-					pattern = "26";
-					break;
-				case "RCP4.5":
-					pattern = "45";
-					break;
-				case "RCP8.5":
-					pattern = "85";
-					break;
-				default:
-					pattern = "base";
-					break;
-				}
-				switch (situations[i]) {
-				case "GFDL":
-					situ = "gfdl";
-					break;
-				case "CNRM":
-					situ = "cnrm";
-					break;
-				case "CanESM":
-					situ = "canesm";
-					break;
-				case "MIROC":
-					situ = "miroc";
-					break;
-				case "BMA":
-					situ = "bma";
-					break;
-				}
-				List<Runoff> all = powerMapper.getAllRunoffByPatAndSitu(pattern, situ);
-				List<Runoff> qf = powerMapper.getFRunoffByPatAndSitu(pattern, situ);
-				List<Runoff> qp = powerMapper.getPRunoffByPatAndSitu(pattern, situ);
-				List<Runoff> qk = powerMapper.getKRunoffByPatAndSitu(pattern, situ);
-				double[][] res = new double[4][2];
-				res[0] = calPowerAndOutput(hydrostation, calculateBean, all);
-				double[] outputRate = sortOutput((int) hydrostation.getInstallPower(), allOutput);
-				res[1] = calPowerAndOutput(hydrostation, calculateBean, qf);
-				res[2] = calPowerAndOutput(hydrostation, calculateBean, qp);
-				res[3] = calPowerAndOutput(hydrostation, calculateBean, qk);
-				xAxis.add(patterns[j] + "_" + situations[i]);
-				powerList.add(new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-				outputList.add(new double[] { res[0][1] });
-				outputRateList.add(outputRate);
-				powerMap.put(key, new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-				outputMap.put(key, new double[] { res[0][1] });
-//				outputMap.put(key, new double[] { res[0][1], res[1][1], res[2][1], res[3][1] });
+//			for (int j = 0; j < patterns.length; j++) {
+//				String key = patterns[j] + "_" + situations[i];
+			String key = pattern + "_" + situations[i];
+			String patternkey = null;
+			String situ = null;
+			switch (pattern) {
+			case "RCP2.6":
+				patternkey = "26";
+				break;
+			case "RCP4.5":
+				patternkey = "45";
+				break;
+			case "RCP8.5":
+				patternkey = "85";
+				break;
+			default:
+				patternkey = "base";
+				break;
 			}
+			switch (situations[i]) {
+			case "GFDL":
+				situ = "gfdl";
+				break;
+			case "CNRM":
+				situ = "cnrm";
+				break;
+			case "CanESM":
+				situ = "canesm";
+				break;
+			case "MIROC":
+				situ = "miroc";
+				break;
+			case "BMA":
+				situ = "bma";
+				break;
+			}
+			List<Runoff> all = powerMapper.getAllRunoffByPatAndSitu(patternkey, situ);
+			List<Runoff> qf = powerMapper.getFRunoffByPatAndSitu(patternkey, situ);
+			List<Runoff> qp = powerMapper.getPRunoffByPatAndSitu(patternkey, situ);
+			List<Runoff> qk = powerMapper.getKRunoffByPatAndSitu(patternkey, situ);
+			double[][] res = new double[4][2];
+			res[0] = calPowerAndOutput(hydrostation, calculateBean, all);
+			double[] outputRate = sortOutput((int) hydrostation.getInstallPower(), allOutput);
+			res[1] = calPowerAndOutput(hydrostation, calculateBean, qf);
+			res[2] = calPowerAndOutput(hydrostation, calculateBean, qp);
+			res[3] = calPowerAndOutput(hydrostation, calculateBean, qk);
+//			xAxis.add(patterns[j] + "_" + situations[i]);
+			xAxis.add(pattern + "_" + situations[i]);
+			powerList.add(new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
+			outputList.add(new double[] { res[0][1] });
+			outputRateList.add(outputRate);
+			powerMap.put(key, new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
+			outputMap.put(key, new double[] { res[0][1] });
+//				outputMap.put(key, new double[] { res[0][1], res[1][1], res[2][1], res[3][1] });
+//			}
 		}
 		map.put("xAxis", xAxis);
 		map.put("powerList", powerList);
@@ -170,7 +185,7 @@ public class PowerService {
 //			outputRate[index] = (1 - count++ / len) * 100;
 //		}
 		for (int i = 99; i >= 0; i--) {
-			outputRate[99-i] = output.get(len * (i + 1) / 100 - 1);
+			outputRate[99 - i] = output.get(len * (i + 1) / 100 - 1);
 		}
 		return outputRate;
 	}

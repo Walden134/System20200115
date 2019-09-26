@@ -94,10 +94,6 @@ export default {
   name: "inputData",
   data() {
     return {
-      // levelCapacityCurve: [],
-      // leveldownOutflowCurve: [],
-      // headlossOutflowCurve: [],
-      // expectOutputHeadCurve: [],
       checkedPatterns: "Base",
       patterns: ["Base", "RCP2.6", "RCP4.5", "RCP8.5"],
       // checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
@@ -181,9 +177,6 @@ export default {
       });
     },
     handleCheckedPatternsChange(value) {
-      // this.calculateBean.patterns = value;
-      // this.$emit("patterns", value);
-      // bus.$emit("patterns", value);
       this.calculateBean.pattern = value;
       bus.$emit("pattern", value);
     },
@@ -194,6 +187,7 @@ export default {
     },
     submitClick: function() {
       var _this = this;
+      console.log(_this.calculateBean);
       getRequest(
         "/power/submit" +
           "?hydrostation=" +

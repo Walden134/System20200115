@@ -52,43 +52,9 @@ export default {
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
-    },
-    getRequestData() {
-      var _this = this;
-      getRequest("/isAdmin").then(resp => {
-        if (resp.status == 200) {
-          _this.isAdmin = resp.data;
-        }
-      });
-      getRequest("/article/dataStatistics").then(
-        resp => {
-          if (resp.status == 200) {
-            _this.output = resp.data;
-          } else {
-            _this.$message({ type: "error", message: "数据加载失败!" });
-          }
-        },
-        resp => {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      );
-      getRequest("/article/dataStatistics").then(
-        resp => {
-          if (resp.status == 200) {
-            _this.power = resp.data;
-          } else {
-            _this.$message({ type: "error", message: "数据加载失败!" });
-          }
-        },
-        resp => {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      );
     }
   },
-  mounted() {
-    this.getRequestData();
-  }
+  mounted() {}
 };
 </script>
 <style>

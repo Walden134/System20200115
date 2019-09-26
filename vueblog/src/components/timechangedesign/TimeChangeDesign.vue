@@ -1,30 +1,21 @@
 <template>
-  <el-container class="power">
+  <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName"
-               @tab-click="handleClick"
-               type="card">
-        <div class="pane"
-             style=" width:270px">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+        <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
         <div class="time_top">
           <div style=" width: calc((100% - 290px));">
-            <areaChart :title="leftChart"
-                       :request="outputRequest"
-                       style="width:100%;height:100%"></areaChart>
+            <areaChart :title="leftChart" :request="outputRequest" style="width:100%;height:100%"></areaChart>
           </div>
         </div>
-        <div class="time_bottom"
-             align='center'>
+        <div class="time_bottom" align='center'>
           <div style=" width: calc((100% - 300px)*2 /3 + 80px);">
-            <designCharts :title="rightChart"
-                          :request="powerRequest"
-                          style="width:100%;height:100%"></designCharts>
+            <designCharts :title="rightChart" :request="powerRequest" style="width:100%;height:100%"></designCharts>
           </div>
           <div style=" width: calc((100% - 300px) /3 - 80px);">
-            <eightTable :title="powerTitle"
-                        style="width:100%;height:100%"></eightTable>
+            <eightTable :title="powerTitle" style="width:100%;height:100%"></eightTable>
           </div>
         </div>
       </el-tabs>

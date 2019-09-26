@@ -62,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 							throws IOException, ServletException {
 						httpServletResponse.setContentType("application/json;charset=utf-8");
 						PrintWriter out = httpServletResponse.getWriter();
-						System.out.println("==============================");
 						out.write("{\"status\":\"success\",\"msg\":\"登录成功\"}");
 						out.flush();
 						out.close();
@@ -74,7 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 							throws IOException, ServletException {
 						httpServletResponse.setContentType("application/json;charset=utf-8");
 						PrintWriter out = httpServletResponse.getWriter();
-						System.out.println("==============================");
 						out.write("{\"status\":\"error\",\"msg\":\"登录失败\"}");
 						out.flush();
 						out.close();

@@ -135,7 +135,7 @@ public class FloodService {
 			per50 += q[i][49];
 			per95 += q[i][94];
 		}
-		double[] bma = { 557.57, 707.87, 873.35 };
+		double[] bma = { per5 / q.length, per50 / q.length, per95 / q.length };
 		Map<String, Object> tmpmap = time.getDesignP(BaseFlood, bma, time.getFlag());
 		double[][] designp = (double[][]) tmpmap.get("piii");
 		double[] ex = (double[]) tmpmap.get("ex");

@@ -1,5 +1,5 @@
 <template>
-  <el-container class="power">
+  <el-container class="article_list">
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
