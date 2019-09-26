@@ -1,23 +1,23 @@
 <template>
   <div style="width:100%">
-    <el-form :inline="true" :model="formData" class="demo-form-inline" :label-position="labelPosition" size="small">
+    <el-form :inline="true" class="demo-form-inline" :label-position="labelPosition" size="small">
       <div class="run_mark">图层导入</div>
       <div class="input">
         <div>
           <label class="run_label" for="" style="width:68px">DEM</label>
-          <upload_excel :fileList="DEM" @func="getDEM"> </upload_excel>
+          <uploadExcel @func="getDEM"> </uploadExcel>
         </div>
         <div>
           <label class="run_label" for="">土地利用</label>
-          <upload_excel :fileList="landuse" @func="getLanduse"> </upload_excel>
+          <uploadExcel @func="getLanduse"> </uploadExcel>
         </div>
         <div>
           <label class="run_label" for="">土壤类型</label>
-          <upload_excel :fileList="soil" @func="getSoil"> </upload_excel>
+          <uploadExcel @func="getSoil"> </uploadExcel>
         </div>
         <div>
           <label class="run_label" for="">站点分布</label>
-          <upload_excel :fileList="site" @func="getSite"> </upload_excel>
+          <uploadExcel @func="getSite"> </uploadExcel>
         </div>
       </div>
 
@@ -25,25 +25,25 @@
       <div class="input">
         <div>
           <label class="run_label" for="" style="width:68px">未来气温</label>
-          <upload_excel :fileList="temperature" @func="getTemperature"> </upload_excel>
+          <uploadExcel @func="getTemperature"> </uploadExcel>
         </div>
         <div>
           <label class="run_label" for="" style="width:68px">未来降水</label>
-          <upload_excel :fileList="precipitation" @func="getPrecipitation"> </upload_excel>
+          <uploadExcel @func="getPrecipitation"> </uploadExcel>
         </div>
         <div>
           <label class="run_label" for="" style="width:68px">实测径流</label>
-          <upload_excel :fileList="runoff" @func="getRunoff"> </upload_excel>
+          <uploadExcel @func="getRunoff"> </uploadExcel>
         </div>
       </div>
 
       <div class="run_mark">方案设置</div>
       <div class="input">
         <label class="run_label" for="">参数方案</label>
-        <upload_excel :fileList="paramsPlan" @func="getParamsPlan"> </upload_excel>
+        <uploadExcel @func="getParamsPlan"> </uploadExcel>
         <label class="run_label" for="">断面选择</label>
         <div style="margin-bottom: 1px; ">
-          <el-select style=" width:95px" v-model="hydrostation.sectionSelect">
+          <el-select style=" width:95px" v-model="section">
             <el-option label="雅江" value="雅江"></el-option>
             <el-option label="洼里" value="洼里"></el-option>
             <el-option label="小得石" value="小得石"></el-option>
@@ -52,14 +52,14 @@
         </div>
         <label class="run_label" for="">计算时段</label>
         <div style="margin-bottom: 1px; ">
-          <el-select style=" width:95px" v-model="calculateBean.calculatePeriod">
+          <el-select style=" width:95px" v-model="period">
             <el-option label="日" value="日"></el-option>
             <el-option label="月" value="月"></el-option>
           </el-select>
         </div>
         <label class="run_label" for="">情景选择</label>
         <div style="margin-bottom: 1px; ">
-          <el-select style=" width:95px" v-model="calculateBean.sceneSelect">
+          <el-select style=" width:95px" v-model="pattern">
             <el-option label="RCP2.6" value="RCP2.6"></el-option>
             <el-option label="RCP4.5" value="RCP4.5"></el-option>
             <el-option label="RCP8.5" value="RCP8.5"></el-option>
@@ -77,53 +77,31 @@
 import UploadExcel from "@/components/UploadExcel";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
-import { postRequest1 } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 
 export default {
   props: {},
   data() {
     return {
-      hydrostation: {
-        sectionSelect: ""
-      },
-      calculateBean: {
-        calculatePeriod: "",
-        sceneSelect: ""
-      }
+      labelPosition: "left",
+      section: "",
+      period: "",
+      pattern: ""
     };
   },
   components: {
-    upload_excel: UploadExcel
+    uploadExcel: UploadExcel
   },
   methods: {
-    submitClick: function() {
-      var _this = this;
-      getRequest(
-        "/power/submit" +
-          "?hydrostation=" +
-          JSON.stringify(_this.hydrostation) +
-          "&calculateBean=" +
-          JSON.stringify(_this.calculateBean)
-      ).then(
-        resp => {
-          if (resp.status == 200) {
-            //成功
-            _this.$store.commit("flag", true);
-            bus.$emit("xAxis", resp.data.xAxis);
-            bus.$emit("powerList", resp.data.powerList);
-            bus.$emit("outputList", resp.data.outputList);
-            _this.$alert("计算成功!", "成功!");
-          } else {
-            //失败
-            _this.$alert("计算失败!", "失败!");
-          }
-        },
-        resp => {
-          _this.$alert("找不到服务器⊙﹏⊙∥!", "失败!");
-        }
-      );
-    }
+    getDEM(data) {},
+    getLanduse(data) {},
+    getSoil(data) {},
+    getSite(data) {},
+    getTemperature(data) {},
+    getPrecipitation(data) {},
+    getRunoff(data) {},
+    getParamsPlan(data) {},
+    submitClick: function() {}
   }
 };
 </script>

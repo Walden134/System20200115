@@ -1,8 +1,8 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="etable">
-      <div class="table_name">{{title.title}}</div>
-      <el-table :data="tableData" stripe style="width:calc(100% - 5px);border:2px;" height:270px
+      <div class="table_name">设计洪水结果表</div>
+      <el-table :data="tableData" stripe style="width:calc(100% - 5px);border:2px;" height="300" max-height="300"
         :row-style="{height:'30px'}" :cell-style="{padding:'0px'}">
         <el-table-column align="center" prop="title" label="特征值">
         </el-table-column>
@@ -19,62 +19,122 @@
 </template>
 
 <script>
+import storageUtils from "../../utils/storageUtils";
+
 export default {
-  props: ["title"],
-  methods: {},
   data() {
     return {
-      tableData: [
-        {
-          title: "均值",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "Cv",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "Cs",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "0.1%",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "0.2%",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "0.2%",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "0.5%",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        },
-        {
-          title: "0.5%",
-          first: "4200",
-          second: "4300",
-          third: "4400"
-        }
+      tableData: [],
+      designp: [],
+      ex: [],
+      cs: [],
+      cv: [],
+      title: [
+        "均值",
+        "cv",
+        "cs",
+        "0.01%",
+        "0.05%",
+        "0.1%",
+        "0.2%",
+        "0.5%",
+        "1%",
+        "5%",
+        "10%",
+        "15%",
+        "20%",
+        "30%",
+        "40%",
+        "50%",
+        "60%",
+        "70%",
+        "80%",
+        "85%",
+        "90%",
+        "95%",
+        "99%",
+        "99.9%",
+        "99.95%",
+        "99.99%"
       ]
     };
+  },
+  methods: {
+    setTableData() {
+      this.tableData = [];
+      let tmp = {};
+      tmp.title = this.title[0];
+      tmp.first = this.ex[0];
+      tmp.second = this.ex[1];
+      tmp.third = this.ex[2];
+      this.tableData.push(tmp);
+      tmp = {};
+      tmp.title = this.title[1];
+      tmp.first = this.cv[0];
+      tmp.second = this.cv[1];
+      tmp.third = this.cv[2];
+      this.tableData.push(tmp);
+      tmp = {};
+      tmp.title = this.title[2];
+      tmp.first = this.cs[0];
+      tmp.second = this.cs[1];
+      tmp.third = this.cs[2];
+      this.tableData.push(tmp);
+      debugger;
+      for (let j = 0; j < this.title.length - 3; j++) {
+        tmp = {};
+        tmp.title = this.title[j + 3];
+        tmp.first = this.designp[1][j];
+        tmp.second = this.designp[2][j];
+        tmp.third = this.designp[3][j];
+        this.tableData.push(tmp);
+      }
+    },
+    inintChartData() {
+      this.designp = storageUtils.readDesignP();
+      this.ex = storageUtils.readEx();
+      this.cv = storageUtils.readCv();
+      this.cs = storageUtils.readCs();
+    }
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    bus.$on("designp", data => {
+      this.designp = data;
+      console.log("designp", this.designp);
+    });
+    bus.$on("cv", data => {
+      this.cv = data;
+    });
+    bus.$on("cs", data => {
+      this.cs = data;
+    });
+    bus.$on("ex", data => {
+      this.ex = data;
+    });
+  },
+  beforeDestroy() {
+    bus.$off("designp");
+    bus.$off("ex");
+    bus.$off("cv");
+    bus.$off("cs");
+  },
+  computed: {},
+  watch: {
+    designp() {
+      this.setTableData();
+    },
+    ex() {
+      this.setTableData();
+    },
+    cv() {
+      this.setTableData();
+    },
+    cs() {
+      this.setTableData();
+    }
   }
 };
 </script>

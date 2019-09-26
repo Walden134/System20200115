@@ -1,6 +1,7 @@
 <template>
 
-  <chart ref="dschart" :options="chartdata">
+  <chart ref="dschart"
+         :options="chartdata">
   </chart>
 
 </template>
@@ -340,6 +341,11 @@ export default {
       bus.$on("q", data => {
         this.$refs.dschart.options.series[0].data = data[0];
         this.$refs.dschart.options.series[1].data = data[1];
+        this.$refs.dschart.options.series[2].data = data[2];
+        this.$refs.dschart.options.series[3].data = data[3];
+        this.$refs.dschart.options.series[4].data = data[4];
+        this.$refs.dschart.options.series[5].data = data[5];
+        this.$refs.dschart.options.series[6].data = data[6];
       });
     },
     inintChartData() {
@@ -347,6 +353,11 @@ export default {
       if (data2.length > 0) {
         this.$refs.dschart.options.series[0].data = data2[0];
         this.$refs.dschart.options.series[1].data = data2[1];
+        this.$refs.dschart.options.series[2].data = data2[2];
+        this.$refs.dschart.options.series[3].data = data2[3];
+        this.$refs.dschart.options.series[4].data = data2[4];
+        this.$refs.dschart.options.series[5].data = data2[5];
+        this.$refs.dschart.options.series[6].data = data2[6];
       }
     }
   },

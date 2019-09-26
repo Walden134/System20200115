@@ -14,4 +14,8 @@
 		resultType="org.sang.bean.flood.BaseFlood">
 		SELECT year,q,w1,w3,w7,w15,p FROM `baseflood`
 	</select>
+	<select id="getPByCs" resultType="org.sang.bean.flood.P3">
+		SELECT * FROM `DATA_YB_P3`
+		where cs=#{cs}
+	</select>
 </mapper>

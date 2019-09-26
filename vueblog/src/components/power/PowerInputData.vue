@@ -62,7 +62,7 @@
           </el-select>
         </el-form-item> -->
       </div>
-      <div class="mark">模式选择</div>
+      <div class="mark">情景选择</div>
       <div class="pattern">
         <!-- <label class="el-form-item__label" style="width: 100%; height:32px">情景选择</label>
       <el-checkbox-group v-model="checkedSituations" @change="handleCheckedSituationsChange" :min="1" size="mini">

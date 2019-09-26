@@ -5,22 +5,22 @@
       <div class="input">
         <el-form-item label="洪水系列选择" style="margin-bottom: 1px; ">
           <el-select style=" width:110px" v-model="dataFlag">
-            <el-option label="洪峰" value="洪峰"></el-option>
-            <el-option label="24h洪量" value="24h洪量"></el-option>
-            <el-option label="3日洪量" value="3日洪量"></el-option>
-            <el-option label="7日洪量" value="7日洪量"></el-option>
-            <el-option label="15日洪量" value="15日洪量"></el-option>
+            <el-option label="洪峰" value="0"></el-option>
+            <el-option label="24h洪量" value="1"></el-option>
+            <el-option label="3日洪量" value="3"></el-option>
+            <el-option label="7日洪量" value="7"></el-option>
+            <el-option label="15日洪量" value="15"></el-option>
           </el-select>
         </el-form-item>
         <label class="gen_label" for="">实测洪水&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <uploadExcel style="margin-top: 10px;" @func="getMesureData"> </uploadExcel>
-        <el-form-item label="历史调查期年数N" style="margin-bottom: 1px; ">
+        <el-form-item label="历史调查期年数" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.n"></el-input>
         </el-form-item>
-        <el-form-item label="特大洪水项数a" style="margin-bottom: 1px; ">
+        <el-form-item label="特大洪水项数" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.a"></el-input>
         </el-form-item>
-        <el-form-item label="实测系列的年数l" style="margin-bottom: 1px; ">
+        <el-form-item label="实测系列的年数" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.l"></el-input>
         </el-form-item>
       </div>
@@ -38,9 +38,9 @@
         <el-form-item label="偏态系数Cs" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.cs"></el-input>
         </el-form-item>
-        <el-form-item label="拟合误差" style="margin-bottom: 1px; ">
+        <!-- <el-form-item label="拟合误差" style="margin-bottom: 1px; ">
           <el-input style=" width:110px" v-model="params.fitError"></el-input>
-        </el-form-item>
+        </el-form-item> -->
       </div>
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="warning" @click.native.prevent="paramEstClick">参数估计</el-button>
@@ -72,7 +72,7 @@ export default {
         fitError: "",
         mesureData: []
       },
-      dataFlag: "洪峰",
+      dataFlag: "0",
       expFrequency: [],
       theoryFrequency: []
     };
@@ -172,6 +172,9 @@ export default {
     params: {
       deep: true,
       handler: storageUtils.saveParams
+    },
+    dataFlag() {
+      bus.$emit("dataFlag", this.dataFlag);
     }
   }
 };

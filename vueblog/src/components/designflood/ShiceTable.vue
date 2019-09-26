@@ -23,12 +23,14 @@ export default {
       frequency: "经验频率（%）",
       flow: "实测流量(m³/s)",
       tableData: [],
-      expFrequency: []
+      expFrequency: [],
+      dataFlag: 0
     };
   },
 
   methods: {
     setTableData() {
+      this.tableData = [];
       if (this.expFrequency.length > 0) {
         let start = 1;
         for (let j = 0; j < this.expFrequency[0].length; j++) {
@@ -51,6 +53,9 @@ export default {
     bus.$on("expFrequency", data => {
       this.expFrequency = data;
     });
+    bus.$on("dataFlag", data => {
+      this.dataFlag = data;
+    });
   },
   beforeDestroy() {
     bus.$off("expFrequency");
@@ -59,6 +64,13 @@ export default {
   watch: {
     expFrequency() {
       this.setTableData();
+    },
+    dataFlag(newVal, oldVal) {
+      if (newVal > 0) {
+        this.flow = "实测洪量(亿m³)";
+      } else {
+        this.flow = "实测流量(m³/s)";
+      }
     }
   }
 };

@@ -27,12 +27,14 @@ public class FloodController {
 		Map<String, Object> map = floodService.getExpFrequency(generalFlood);
 		return map;
 	}
+
 	@RequestMapping(value = "/paramEst", method = RequestMethod.GET)
 	public Map<String, Object> paramEst(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
 		Map<String, Object> map = floodService.paramEst(generalFlood);
 		return map;
 	}
+
 	@RequestMapping(value = "/drawLine", method = RequestMethod.GET)
 	public Map<String, Object> drawLine(@RequestParam(value = "params") String paramsStr) {
 		GeneralFlood generalFlood = JSON.parseObject(paramsStr, GeneralFlood.class);
@@ -46,11 +48,19 @@ public class FloodController {
 		System.out.println(floodRisk);
 		Map<String, Object> map = floodService.calcRisk(floodRisk);
 		return map;
-	}@RequestMapping(value = "/readBaseP", method = RequestMethod.GET)
+	}
+
+	@RequestMapping(value = "/readBaseP", method = RequestMethod.GET)
 	public Map<String, Object> readBaseP(@RequestParam(value = "time") String paramsStr) {
 		UncertainP time = JSON.parseObject(paramsStr, UncertainP.class);
 		Map<String, Object> map = floodService.readBaseP(time);
 		return map;
+	}
 
+	@RequestMapping(value = "/readBaseFlood", method = RequestMethod.GET)
+	public Map<String, Object> readBaseFlood(@RequestParam(value = "time") String paramsStr) {
+		UncertainP time = JSON.parseObject(paramsStr, UncertainP.class);
+		Map<String, Object> map = floodService.readBaseFlood(time);
+		return map;
 	}
 }

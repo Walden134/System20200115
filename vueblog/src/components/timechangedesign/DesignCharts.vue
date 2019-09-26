@@ -1,7 +1,9 @@
 <template>
 
-  <chart :options="P3">
-  </chart>
+  <chart ref="dschart"
+         id="designChart"
+         :options="chartdata"
+         style="height:100%;width:100%"></chart>
 
 </template>
 
@@ -14,20 +16,22 @@ import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
+import echarts from "echarts";
+import storageUtils from "../../utils/storageUtils";
 
 import { getRequest } from "../../utils/api";
 export default {
   props: ["title"],
   data: function() {
     return {
-      P3: {
+      chartdata: {
         title: {
           text: this.title.title,
           left: "center"
         },
         legend: {
           top: 30,
-          data: ["基准期频率", "5%分位数", "50%分位数", "95%分位数"],
+          data: ["5%分位数", "50%分位数", "95%分位数"],
           orient: "vertical",
           right: 50,
           backgroundColor: "#FFFFFF"
@@ -69,173 +73,73 @@ export default {
         ],
         series: [
           {
-            name: "基准期频率",
-            type: "line",
-            smooth: true,
-            data: [
-              [0, 8127.17397596647],
-              [0.428489753963786, 7685.13232719467],
-              [0.628784179287867, 7481.85146346375],
-              [0.840854746360197, 7268.9323731743],
-              [1.14318718190678, 6969.48699400094],
-              [1.39266861141484, 6725.99754947],
-              [2.07416285850421, 6077.37922159987],
-              [2.43746491991108, 5741.39792370129],
-              [2.68258309596189, 5518.5287484192],
-              [2.87739525188277, 5343.58039163254],
-              [3.19461597274764, 5062.81674438943],
-              [3.46566938231988, 4826.92926048752],
-              [3.71901648545568, 4609.77593319054],
-              [3.97236358859148, 4395.81729601343],
-              [4.24341699816372, 4170.42234157671],
-              [4.56063771902859, 3911.2253031189],
-              [4.75544987494947, 3754.48473806566],
-              [5.00056805100028, 3559.88937912235],
-              [5.36387011240715, 3276.80617532601],
-              [6.04536435949652, 2762.79924694507],
-              [6.80924879162353, 2212.62745190076],
-              [7.00954321694761, 2072.84809078846],
-              [7.43803297091111, 1779.98768612872]
-            ]
-          },
-
-          {
-            name: "刻度",
-            type: "bar",
-            barWidth: 1,
-            itemStyle: {
-              normal: {
-                label: {
-                  position: "bottom",
-                  show: true,
-                  formatter: "{b}"
-                }
-              }
-            },
-
-            data: [
-              { value: [0, 12000], name: "0.01" },
-              { value: [0.428489753963786, 12000], name: "0.02" },
-              { value: [0.840854746360197, 12000], name: "0.2" },
-              { value: [1.14318718190678, 12000], name: "0.5" },
-              { value: [1.39266861141484, 12000], name: "1" },
-              { value: [2.07416285850421, 12000], name: "5" },
-              { value: [2.43746491991108, 12000], name: "10" },
-              { value: [2.68258309596189, 12000], name: "15" },
-              { value: [2.87739525188277, 12000], name: "20" },
-              { value: [3.19461597274764, 12000], name: "30" },
-              { value: [3.46566938231988, 12000], name: "40" },
-              { value: [3.71901648545568, 12000], name: "50" },
-              { value: [3.97236358859148, 12000], name: "60" },
-              { value: [4.24341699816372, 12000], name: "70" },
-              { value: [4.56063771902859, 12000], name: "80" },
-              { value: [4.75544987494947, 12000], name: "85" },
-              { value: [5.00056805100028, 12000], name: "90" },
-              { value: [5.36387011240715, 12000], name: "95" },
-              { value: [6.04536435949652, 12000], name: "99" },
-              { value: [6.80924879162353, 12000], name: "99.9" },
-              { value: [7.43803297091111, 12000], name: "99.99" },
-              { value: [8, 12000], name: " " }
-            ]
-          },
-
-          {
             name: "5%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
-            data: [
-              [0, 5682.63188430873],
-              [0.428489753963786, 5373.55028042879],
-              [0.628784179287867, 5231.41350310334],
-              [0.840854746360197, 5082.53754513383],
-              [1.14318718190678, 4873.16121526425],
-              [1.39266861141484, 4702.9100449219],
-              [2.07416285850421, 4249.38718425698],
-              [2.43746491991108, 4014.46443723373],
-              [2.68258309596189, 3858.63124291147],
-              [2.87739525188277, 3736.304944333],
-              [3.19461597274764, 3539.99113851358],
-              [3.46566938231988, 3375.05536365576],
-              [3.71901648545568, 3223.21876890207],
-              [3.97236358859148, 3073.61594544322],
-              [4.24341699816372, 2916.01669157809],
-              [4.56063771902859, 2734.78255540548],
-              [4.75544987494947, 2625.18739536953],
-              [5.00056805100028, 2489.12364251524],
-              [5.36387011240715, 2291.18797083373],
-              [6.04536435949652, 1931.78725311675],
-              [6.80924879162353, 1547.0995629539],
-              [7.00954321694761, 1449.36391012131],
-              [7.43803297091111, 1244.59188504933]
-            ]
+            data: [],
+            markLine: {
+              symbol: "none",
+              animation: false,
+              label: {
+                normal: { position: "bottom", formatter: "{b}" }
+              },
+              itemStyle: {
+                normal: {
+                  lineStyle: {
+                    width: 1,
+                    color: "black",
+                    type: "solid"
+                  }
+                }
+              },
+              // emphasis: {
+              //   label: {
+              //     position: "end",
+              //     formatter: "{b}"
+              //   }
+              // },
+              data: [
+                { name: 0.01, xAxis: 0 },
+                { name: 0.05, xAxis: 0.428489754 },
+                { name: 0.1, xAxis: 0.628784179 },
+                { name: 0.2, xAxis: 0.840854746 },
+                { name: 0.5, xAxis: 1.143187182 },
+                { name: 1, xAxis: 1.392668611 },
+                { name: 5, xAxis: 2.074162859 },
+                { name: 10, xAxis: 2.43746492 },
+                { name: 15, xAxis: 2.682583096 },
+                { name: 20, xAxis: 2.877395252 },
+                { name: 30, xAxis: 3.194615973 },
+                { name: 40, xAxis: 3.465669382 },
+                { name: 50, xAxis: 3.719016485 },
+                { name: 60, xAxis: 3.972363589 },
+                { name: 70, xAxis: 4.243416998 },
+                { name: 80, xAxis: 4.560637719 },
+                { name: 85, xAxis: 4.755449875 },
+                { name: 90, xAxis: 5.000568051 },
+                { name: 95, xAxis: 5.363870112 },
+                { name: 99, xAxis: 6.045364359 },
+                { name: 99.9, xAxis: 6.809248792 },
+                { name: 99.95, xAxis: 7.009543217 },
+                { name: 99.99, xAxis: 7.438032971 },
+                { xAxis: 8.0 }
+              ]
+            }
           },
           {
             name: "50%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
-            data: [
-              [0, 11999.0162684477],
-              [0.428489753963786, 11395.5545893409],
-              [0.628784179287867, 11094.1286566453],
-              [0.840854746360197, 10778.4111109733],
-              [1.14318718190678, 10334.3919295701],
-              [1.39266861141484, 9973.34450202459],
-              [2.07416285850421, 9011.56983788044],
-              [2.43746491991108, 8513.37500424658],
-              [2.68258309596189, 8182.90342027381],
-              [2.87739525188277, 7923.48907772265],
-              [3.19461597274764, 7507.17126657192],
-              [3.46566938231988, 7157.39606618475],
-              [3.71901648545568, 6835.39997163305],
-              [3.97236358859148, 6518.14098037469],
-              [4.24341699816372, 6183.92415780201],
-              [4.56063771902859, 5799.58542746037],
-              [4.75544987494947, 5567.1696941479],
-              [5.00056805100028, 5278.62267358146],
-              [5.36387011240715, 4858.8654117876],
-              [6.04536435949652, 4096.69323799986],
-              [6.80924879162353, 3280.89560992808],
-              [7.00954321694761, 3073.63003892653],
-              [7.43803297091111, 2639.37509232697]
-            ]
+            data: []
           },
           {
             name: "95%分位数",
             type: "line",
             symbol: "triangle",
             symbolsize: 10,
-            data: [
-              [0, 11128.82],
-              [0.315810296178081, 10323.5],
-              [0.428489753963786, 10046.13],
-              [0.628784179287867, 9565.92],
-              [0.840854746360197, 9075.25],
-              [1.00593145845897, 8705.85],
-              [1.14318718190678, 8407.02],
-              [1.39266861141484, 7882.97],
-              [1.66526757482386, 7338.28],
-              [1.88509735919476, 6919.98],
-              [2.07416285850421, 6574.99],
-              [2.43746491991108, 5949.8],
-              [2.87739525188277, 5257.73],
-              [3.0445267352596, 5013.03],
-              [3.19461597274764, 4801.66],
-              [3.46566938231988, 4439.67],
-              [3.71901648545568, 4123.83],
-              [3.97236358859148, 3829.18],
-              [4.24341699816372, 3536.74],
-              [4.39350623565176, 3384.68],
-              [4.56063771902859, 3223.44],
-              [4.75544987494947, 3046],
-              [5.00056805100028, 2838.35],
-              [5.36387011240715, 2561.29],
-              [5.59981009360693, 2400.08],
-              [6.04536435949652, 2133.33],
-              [6.80924879162353, 1779.32],
-              [7.43803297091111, 1571.54]
-            ]
+            data: []
           }
         ]
       }
@@ -244,22 +148,57 @@ export default {
   components: {
     chart: ECharts
   },
-  methods: {},
-  mounted: function() {
-    var _this = this;
-    getRequest("/article/dataStatistics").then(
-      resp => {
-        if (resp.status == 200) {
-          //   _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          //   _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
+  methods: {
+    setChartData() {
+      bus.$on("designp", data => {
+        // debugger;
+        for (let j = 0; j < data[0].length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = [];
+          this.$refs.dschart.options.series[1].data[j] = [];
+          this.$refs.dschart.options.series[2].data[j] = [];
+
+          this.$refs.dschart.options.series[0].data[j][0] = data[0][j];
+          this.$refs.dschart.options.series[1].data[j][0] = data[0][j];
+          this.$refs.dschart.options.series[2].data[j][0] = data[0][j];
+
+          this.$refs.dschart.options.series[0].data[j][1] = data[1][j];
+          this.$refs.dschart.options.series[1].data[j][1] = data[2][j];
+          this.$refs.dschart.options.series[2].data[j][1] = data[3][j];
         }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
+        let Pchart = echarts.init(document.getElementById("designChart"));
+        Pchart.setOption(this.chartdata, true);
+      });
+    },
+    inintChartData() {
+      let data2 = storageUtils.readDesignP();
+      // debugger;
+      if (data2.length > 0) {
+        for (let j = 0; j < data2[0].length; j++) {
+          this.$refs.dschart.options.series[0].data[j] = [];
+          this.$refs.dschart.options.series[1].data[j] = [];
+          this.$refs.dschart.options.series[2].data[j] = [];
+
+          this.$refs.dschart.options.series[0].data[j][0] = data2[0][j];
+          this.$refs.dschart.options.series[1].data[j][0] = data2[0][j];
+          this.$refs.dschart.options.series[2].data[j][0] = data2[0][j];
+
+          this.$refs.dschart.options.series[0].data[j][1] = data2[1][j];
+          this.$refs.dschart.options.series[1].data[j][1] = data2[2][j];
+          this.$refs.dschart.options.series[2].data[j][1] = data2[3][j];
+        }
       }
-    );
+      let Pchart = echarts.init(document.getElementById("designChart"));
+      Pchart.setOption(this.chartdata, true);
+    }
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    this.setChartData();
+  },
+  beforeDestroy() {
+    bus.$off("designp");
   }
 };
 </script>

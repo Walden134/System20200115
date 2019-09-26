@@ -2,13 +2,13 @@
   <!-- <chart ref="dschart" :options="polarA" style="height:100%;width:100%"></chart> -->
   <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
     <el-tab-pane label="2030S" name="first">
-      <chart ref="2030Sdschart" :options="polarA" style="width:1350px;height:340px"></chart>
+      <chart ref="2030Sdschart" :options="polarA" style="height:340px;width:1350px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2060S" name="second">
-      <chart ref="2060Sdschart" :options="polarB" style="width:1350px;height:340px"></chart>
+      <chart ref="2060Sdschart" :options="polarB" style="height:340px;width:1350px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2090S" name="third">
-      <chart ref="2090Sdschart" :options="polarC" style="width:1350px;height:340px"></chart>
+      <chart ref="2090Sdschart" :options="polarC" style="height:340px;width:1350px"></chart>
     </el-tab-pane>
   </el-tabs>
 
@@ -29,30 +29,14 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
+import AreaChart from "../../assets/AreaChart.json";
 export default {
   components: {
     chart: ECharts
   },
-  mounted: function() {
-    var _this = this;
-    getRequest("/article/dataStatistics").then(
-      resp => {
-        if (resp.status == 200) {
-          //   _this.$refs.dschart.options.xAxis.data = resp.data.categories;
-          //   _this.$refs.dschart.options.series[0].data = resp.data.ds;
-        } else {
-          _this.$message({ type: "error", message: "数据加载失败!" });
-        }
-      },
-      resp => {
-        _this.$message({ type: "error", message: "数据加载失败!" });
-      }
-    );
-  },
+  mounted: function() {},
   methods: {
-    handleClick(tab, event) {
-      //console.log(tab, event);
-    }
+    handleClick(tab, event) {}
   },
   data: function() {
     return {
@@ -8997,8 +8981,13 @@ export default {
             ]
           }
         ]
-      }
+      },
+      JSON: []
     };
+  },
+  created() {
+    // this.JSON = AreaChart.data;
+    console.log(AreaChart.data);
   }
 };
 </script>

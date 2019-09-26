@@ -15,9 +15,38 @@ const EXPFREQUENCY_KEY = 'expfrequency_key'
 const PARAMS_KEY = 'params_key'
 const UNCERTAIN_KEY = 'uncertain_key'
 const THEORYFREQUENCY_KEY = 'theoryfrequency_key'
-
+const DESIGNP_KEY = "designp_key";
+const EX_KEY = "ex_key";
+const CV_KEY = "cv_key";
+const CS_KEY = "cs_key";
 
 export default {
+
+  readEx() {
+    return JSON.parse(localStorage.getItem(EX_KEY) || "[]");
+  },
+  saveEx(ex) {
+    localStorage.setItem(EX_KEY, JSON.stringify(ex));
+  },
+  readCv() {
+    return JSON.parse(localStorage.getItem(CV_KEY) || "[]");
+  },
+  saveCv(cv) {
+    localStorage.setItem(CV_KEY, JSON.stringify(cv));
+  },
+  readCs() {
+    return JSON.parse(localStorage.getItem(CS_KEY) || "[]");
+  },
+  saveCs(cs) {
+    localStorage.setItem(CS_KEY, JSON.stringify(cs));
+  },
+
+  readDesignP() {
+    return JSON.parse(localStorage.getItem(DESIGNP_KEY) || "[]");
+  },
+  saveDesignP(designp) {
+    localStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
+  },
   readTheoryFrequency() {
     return JSON.parse(localStorage.getItem(THEORYFREQUENCY_KEY) || "[]");
   },

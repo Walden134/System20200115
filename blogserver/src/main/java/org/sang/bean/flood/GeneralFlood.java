@@ -1,6 +1,5 @@
 package org.sang.bean.flood;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.apache.commons.math3.special.Gamma;
@@ -44,7 +43,17 @@ public class GeneralFlood {
 		cs = Double.parseDouble(df.format(3 * cv));
 	}
 
-	public double[][] getTheoryFrequency() {
+	public double[][] getTheoryFrequency(double[] p, double[] fai) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		double[][] res = new double[2][fai.length];
+		for (int i = 0; i < fai.length; i++) {
+			res[1][i] = Double.parseDouble(df.format(ex * (1 + cv * fai[i])));
+			res[0][i] = p[i];
+		}
+		return res;
+	}
+
+	public double[][] getTheoryFrequency1() {
 		double a = 4.0 / Math.pow(cs, 2);
 		double b = 2.0 / (ex * cv * cs);
 		double a0 = ex * (1 - 2.0 * cv / cs);

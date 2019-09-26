@@ -23,17 +23,19 @@ export default {
       frequency: "理论频率（%）",
       flow: "理论流量(m³/s)",
       theoryFrequency: [],
-      tableData: []
+      tableData: [],
+      dataFlag: 0
     };
   },
   methods: {
     setTableData() {
+      this.tableData = [];
       if (this.theoryFrequency.length > 0) {
         let start = 1;
         for (let j = 0; j < this.theoryFrequency[0].length; j++) {
           let tmp = {};
           tmp.number = start + j;
-          tmp.frequency = Math.round(this.theoryFrequency[0][j] * 10000) / 100;
+          tmp.frequency = this.theoryFrequency[0][j];
           tmp.flow = this.theoryFrequency[1][j];
           this.tableData.push(tmp);
         }
@@ -50,6 +52,9 @@ export default {
     bus.$on("theoryFrequency", data => {
       this.theoryFrequency = data;
     });
+    bus.$on("dataFlag", data => {
+      this.dataFlag = data;
+    });
   },
   beforeDestroy() {
     bus.$off("theoryFrequency");
@@ -58,6 +63,13 @@ export default {
   watch: {
     theoryFrequency() {
       this.setTableData();
+    },
+    dataFlag(newVal, oldVal) {
+      if (newVal > 0) {
+        this.flow = "理论洪量(亿m³)";
+      } else {
+        this.flow = "理论流量(m³/s)";
+      }
     }
   }
 };
