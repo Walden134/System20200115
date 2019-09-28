@@ -10,12 +10,12 @@
             <shejicharts style="width:100%;height:100%"></shejicharts>
           </div>
           <div style=" width: calc((100% - 300px)  / 2);">
-            <badingcharts style="width:100%;height:100%"></badingcharts>
+            <jiaohecharts style="width:100%;height:100%"></jiaohecharts>
           </div>
         </div>
         <div class="flood_bottom">
           <div style=" width: calc((100% - 300px)  / 2);">
-            <jiaohecharts style="width:100%;height:100%"></jiaohecharts>
+            <badingcharts style="width:100%;height:100%"></badingcharts>
           </div>
           <div style=" width: calc((100% - 300px)  / 2);">
             <threeTable style="width:100%;height:100%"></threeTable>

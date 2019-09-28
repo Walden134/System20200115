@@ -1,5 +1,9 @@
 <template>
+
   <div style="width:100%">
+    <!-- <transition name="fade">
+      <loading v-if="isLoading"></loading>
+    </transition> -->
     <el-form :inline="true" class="demo-form-inline" label-width="130px" :label-position="labelPosition">
       <div class="gen_mark">初始化参数</div>
       <div class="input">
@@ -52,15 +56,19 @@
 </template>
 <script>
 import UploadExcel from "@/components/UploadExcel";
+import Loading from "@/components/loading";
+
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
+import app from "../../main";
 export default {
   name: "inputData",
   props: {},
   data() {
     return {
+      isLoading: false,
       labelPosition: "left",
       params: {
         n: "",
@@ -78,7 +86,8 @@ export default {
     };
   },
   components: {
-    uploadExcel: UploadExcel
+    uploadExcel: UploadExcel,
+    loading: Loading
   },
   methods: {
     drawLineClick() {
@@ -91,7 +100,7 @@ export default {
             //成功
             bus.$emit("theoryFrequency", resp.data.theoryFrequency);
             _this.theoryFrequency = resp.data.theoryFrequency;
-            _this.$alert("计算成功!", "成功!");
+            // _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -103,17 +112,19 @@ export default {
       );
     },
     expFrequencyClick() {
+      this.isLoading = true;
       var _this = this;
       getRequest(
         "/flood/expFrequency" + "?params=" + JSON.stringify(_this.params)
       ).then(
         resp => {
+          this.isLoading = false;
           if (resp.status == 200) {
             //成功
             bus.$emit("a", this.params.a);
             bus.$emit("expFrequency", resp.data.expFrequency);
             _this.expFrequency = resp.data.expFrequency;
-            _this.$alert("计算成功!", "成功!");
+            // _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -136,7 +147,6 @@ export default {
             _this.params.cv = resp.data.cv;
             _this.params.cs = resp.data.cs;
             _this.params.fitError = resp.data.fitError;
-            _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");

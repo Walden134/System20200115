@@ -63,7 +63,7 @@ export default {
           // bottom: '5%', // 与容器底部的距离
         },
         title: {
-          text: "各气候模式未来输出径流月平均过程对比",
+          text: "各气候模式未来月径流均值",
           // textStyle: {
           //   fontSize: 16
           // },

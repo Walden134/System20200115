@@ -17,7 +17,6 @@ import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
 export default {
-  props: ["title"],
   data: function() {
     return {
       chartdata: {
@@ -95,14 +94,11 @@ export default {
       patterns: []
     };
   },
-  computed: {},
   components: {
     chart: ECharts
   },
   methods: {
     setChartData() {
-      // bus.$on("situations", data => (this.situations = data));
-      // bus.$on("patterns", data => (this.patterns = data));
       bus.$on("outputList", data => {
         for (let j = 0; j < data.length; j++) {
           this.$refs.dschart.options.series[0].data[j] = data[j][0];
@@ -114,13 +110,13 @@ export default {
     },
     inintChartData() {
       let data1 = storageUtils.readOutputs();
-      if (data1.length > 0) {
+      if (data1) {
         for (let j = 0; j < data1.length; j++) {
           this.$refs.dschart.options.series[0].data[j] = data1[j][0];
         }
       }
       let data2 = storageUtils.readCategory();
-      if (data2.length > 0) {
+      if (data2) {
         this.$refs.dschart.options.xAxis.data = data2;
       }
     }
@@ -136,13 +132,6 @@ export default {
   created() {
     this.setChartData();
   },
-  watch: {
-    situations() {
-      this.getRequestData();
-    },
-    patterns() {
-      this.getRequestData();
-    }
-  }
+  watch: {}
 };
 </script>

@@ -3,27 +3,23 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <div class="pane" style=" width:270px">
-          <inputData @situations="getSituations" @patterns="getPatterns"></inputData>
-          <!-- <inputData></inputData> -->
+          <inputData></inputData>
         </div>
         <div class="power_top">
           <div style=" width: calc((100% - 310px)  / 3);">
-            <powerChart :request="powerRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></powerChart>
+            <powerChart style="width:100%;height:100%"></powerChart>
           </div>
           <div style=" width: calc((100% - 310px)  / 3);">
-            <outputChart :request="outputRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></outputChart>
+            <outputChart style="width:100%;height:100%"></outputChart>
           </div>
           <div style=" width: calc((100% - 310px)  / 3);">
-            <outputRateChart :request="outputRequest" :situations="situations" :patterns="patterns"
-              style="width:100%;height:100%"></outputRateChart>
+            <outputRateChart style="width:100%;height:100%"></outputRateChart>
           </div>
         </div>
         <div class="power_bottom">
           <!-- <div style=" width: calc((100% - 300px) *2 / 3);"> -->
           <div style=" width: calc(100% - 290px) ;">
-            <powerTable :title="powerTitle" style="width:100%;height:100%"></powerTable>
+            <powerTable style="width:100%;height:100%"></powerTable>
           </div>
           <!-- <div style=" width: calc((100% - 300px)  / 3);">
             <outputTable :title="outputTitle" style="width:100%;height:100%"></outputTable>
@@ -35,7 +31,6 @@
   </el-container>
 </template>
 <script>
-import OutputTable from "@/components/power/OutputTable";
 import PowerTable from "@/components/power/PowerTable";
 import PowerChart from "@/components/power/PowerChart";
 import OutputChart from "@/components/power/OutputChart";
@@ -49,23 +44,7 @@ export default {
   data() {
     return {
       activeName: "post",
-      isAdmin: false,
-      powerTitle: {
-        title: "发电量",
-        label1: "情景",
-        label2: "发电量(亿KW·h)",
-        label3: "增幅(%)"
-      },
-      outputTitle: {
-        title: "保证出力",
-        label1: "情景",
-        label2: "95%保证出力(MW)",
-        label3: "增幅(%)"
-      },
-      outputRequest: "/power/outputStatistics",
-      powerRequest: "/power/powerStatistics",
-      situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
-      patterns: ["Base"]
+      isAdmin: false
     };
   },
   components: {
@@ -73,19 +52,10 @@ export default {
     powerChart: PowerChart,
     outputChart: OutputChart,
     outputRateChart: OutputRateChart,
-    powerTable: PowerTable,
-    outputTable: OutputTable
+    powerTable: PowerTable
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-    getSituations(data) {
-      this.situations = data;
-    },
-    getPatterns(data) {
-      this.patterns = data;
-    }
+    handleClick(tab, event) {}
   },
   mounted() {}
 };

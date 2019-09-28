@@ -11,7 +11,6 @@
 
 <script>
 export default {
-  props: ["fileList"],
   data() {
     return {
       outdata: []
@@ -63,21 +62,13 @@ export default {
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`);
     },
-    submitUpload() {
-      this.$refs.upload.submit();
-    },
-    handleSuccess(response, file, fileList) {
-      // this.$alert(file.name + "上传成功\t\t", "文件上传", {
-      //   confirmButtonText: "确定",
-      //   callback: action => {}
-      // });
-    }
+    handleSuccess(response, file, fileList) {}
   }
 };
 </script>
 
 <style>
-.upload-excel .el-upload-list__item-status-label {
+.el-upload-list__item-status-label {
   /* position: absolute;
   right: 5px;
   top: -35px;
@@ -105,7 +96,7 @@ export default {
   opacity: 1;
   color: #409eff; */
 }
-.upload-excel .el-upload-list__item .el-icon-close {
+.el-upload-list__item .el-icon-close {
   display: none;
   /* position: absolute;
   top: -29px;

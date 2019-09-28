@@ -1,7 +1,7 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">实测点距信息</div>
+      <div class="table_name">经验频率</div>
       <el-table :data="tableData" stripe fit height=" 300" max-height="300"
         style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
         :cell-style="{padding:'0px'}">

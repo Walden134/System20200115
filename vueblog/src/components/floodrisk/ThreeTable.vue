@@ -27,9 +27,9 @@ export default {
     return {
       title: "防洪风险统计表",
       year: "年份",
-      levelDesign: "超设计洪水风险率",
-      levelCheck: "超校核洪水风险率",
-      levelDam: "超坝顶洪水风险率",
+      levelDesign: "超设计洪水风险率(%)",
+      levelCheck: "超校核洪水风险率(%)",
+      levelDam: "超坝顶洪水风险率(%)",
       riskRes: [],
       tableData: []
     };
@@ -38,13 +38,15 @@ export default {
     setTableData() {
       this.tableData = [];
       let start = 2021;
-      for (let j = 0; j < this.riskRes[0].length; j++) {
-        let tmp = {};
-        tmp.year = start + j;
-        tmp.levelDesign = this.riskRes[0][j];
-        tmp.levelCheck = this.riskRes[1][j];
-        tmp.levelDam = this.riskRes[2][j];
-        this.tableData.push(tmp);
+      if (this.riskRes.length > 0) {
+        for (let j = 0; j < this.riskRes[0].length; j++) {
+          let tmp = {};
+          tmp.year = start + j;
+          tmp.levelDesign = this.riskRes[0][j];
+          tmp.levelCheck = this.riskRes[1][j];
+          tmp.levelDam = this.riskRes[2][j];
+          this.tableData.push(tmp);
+        }
       }
     },
     inintChartData() {

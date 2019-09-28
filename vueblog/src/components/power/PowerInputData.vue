@@ -1,5 +1,8 @@
 <template>
   <div style="width:100%">
+    <transition name="fade">
+      <loading v-if="isLoading"></loading>
+    </transition>
     <el-form :inline="true" class="demo-form-inline" label-width="160px" :label-position="labelPosition">
       <div class="mark">数据导入</div>
       <div class="input">
@@ -79,28 +82,32 @@
 
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
-        <el-button>保存</el-button>
+        <!-- <el-button>保存</el-button> -->
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
 import UploadExcel from "@/components/UploadExcel";
+import Loading from "@/components/loading";
 import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
+import { showLoading, hideLoading } from "../../utils/loading";
+
 export default {
   name: "inputData",
   data() {
     return {
-      checkedPatterns: "Base",
-      patterns: ["Base", "RCP2.6", "RCP4.5", "RCP8.5"],
+      isLoading: false,
+      checkedPatterns: "基准期",
+      patterns: ["基准期", "RCP2.6", "RCP4.5", "RCP8.5"],
       // checkedSituations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
       // situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
       labelPosition: "left",
       hydrostation: {
-        drawdownDepth: "6",
+        drawdownDepth: "1",
         levelDead: "2088",
         levelNormal: "2094",
         outflowMax: "1698.8",
@@ -116,8 +123,8 @@ export default {
       },
       calculateBean: {
         situations: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"],
-        patterns: ["Base"],
-        pattern: "Base",
+        patterns: ["基准期"],
+        pattern: "基准期",
         levelBegin: "2094",
         levelEnd: "2094",
         deltaT: 1
@@ -130,7 +137,8 @@ export default {
     };
   },
   components: {
-    uploadExcel: UploadExcel
+    uploadExcel: UploadExcel,
+    loading: Loading
   },
   methods: {
     getLevelCapacityCurve(data) {
@@ -186,8 +194,16 @@ export default {
       bus.$emit("situations", value);
     },
     submitClick: function() {
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: "正在计算",
+      //   spinner: "el-icon-loading",
+      //   background: "rgba(0, 0, 0, 0.8)",
+      //   body: true
+      // });
+
       var _this = this;
-      console.log(_this.calculateBean);
+      // this.isLoading = true;
       getRequest(
         "/power/submit" +
           "?hydrostation=" +
@@ -209,7 +225,8 @@ export default {
             _this.outputs = resp.data.outputList;
             _this.outputratelist = resp.data.outputRateList;
             _this.outputratexaxis = resp.data.outputRatexAxis;
-            _this.$alert("计算成功!", "成功!");
+            // this.isLoading = false;
+            // _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");

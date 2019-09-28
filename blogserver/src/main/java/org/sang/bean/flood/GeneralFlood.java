@@ -91,12 +91,17 @@ public class GeneralFlood {
 		double[][] p1 = new double[2][obs.length];
 		int n = obs.length - a;
 
-		for (int i = 1; i <= a; i++) {
-			p[i - 1] = i / (N + 1);
-		}
-
-		for (int i = 1; i <= obs.length - a; i++) {
-			p[i + a - 1] = p[a - 1] + (1 - p[a - 1]) * i / (n - l + 1);
+		if (a > 0) {
+			for (int i = 1; i <= a; i++) {
+				p[i - 1] = i / (N + 1);
+			}
+			for (int i = 1; i <= obs.length - a; i++) {
+				p[i + a - 1] = p[a - 1] + (1 - p[a - 1]) * i / (n - l + 1);
+			}
+		} else {
+			for (int i = 1; i <= obs.length; i++) {
+				p[i - 1] = i / (obs.length + 1);
+			}
 		}
 		for (int j = 0; j < obs.length; j++) {
 //			p1[0][j] = normsinv(p[j]) + 3.719016485;

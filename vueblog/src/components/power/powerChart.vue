@@ -130,7 +130,7 @@ export default {
     },
     inintChartData() {
       let data1 = storageUtils.readPowers();
-      if (data1.length > 0) {
+      if (data1) {
         for (let j = 0; j < data1.length; j++) {
           for (let i = 0; i < 4; i++) {
             this.$refs.dschart.options.series[i].data[j] = data1[j][i];
@@ -138,7 +138,7 @@ export default {
         }
       }
       let data2 = storageUtils.readCategory();
-      if (data2.length > 0) {
+      if (data2) {
         this.$refs.dschart.options.xAxis.data = data2;
       }
     }

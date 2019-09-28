@@ -23,102 +23,129 @@ const CS_KEY = "cs_key";
 export default {
 
   readEx() {
-    return JSON.parse(localStorage.getItem(EX_KEY) || "[]");
+    if (localStorage.getItem(EX_KEY))
+      return JSON.parse(localStorage.getItem(EX_KEY)); return []
   },
   saveEx(ex) {
-    localStorage.setItem(EX_KEY, JSON.stringify(ex));
+    if (!ex)
+      localStorage.setItem(EX_KEY, JSON.stringify(ex));
   },
   readCv() {
-    return JSON.parse(localStorage.getItem(CV_KEY) || "[]");
+    if (localStorage.getItem(CV_KEY))
+      return JSON.parse(localStorage.getItem(CV_KEY)); return []
   },
   saveCv(cv) {
-    localStorage.setItem(CV_KEY, JSON.stringify(cv));
+    if (!cv)
+      localStorage.setItem(CV_KEY, JSON.stringify(cv));
   },
   readCs() {
-    return JSON.parse(localStorage.getItem(CS_KEY) || "[]");
+    if (localStorage.getItem(CS_KEY))
+      return JSON.parse(localStorage.getItem(CS_KEY)); return []
   },
   saveCs(cs) {
-    localStorage.setItem(CS_KEY, JSON.stringify(cs));
+    if (!cs)
+      localStorage.setItem(CS_KEY, JSON.stringify(cs));
   },
 
   readDesignP() {
-    return JSON.parse(localStorage.getItem(DESIGNP_KEY) || "[]");
+    if (localStorage.getItem(DESIGNP_KEY))
+      return JSON.parse(localStorage.getItem(DESIGNP_KEY)); return []
   },
   saveDesignP(designp) {
-    localStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
+    if (!designp)
+      localStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
   },
   readTheoryFrequency() {
-    return JSON.parse(localStorage.getItem(THEORYFREQUENCY_KEY) || "[]");
+    if (localStorage.getItem(THEORYFREQUENCY_KEY))
+      return JSON.parse(localStorage.getItem(THEORYFREQUENCY_KEY));
+    return []
   },
   saveTheoryFrequency(theoryfrequency) {
-    localStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
+    if (!theoryfrequency)
+      localStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
   },
   readQ() {
-    return JSON.parse(localStorage.getItem(UNCERTAIN_KEY) || "[]");
+    if (localStorage.getItem(UNCERTAIN_KEY))
+      return JSON.parse(localStorage.getItem(UNCERTAIN_KEY));
+    return []
   },
   saveQ(q) {
-    localStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
+    if (!q)
+      localStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
   },
   readParams() {
-    return JSON.parse(localStorage.getItem(PARAMS_KEY) || '[]')
+    if (localStorage.getItem(PARAMS_KEY))
+      return JSON.parse(localStorage.getItem(PARAMS_KEY));
+    return []
   },
   saveParams(params) {
-    localStorage.setItem(PARAMS_KEY, JSON.stringify(params))
+    if (!params)
+      localStorage.setItem(PARAMS_KEY, JSON.stringify(params))
   },
 
   readExpFrequency() {
-    return JSON.parse(localStorage.getItem(EXPFREQUENCY_KEY) || '[]')
+    if (localStorage.getItem(EXPFREQUENCY_KEY))
+      return JSON.parse(localStorage.getItem(EXPFREQUENCY_KEY));
+    return []
   },
   saveExpFrequency(expfrequency) {
-    localStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
+    if (!expfrequency)
+      localStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
   },
 
   readPowers() {
-    return JSON.parse(localStorage.getItem(POWERS_KEY) || '[]')
+    if (localStorage.getItem(POWERS_KEY))
+      return JSON.parse(localStorage.getItem(POWERS_KEY));
+    return []
   },
   savePowers(powers) {
-    localStorage.setItem(POWERS_KEY, JSON.stringify(powers))
+    if (!powers)
+      localStorage.setItem(POWERS_KEY, JSON.stringify(powers))
   },
   readOutputs() {
-    return JSON.parse(localStorage.getItem(OUTPUTS_KEY) || '[]')
+    if (localStorage.getItem(OUTPUTS_KEY))
+      return JSON.parse(localStorage.getItem(OUTPUTS_KEY));
+    return []
   },
   saveOutputs(outputs) {
-    localStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs))
+    if (!outputs)
+      localStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs))
   },
   readCategory() {
-    return JSON.parse(localStorage.getItem(CATEGORY_KEY) || '[]')
+    if (localStorage.getItem(CATEGORY_KEY))
+      return JSON.parse(localStorage.getItem(CATEGORY_KEY));
+    return []
   },
   saveCategory(category) {
-    localStorage.setItem(CATEGORY_KEY, JSON.stringify(category))
+    if (!category)
+      localStorage.setItem(CATEGORY_KEY, JSON.stringify(category))
   },
-
-
   readOutputRateList() {
-    return JSON.parse(localStorage.getItem(OUTPUTRATELIST_KEY) || '[]')
+    if (localStorage.getItem(OUTPUTRATELIST_KEY))
+      return JSON.parse(localStorage.getItem(OUTPUTRATELIST_KEY))
+    return []
   },
   saveOutputRateList(outputratelist) {
-    localStorage.setItem(OUTPUTRATELIST_KEY, JSON.stringify(outputratelist))
+    if (!outputratelist)
+      localStorage.setItem(OUTPUTRATELIST_KEY, JSON.stringify(outputratelist))
   },
   readOutputRatexAxis() {
-    return JSON.parse(localStorage.getItem(OUTPUTRATEXAXIS_KEY) || '[]')
+    if (localStorage.getItem(OUTPUTRATEXAXIS_KEY))
+      return JSON.parse(localStorage.getItem(OUTPUTRATEXAXIS_KEY));
+    return []
   },
   saveOutputRatexAxis(outputratexaxis) {
-    localStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
+    if (!outputratexaxis)
+      localStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
   },
 
   readRiskRes() {
-    return JSON.parse(localStorage.getItem(RISKRES_KEY) || '[]')
+    if (localStorage.getItem(RISKRES_KEY))
+      return JSON.parse(localStorage.getItem(RISKRES_KEY));
+    return []
   },
   saveRiskRes(riskres) {
-    localStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
+    if (!riskres)
+      localStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
   }
 }
-
-/*
-export function xxx() {
-
-}
-
-export function yyy () {
-
-}*/

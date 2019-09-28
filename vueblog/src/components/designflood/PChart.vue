@@ -21,11 +21,21 @@ import storageUtils from "../../utils/storageUtils";
 export default {
   data: function() {
     return {
-      a: 3,
+      a: "",
+      dataFlag: 0,
       chartdata: {
         title: {
           text: "设计洪水频率曲线",
           left: "center"
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: "none"
+            },
+            restore: {},
+            saveAsImage: {}
+          }
         },
         xAxis: {
           type: "value",
@@ -43,36 +53,37 @@ export default {
           },
           data: []
         },
-        yAxis: [
-          {
-            name: "流量",
-            nameLocation: "middle",
-            nameGap: 40, //坐标轴名字与坐标轴距离
-            type: "value",
+        yAxis: {
+          name: "流量(m³/s)",
+          nameLocation: "middle",
+          nameGap: 40, //坐标轴名字与坐标轴距离
+          type: "value",
 
-            splitLine: {
-              show: true
-            },
-            axisTick: {
-              show: false
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "black"
             }
+          },
+          axisTick: {
+            show: false
           }
-          // {
-          //   type: value
-          // }
-        ],
+        },
         series: [
           {
             name: "理论频率",
             type: "line",
             smooth: true,
             data: [],
-
             markLine: {
               symbol: "none",
               animation: false,
               label: {
-                normal: { position: "bottom", formatter: "{b}" }
+                normal: {
+                  position: "bottom",
+                  formatter: "{b}",
+                  color: "black"
+                }
               },
               itemStyle: {
                 normal: {
@@ -83,16 +94,10 @@ export default {
                   }
                 }
               },
-              // emphasis: {
-              //   label: {
-              //     position: "end",
-              //     formatter: "{b}"
-              //   }
-              // },
               data: [
                 { name: 0.01, xAxis: 0 },
                 { name: 0.05, xAxis: 0.428489754 },
-                { name: 0.1, xAxis: 0.628784179 },
+                { name: 0, xAxis: 0.628784179 },
                 { name: 0.2, xAxis: 0.840854746 },
                 { name: 0.5, xAxis: 1.143187182 },
                 { name: 1, xAxis: 1.392668611 },
@@ -117,6 +122,7 @@ export default {
               ]
             }
           },
+
           {
             name: "历史洪水",
             type: "scatter",
@@ -129,6 +135,46 @@ export default {
             symbol: "triangle",
             symbolsize: 10,
             data: []
+          },
+          {
+            name: "刻度",
+            type: "bar",
+            barWidth: 1,
+            itemStyle: {
+              normal: {
+                label: {
+                  position: "bottom",
+                  show: true,
+                  formatter: "{b}"
+                }
+              }
+            },
+            data: [
+              { value: [0, 0], name: "" },
+              { value: [0.428489753963786, 0], name: "" },
+              { value: [0.628784179287867, 0], name: "" },
+              { value: [0.840854746360197, 0], name: "" },
+              { value: [1.14318718190678, 0], name: "" },
+              { value: [1.39266861141484, 0], name: "" },
+              { value: [2.07416285850421, 0], name: "" },
+              { value: [2.43746491991108, 0], name: "" },
+              { value: [2.68258309596189, 0], name: "" },
+              { value: [2.87739525188277, 0], name: "" },
+              { value: [3.19461597274764, 0], name: "" },
+              { value: [3.46566938231988, 0], name: "" },
+              { value: [3.71901648545568, 0], name: "" },
+              { value: [3.97236358859148, 0], name: "" },
+              { value: [4.24341699816372, 0], name: "" },
+              { value: [4.56063771902859, 0], name: "" },
+              { value: [4.75544987494947, 0], name: "" },
+              { value: [5.00056805100028, 0], name: "" },
+              { value: [5.36387011240715, 0], name: "" },
+              { value: [6.04536435949652, 0], name: "" },
+              { value: [6.80924879162353, 0], name: "" },
+              { value: [7.00954321694761, 0], name: "" },
+              { value: [7.43803297091111, 0], name: "" },
+              { value: [8, 0], name: "" }
+            ]
           }
         ],
         grid: {
@@ -139,10 +185,22 @@ export default {
         },
         legend: {
           top: 25,
-          data: ["历史洪水", "经验频率", "理论频率"],
+          data: [
+            {
+              name: "历史洪水"
+            },
+            {
+              name: "经验频率"
+            },
+            {
+              name: "理论频率",
+              icon: "line"
+            }
+          ],
           orient: "vertical",
           right: "1%",
-          backgroundColor: "#FFFFFF"
+          backgroundColor: "#FFFFFF",
+          zlevel: 1
         }
       }
     };
@@ -215,6 +273,9 @@ export default {
     setChartData() {
       bus.$on("a", data => {
         this.a = data;
+      });
+      bus.$on("dataFlag", data => {
+        this.dataFlag = data;
       });
       bus.$on("expFrequency", data => {
         this.$refs.dschart.options.series[2].data = [];
@@ -291,6 +352,14 @@ export default {
     bus.$off("expFrequency");
     bus.$off("a");
   },
-  watch: {}
+  watch: {
+    dataFlag(newVal, oldVal) {
+      if (newVal > 0) {
+        this.$refs.dschart.options.yAxis.name = "洪量(亿m³)";
+      } else {
+        this.$refs.dschart.options.yAxis.name = "流量(m³/s)";
+      }
+    }
+  }
 };
 </script>

@@ -191,19 +191,65 @@ public class PowerService {
 	}
 
 	private Map<String, ArrayList<Double>> getRunoff(List<Runoff> runoff) {
-		Map<String, ArrayList<Double>> q = new TreeMap<String, ArrayList<Double>>();
+		Map<String, ArrayList<Double>> map = new TreeMap<String, ArrayList<Double>>();
 		for (int i = 0; i < runoff.size(); i++) {
 			String year = runoff.get(i).getYear();
 			String data = runoff.get(i).getRunoff();
-			if (!q.containsKey(year)) {
+			if (!map.containsKey(year)) {
 				ArrayList<Double> value = new ArrayList<Double>();
 				value.add(Double.parseDouble(data));
-				q.put(year, value);
+				map.put(year, value);
 			} else {
-				q.get(year).add(Double.parseDouble(data));
+				map.get(year).add(Double.parseDouble(data));
 			}
 		}
-		return q;
+		return map;
+	}
+
+	public Map<String, ArrayList<Double>> getQ(Map<String, ArrayList<Double>> map, String flag) {
+		Map<String, ArrayList<Double>> data_map = new TreeMap<String, ArrayList<Double>>();
+		for (Map.Entry<String, ArrayList<Double>> entry : map.entrySet()) {
+			String key = entry.getKey();
+//			System.out.println(key);
+			ArrayList<Double> value = entry.getValue();
+			String year = key.substring(0, 4);
+			String month = key.substring(4);
+			int m = Integer.parseInt(month);
+			int y = Integer.parseInt(year);
+			if (m < 6) {
+				year = (y - 1) + "";
+			}
+			switch (flag) {
+			case "qp":
+				if (m == 11 || m == 5) {
+					divData(data_map, value, year);
+				}
+				break;
+			case "qf":
+				if (m < 11 & m > 5) {
+					divData(data_map, value, year);
+				}
+				break;
+			case "qk":
+				if (m > 11 || m < 5) {
+					divData(data_map, value, year);
+				}
+				break;
+			case "q":
+				divData(data_map, value, year);
+				break;
+			}
+
+		}
+		return data_map;
+	}
+
+	private void divData(Map<String, ArrayList<Double>> data_map, ArrayList<Double> value, String year) {
+		if (!data_map.containsKey(year)) {
+			ArrayList<Double> templist = new ArrayList<Double>();
+			data_map.put(year, templist);
+		}
+		data_map.get(year).addAll(value);
 	}
 
 	List<Double> allOutput = null;

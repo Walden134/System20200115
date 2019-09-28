@@ -7,4 +7,7 @@ export default {
   powers: storageUtils.readPowers(),
   outputs: storageUtils.readOutputs(),
   category: storageUtils.readCategory(),
+  user: {},
+  token: null,
+  title: ''
 }

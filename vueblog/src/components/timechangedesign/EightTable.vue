@@ -80,13 +80,14 @@ export default {
       tmp.second = this.cs[1];
       tmp.third = this.cs[2];
       this.tableData.push(tmp);
-      debugger;
       for (let j = 0; j < this.title.length - 3; j++) {
         tmp = {};
         tmp.title = this.title[j + 3];
-        tmp.first = this.designp[1][j];
-        tmp.second = this.designp[2][j];
-        tmp.third = this.designp[3][j];
+        if (this.designp.length > 0) {
+          tmp.first = this.designp[1][j];
+          tmp.second = this.designp[2][j];
+          tmp.third = this.designp[3][j];
+        }
         this.tableData.push(tmp);
       }
     },
@@ -103,7 +104,6 @@ export default {
   created() {
     bus.$on("designp", data => {
       this.designp = data;
-      console.log("designp", this.designp);
     });
     bus.$on("cv", data => {
       this.cv = data;

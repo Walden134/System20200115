@@ -81,7 +81,7 @@ export default {
         },
         title: {
           left: "center",
-          text: "雅江站2030S贝叶斯模型综合预报值和预报区间对比图"
+          text: "2030S日径流不确定性区间"
         },
         toolbox: {
           top: "2%",
@@ -214,7 +214,7 @@ export default {
         },
         title: {
           left: "center",
-          text: "雅江站2060S贝叶斯模型综合预报值和预报区间对比图"
+          text: "2060S日径流不确定性区间"
         },
         toolbox: {
           top: "2%",
@@ -348,7 +348,7 @@ export default {
         },
         title: {
           left: "center",
-          text: "雅江站2090S贝叶斯模型综合预报值和预报区间对比图"
+          text: "2090S日径流不确定性区间"
         },
         toolbox: {
           top: "2%",

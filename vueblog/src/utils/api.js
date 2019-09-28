@@ -1,4 +1,38 @@
 import axios from 'axios'
+// ...
+import { showLoading, hideLoading } from './loading';
+import store from '../store/index'
+/* 请求拦截器（请求之前的操作） */
+axios.interceptors.request.use(
+  (req) => {
+    if (req.method == "get") {
+      showLoading();
+    }
+    return req;
+  },
+  err => Promise.reject(err),
+  config => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.common['Authorization'] = token;
+    }
+    return config;
+  },
+);
+
+/* 请求之后的操作 */
+axios.interceptors.response.use(
+  (res) => {
+    hideLoading();
+    return res;
+  },
+  (err) => {
+    hideLoading();
+    return Promise.reject(err);
+  });
+
+
+
 
 let base = '';
 export const postRequest = (url, params) => {
@@ -18,18 +52,7 @@ export const postRequest = (url, params) => {
     }
   });
 }
-export const postRequest1 = (url, params) => {
-  return axios({
-    method: 'post',
-    url: `${base}${url}`,
-    data: params,
-    timeout: 500000, //超时时间设置，单位毫秒
-    dataType: "json",
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
-  });
-}
+
 export const uploadFileRequest = (url, params) => {
   return axios({
     method: 'post',
@@ -90,5 +113,17 @@ export const getRequest1 = (url, params) => {
       'Content-Type': 'application/json;charset=UTF-8'
     },
     url: `${base}${url}`
+  });
+}
+export const postRequest1 = (url, params) => {
+  return axios({
+    method: 'post',
+    url: `${base}${url}`,
+    data: params,
+    timeout: 500000, //超时时间设置，单位毫秒
+    dataType: "json",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   });
 }

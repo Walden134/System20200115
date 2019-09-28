@@ -12,12 +12,10 @@
             <el-option label="RCP8.5" value="85"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="margin-top:10px;margin-bottom: 0px">
-          <el-button type="primary" @click.native.prevent="submitClick1">开始计算</el-button>
-          <el-button>保存</el-button>
-        </el-form-item>
       </div>
-
+      <el-form-item style="margin-top:10px;margin-bottom: 0px">
+        <el-button type="primary" @click.native.prevent="submitClick1">开始计算</el-button>
+      </el-form-item>
       <div class="time_mark">时变设计洪水</div>
       <div class="pattern">
         <label class="time_label" for="">降水径流数据&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -31,12 +29,10 @@
             <el-option label="15日洪量" value="5"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="margin-top: 10px;margin-bottom: 0px">
-          <el-button type="primary" @click.native.prevent="submitClick2">开始计算</el-button>
-          <el-button>保存</el-button>
-        </el-form-item>
       </div>
-
+      <el-form-item style="margin-top: 10px;margin-bottom: 0px">
+        <el-button type="primary" @click.native.prevent="submitClick2">开始计算</el-button>
+      </el-form-item>
     </el-form>
   </div>
 
@@ -60,6 +56,7 @@ export default {
         pattern: "26",
         flag: "1"
       },
+      timeFlag: "1",
       q: [],
       designp: [],
       ex: [],
@@ -116,9 +113,8 @@ export default {
           if (resp.status == 200) {
             //成功
             bus.$emit("q", resp.data.q);
-            console.log(resp.data.q);
             _this.q = resp.data.q;
-            _this.$alert("计算成功!", "成功!");
+            // _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -143,11 +139,10 @@ export default {
             bus.$emit("cv", resp.data.cv);
             bus.$emit("cs", resp.data.cs);
             _this.designp = resp.data.designp;
-            console.log("designp", _this.designp);
             _this.ex = resp.data.ex;
             _this.cv = resp.data.cv;
             _this.cs = resp.data.cs;
-            _this.$alert("计算成功!", "成功!");
+            // _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");
@@ -186,6 +181,12 @@ export default {
     cs: {
       handler: storageUtils.saveCs,
       deep: true
+    },
+    time: {
+      deep: true,
+      handler: function() {
+        bus.$emit("timeFlag", this.time.flag);
+      }
     }
   }
 };

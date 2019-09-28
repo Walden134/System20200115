@@ -19,19 +19,19 @@
         <!-- <el-form-item label="起调水位" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="formData.hydrostation.Level1"></el-input>
         </el-form-item> -->
-        <el-form-item label="设计洪水位" style="margin-bottom: 1px; ">
+        <el-form-item label="设计洪水位(m)" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="floodRisk.levelDesign"></el-input>
         </el-form-item>
-        <el-form-item label="校核洪水位" style="margin-bottom: 1px; ">
+        <el-form-item label="校核洪水位(m)" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="floodRisk.levelCheck"></el-input>
         </el-form-item>
-        <el-form-item label="坝顶高程" style="margin-bottom: 1px; ">
+        <el-form-item label="坝顶高程(m)" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="floodRisk.levelDam"></el-input>
         </el-form-item>
         <!-- <el-form-item label="计算时段" style="margin-bottom: 1px; ">
           <el-input style=" width:100px" v-model="formData.hydrostation.Level5"></el-input>
         </el-form-item> -->
-        <el-form-item label="模式选择" style="margin-bottom: 10px; ">
+        <el-form-item label="情景选择" style="margin-bottom: 10px; ">
           <el-select style=" width:100px" v-model="floodRisk.pattern">
             <el-option label="RCP2.6" value="26"></el-option>
             <el-option label="RCP4.5" value="45"></el-option>
@@ -41,7 +41,7 @@
       </div>
       <el-form-item style="margin-top: 10px;margin-bottom: 10px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
-        <el-button>保存</el-button>
+        <!-- <el-button>保存</el-button> -->
       </el-form-item>
 
     </el-form>
@@ -86,9 +86,6 @@ export default {
       data.map(val => {
         this.floodRisk.typicalFloods[0][i] = val["典型洪水过程"];
         this.floodRisk.typicalFloods[1][i] = val["典型洪水"];
-        console.log(this.floodRisk.typicalFloods[0]);
-        console.log(this.floodRisk.typicalFloods[1]);
-        console.log(this.floodRisk.typicalFloods);
         i++;
       });
     },

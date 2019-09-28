@@ -22,7 +22,7 @@ export default {
     return {
       chartdata: {
         title: {
-          text: "出力保证率曲线图",
+          text: "出力保证率曲线",
           left: "center"
         },
 

@@ -95,7 +95,7 @@ public class Hydrostation implements Serializable {
 
 	public boolean calOutputAndPower(CalculateBean bean) {
 
-		double levelbegin = bean.getLevelBegin();
+		double levelbegin =levelNormal-drawdownDepth;
 		double levelEnd = bean.getLevelEnd();
 		double inflow = bean.getInflow();
 		double deltaT = bean.getDeltaT();
