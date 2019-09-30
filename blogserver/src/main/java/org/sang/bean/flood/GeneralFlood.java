@@ -100,7 +100,7 @@ public class GeneralFlood {
 			}
 		} else {
 			for (int i = 1; i <= obs.length; i++) {
-				p[i - 1] = i / (obs.length + 1);
+				p[i - 1] = i * 1.0 / (obs.length + 1);
 			}
 		}
 		for (int j = 0; j < obs.length; j++) {

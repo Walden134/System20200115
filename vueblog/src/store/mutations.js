@@ -9,7 +9,8 @@ export default {
   },
   [SITUATIONS](state, { patterns }) {
     state.patterns = patterns
-  }, [LOGIN]: (state, data) => {
+  },
+  [LOGIN]: (state, data) => {
     localStorage.token = data;
     state.token = data;
   },

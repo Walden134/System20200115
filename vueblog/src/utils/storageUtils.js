@@ -23,129 +23,133 @@ const CS_KEY = "cs_key";
 export default {
 
   readEx() {
-    if (localStorage.getItem(EX_KEY))
-      return JSON.parse(localStorage.getItem(EX_KEY)); return []
+    if (sessionStorage.getItem(EX_KEY))
+      return JSON.parse(sessionStorage.getItem(EX_KEY));
+    return []
   },
   saveEx(ex) {
-    if (!ex)
-      localStorage.setItem(EX_KEY, JSON.stringify(ex));
+    if (ex)
+      sessionStorage.setItem(EX_KEY, JSON.stringify(ex));
   },
   readCv() {
-    if (localStorage.getItem(CV_KEY))
-      return JSON.parse(localStorage.getItem(CV_KEY)); return []
+    if (sessionStorage.getItem(CV_KEY))
+      return JSON.parse(sessionStorage.getItem(CV_KEY));
+    return []
   },
   saveCv(cv) {
-    if (!cv)
-      localStorage.setItem(CV_KEY, JSON.stringify(cv));
+    if (cv)
+      sessionStorage.setItem(CV_KEY, JSON.stringify(cv));
   },
   readCs() {
-    if (localStorage.getItem(CS_KEY))
-      return JSON.parse(localStorage.getItem(CS_KEY)); return []
+    if (sessionStorage.getItem(CS_KEY))
+      return JSON.parse(sessionStorage.getItem(CS_KEY));
+    return []
   },
   saveCs(cs) {
-    if (!cs)
-      localStorage.setItem(CS_KEY, JSON.stringify(cs));
+    if (cs)
+      sessionStorage.setItem(CS_KEY, JSON.stringify(cs));
   },
 
   readDesignP() {
-    if (localStorage.getItem(DESIGNP_KEY))
-      return JSON.parse(localStorage.getItem(DESIGNP_KEY)); return []
+    if (sessionStorage.getItem(DESIGNP_KEY))
+      return JSON.parse(sessionStorage.getItem(DESIGNP_KEY));
+    return []
   },
   saveDesignP(designp) {
-    if (!designp)
-      localStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
+    if (designp)
+      sessionStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
   },
   readTheoryFrequency() {
-    if (localStorage.getItem(THEORYFREQUENCY_KEY))
-      return JSON.parse(localStorage.getItem(THEORYFREQUENCY_KEY));
+    if (sessionStorage.getItem(THEORYFREQUENCY_KEY))
+      return JSON.parse(sessionStorage.getItem(THEORYFREQUENCY_KEY));
     return []
   },
   saveTheoryFrequency(theoryfrequency) {
-    if (!theoryfrequency)
-      localStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
+    if (theoryfrequency)
+      sessionStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
   },
   readQ() {
-    if (localStorage.getItem(UNCERTAIN_KEY))
-      return JSON.parse(localStorage.getItem(UNCERTAIN_KEY));
+    if (sessionStorage.getItem(UNCERTAIN_KEY))
+      return JSON.parse(sessionStorage.getItem(UNCERTAIN_KEY));
     return []
   },
   saveQ(q) {
-    if (!q)
-      localStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
+    if (q)
+      sessionStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
   },
   readParams() {
-    if (localStorage.getItem(PARAMS_KEY))
-      return JSON.parse(localStorage.getItem(PARAMS_KEY));
+    if (sessionStorage.getItem(PARAMS_KEY))
+      return JSON.parse(sessionStorage.getItem(PARAMS_KEY));
     return []
   },
   saveParams(params) {
-    if (!params)
-      localStorage.setItem(PARAMS_KEY, JSON.stringify(params))
+    if (params)
+      sessionStorage.setItem(PARAMS_KEY, JSON.stringify(params))
   },
 
   readExpFrequency() {
-    if (localStorage.getItem(EXPFREQUENCY_KEY))
-      return JSON.parse(localStorage.getItem(EXPFREQUENCY_KEY));
+    if (sessionStorage.getItem(EXPFREQUENCY_KEY))
+      return JSON.parse(sessionStorage.getItem(EXPFREQUENCY_KEY));
     return []
   },
   saveExpFrequency(expfrequency) {
-    if (!expfrequency)
-      localStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
+    if (expfrequency)
+      sessionStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
   },
 
   readPowers() {
-    if (localStorage.getItem(POWERS_KEY))
-      return JSON.parse(localStorage.getItem(POWERS_KEY));
+    if (sessionStorage.getItem(POWERS_KEY))
+      return JSON.parse(sessionStorage.getItem(POWERS_KEY));
     return []
   },
   savePowers(powers) {
-    if (!powers)
-      localStorage.setItem(POWERS_KEY, JSON.stringify(powers))
+    if (powers)
+      sessionStorage.setItem(POWERS_KEY, JSON.stringify(powers))
   },
   readOutputs() {
-    if (localStorage.getItem(OUTPUTS_KEY))
-      return JSON.parse(localStorage.getItem(OUTPUTS_KEY));
+    if (sessionStorage.getItem(OUTPUTS_KEY))
+      return JSON.parse(sessionStorage.getItem(OUTPUTS_KEY));
     return []
   },
   saveOutputs(outputs) {
-    if (!outputs)
-      localStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs))
+    if (outputs)
+      sessionStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs))
   },
   readCategory() {
-    if (localStorage.getItem(CATEGORY_KEY))
-      return JSON.parse(localStorage.getItem(CATEGORY_KEY));
+    if (sessionStorage.getItem(CATEGORY_KEY))
+      return JSON.parse(sessionStorage.getItem(CATEGORY_KEY));
     return []
   },
   saveCategory(category) {
-    if (!category)
-      localStorage.setItem(CATEGORY_KEY, JSON.stringify(category))
+    if (category)
+      sessionStorage.setItem(CATEGORY_KEY, JSON.stringify(category))
   },
   readOutputRateList() {
-    if (localStorage.getItem(OUTPUTRATELIST_KEY))
-      return JSON.parse(localStorage.getItem(OUTPUTRATELIST_KEY))
+    if (sessionStorage.getItem(OUTPUTRATELIST_KEY))
+      return JSON.parse(sessionStorage.getItem(OUTPUTRATELIST_KEY))
     return []
   },
   saveOutputRateList(outputratelist) {
-    if (!outputratelist)
-      localStorage.setItem(OUTPUTRATELIST_KEY, JSON.stringify(outputratelist))
+    if (outputratelist)
+      sessionStorage.setItem(OUTPUTRATELIST_KEY, JSON.stringify(outputratelist))
   },
   readOutputRatexAxis() {
-    if (localStorage.getItem(OUTPUTRATEXAXIS_KEY))
-      return JSON.parse(localStorage.getItem(OUTPUTRATEXAXIS_KEY));
+    if (sessionStorage.getItem(OUTPUTRATEXAXIS_KEY))
+      return JSON.parse(sessionStorage.getItem(OUTPUTRATEXAXIS_KEY));
     return []
   },
   saveOutputRatexAxis(outputratexaxis) {
-    if (!outputratexaxis)
-      localStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
+    if (outputratexaxis)
+      sessionStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
   },
 
   readRiskRes() {
-    if (localStorage.getItem(RISKRES_KEY))
-      return JSON.parse(localStorage.getItem(RISKRES_KEY));
+    if (sessionStorage.getItem(RISKRES_KEY))
+      return JSON.parse(sessionStorage.getItem(RISKRES_KEY));
     return []
   },
   saveRiskRes(riskres) {
-    if (!riskres)
-      localStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
+    if (riskres)
+      sessionStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
   }
 }

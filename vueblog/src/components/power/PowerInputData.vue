@@ -194,15 +194,21 @@ export default {
       bus.$emit("situations", value);
     },
     submitClick: function() {
-      // const loading = this.$loading({
-      //   lock: true,
-      //   text: "正在计算",
-      //   spinner: "el-icon-loading",
-      //   background: "rgba(0, 0, 0, 0.8)",
-      //   body: true
-      // });
-
       var _this = this;
+      if (
+        _this.hydrostation.levelCapacityCurve.curveData.length == 0 ||
+        _this.hydrostation.leveldownOutflowCurve.curveData.length == 0 ||
+        _this.hydrostation.headlossOutflowCurve.curveData.length == 0 ||
+        _this.hydrostation.expectOutputHeadCurve.curveData.length == 0
+      ) {
+        _this.$alert("请先导入数据!", "失败!");
+        return;
+      }
+      bus.$emit("xAxis", []);
+      bus.$emit("powerList", []);
+      bus.$emit("outputList", []);
+      bus.$emit("outputRatexAxis", []);
+      bus.$emit("outputRateList", []);
       // this.isLoading = true;
       getRequest(
         "/power/submit" +

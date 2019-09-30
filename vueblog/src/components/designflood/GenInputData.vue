@@ -92,17 +92,23 @@ export default {
   methods: {
     drawLineClick() {
       var _this = this;
+      if (
+        _this.params.ex === "" ||
+        _this.params.cv === "" ||
+        _this.params.cs === ""
+      ) {
+        _this.$alert("请先导入数据或设置参数", "失败!");
+        return;
+      }
+      bus.$emit("theoryFrequency", []);
       getRequest(
         "/flood/drawLine" + "?params=" + JSON.stringify(_this.params)
       ).then(
         resp => {
           if (resp.status == 200) {
-            //成功
             bus.$emit("theoryFrequency", resp.data.theoryFrequency);
             _this.theoryFrequency = resp.data.theoryFrequency;
-            // _this.$alert("计算成功!", "成功!");
           } else {
-            //失败
             _this.$alert("计算失败!", "失败!");
           }
         },
@@ -112,21 +118,26 @@ export default {
       );
     },
     expFrequencyClick() {
-      this.isLoading = true;
       var _this = this;
+      if (
+        _this.params.mesureData.length === 0 ||
+        _this.params.a === "" ||
+        _this.params.l === "" ||
+        _this.params.n === ""
+      ) {
+        _this.$alert("请先导入数据或设置参数", "失败!");
+        return;
+      }
+      bus.$emit("expFrequency", []);
       getRequest(
         "/flood/expFrequency" + "?params=" + JSON.stringify(_this.params)
       ).then(
         resp => {
-          this.isLoading = false;
           if (resp.status == 200) {
-            //成功
             bus.$emit("a", this.params.a);
             bus.$emit("expFrequency", resp.data.expFrequency);
             _this.expFrequency = resp.data.expFrequency;
-            // _this.$alert("计算成功!", "成功!");
           } else {
-            //失败
             _this.$alert("计算失败!", "失败!");
           }
         },
@@ -137,18 +148,24 @@ export default {
     },
     paramEstClick() {
       var _this = this;
+      if (
+        _this.params.mesureData.length == 0 ||
+        _this.params.a === "" ||
+        _this.params.l === "" ||
+        _this.params.n === ""
+      ) {
+        _this.$alert("请先导入数据或设置参数", "失败!");
+      }
       getRequest(
         "/flood/paramEst" + "?params=" + JSON.stringify(_this.params)
       ).then(
         resp => {
           if (resp.status == 200) {
-            //成功
             _this.params.ex = resp.data.ex;
             _this.params.cv = resp.data.cv;
             _this.params.cs = resp.data.cs;
             _this.params.fitError = resp.data.fitError;
           } else {
-            //失败
             _this.$alert("计算失败!", "失败!");
           }
         },
@@ -163,6 +180,9 @@ export default {
         this.params.mesureData[i] = val["实测洪水"];
         i++;
       });
+      this.params.n = this.params.mesureData.length;
+      this.params.a = 0;
+      this.params.l = 0;
     }
   },
   created() {

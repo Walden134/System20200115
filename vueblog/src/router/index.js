@@ -32,6 +32,7 @@ const routes = [
         name: "径流预测",
         meta: {
           requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
         },
         component: Runoff,
       },
@@ -46,6 +47,7 @@ const routes = [
         path: "/generalFlood",
         name: "常规设计", meta: {
           requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
         },
         component: GeneralFlood
       },
@@ -53,6 +55,7 @@ const routes = [
         path: "/timeChangeDesign",
         name: "时变设计", meta: {
           requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
         },
         component: TimeChangeDesign
       }
@@ -67,6 +70,7 @@ const routes = [
         path: "/powerBenefit",
         name: "发电效益", meta: {
           requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
         },
         component: PowerBenefit,
       },
@@ -81,6 +85,7 @@ const routes = [
         path: "/floodRisk",
         name: "防洪风险", meta: {
           requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
         },
         component: FloodRisk
       }
@@ -90,7 +95,7 @@ const routes = [
 
 // 页面刷新时，重新赋值token
 if (window.localStorage.getItem('token')) {
-  store.commit(types.LOGIN, window.localStorage.getItem('token'))
+  store.commit(LOGIN, window.localStorage.getItem('token'))
 }
 
 const router = new Router({

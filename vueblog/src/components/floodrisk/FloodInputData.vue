@@ -112,6 +112,19 @@ export default {
     },
     submitClick() {
       var _this = this;
+      if (
+        _this.floodRisk.typicalFloods.length == 0 ||
+        _this.floodRisk.levelCapacityCurve.curveData.length == 0 ||
+        _this.floodRisk.leveldownOutflowCurve.curveData.length == 0 ||
+        _this.floodRisk.levelDesign === "" ||
+        _this.floodRisk.levelDam === "" ||
+        _this.floodRisk.levelCheck === "" ||
+        _this.floodRisk.pattern === ""
+      ) {
+        _this.$alert("请先导入数据或设置参数值!", "失败!");
+        return;
+      }
+      bus.$emit("riskRes", []);
       getRequest(
         "/flood/calcRisk" + "?floodRisk=" + JSON.stringify(_this.floodRisk)
       ).then(
@@ -120,7 +133,6 @@ export default {
             //成功
             bus.$emit("riskRes", resp.data.riskRes);
             _this.riskRes = resp.data.riskRes;
-            _this.$alert("计算成功!", "成功!");
           } else {
             //失败
             _this.$alert("计算失败!", "失败!");

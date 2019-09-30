@@ -106,17 +106,19 @@ export default {
     },
     submitClick1: function() {
       var _this = this;
+      if (_this.time.ObjP.length == 0) {
+        _this.$alert("请先导入数据!", "失败!");
+        return;
+      }
+      bus.$emit("q", []);
       getRequest(
         "/flood/readBaseP" + "?time=" + JSON.stringify(_this.time)
       ).then(
         resp => {
           if (resp.status == 200) {
-            //成功
             bus.$emit("q", resp.data.q);
             _this.q = resp.data.q;
-            // _this.$alert("计算成功!", "成功!");
           } else {
-            //失败
             _this.$alert("计算失败!", "失败!");
           }
         },
@@ -127,14 +129,20 @@ export default {
     },
     submitClick2: function() {
       var _this = this;
+      if (_this.time.BaseFlood.length == 0) {
+        _this.$alert("请先导入数据!", "失败!");
+        return;
+      }
+      bus.$emit("designp", []);
+      bus.$emit("ex", []);
+      bus.$emit("cv", []);
+      bus.$emit("cs", []);
       getRequest(
         "/flood/readBaseFlood" + "?time=" + JSON.stringify(_this.time)
       ).then(
         resp => {
           if (resp.status == 200) {
-            //成功
             bus.$emit("designp", resp.data.designp);
-
             bus.$emit("ex", resp.data.ex);
             bus.$emit("cv", resp.data.cv);
             bus.$emit("cs", resp.data.cs);
@@ -142,9 +150,7 @@ export default {
             _this.ex = resp.data.ex;
             _this.cv = resp.data.cv;
             _this.cs = resp.data.cs;
-            // _this.$alert("计算成功!", "成功!");
           } else {
-            //失败
             _this.$alert("计算失败!", "失败!");
           }
         },

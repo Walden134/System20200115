@@ -280,31 +280,33 @@ export default {
       bus.$on("expFrequency", data => {
         this.$refs.dschart.options.series[2].data = [];
         this.$refs.dschart.options.series[1].data = [];
-        for (let j = 0; j < data[0].length; j++) {
-          if (j >= this.a) {
-            this.$refs.dschart.options.series[2].data[j - this.a] = [];
-            this.$refs.dschart.options.series[2].data[j - this.a][0] =
-              this.normsinv(data[0][j]) + 3.719016485;
-            this.$refs.dschart.options.series[2].data[j - this.a][1] =
-              data[1][j];
-          } else {
-            this.$refs.dschart.options.series[1].data[j] = [];
-            this.$refs.dschart.options.series[1].data[j][0] =
-              this.normsinv(data[0][j]) + 3.719016485;
-            this.$refs.dschart.options.series[1].data[j][1] = data[1][j];
+        if (data.length > 0)
+          for (let j = 0; j < data[0].length; j++) {
+            if (j >= this.a) {
+              this.$refs.dschart.options.series[2].data[j - this.a] = [];
+              this.$refs.dschart.options.series[2].data[j - this.a][0] =
+                this.normsinv(data[0][j]) + 3.719016485;
+              this.$refs.dschart.options.series[2].data[j - this.a][1] =
+                data[1][j];
+            } else {
+              this.$refs.dschart.options.series[1].data[j] = [];
+              this.$refs.dschart.options.series[1].data[j][0] =
+                this.normsinv(data[0][j]) + 3.719016485;
+              this.$refs.dschart.options.series[1].data[j][1] = data[1][j];
+            }
           }
-        }
         let Pchart = echarts.init(document.getElementById("Pchart"));
         Pchart.setOption(this.chartdata, true);
       });
       bus.$on("theoryFrequency", data => {
         this.$refs.dschart.options.series[0].data = [];
-        for (let j = 0; j < data[0].length; j++) {
-          this.$refs.dschart.options.series[0].data[j] = [];
-          this.$refs.dschart.options.series[0].data[j][0] =
-            this.normsinv(data[0][j] / 100) + 3.719016485;
-          this.$refs.dschart.options.series[0].data[j][1] = data[1][j];
-        }
+        if (data.length > 0)
+          for (let j = 0; j < data[0].length; j++) {
+            this.$refs.dschart.options.series[0].data[j] = [];
+            this.$refs.dschart.options.series[0].data[j][0] =
+              this.normsinv(data[0][j] / 100) + 3.719016485;
+            this.$refs.dschart.options.series[0].data[j][1] = data[1][j];
+          }
         let Pchart = echarts.init(document.getElementById("Pchart"));
         Pchart.setOption(this.chartdata, true);
       });
