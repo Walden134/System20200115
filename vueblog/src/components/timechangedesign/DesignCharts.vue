@@ -28,6 +28,8 @@ export default {
         },
         legend: {
           top: 30,
+          right: "3%", //和grid中right保持一致
+          zlevel: 1,
           data: [
             {
               name: "5%分位数",
@@ -43,14 +45,13 @@ export default {
             }
           ],
           orient: "vertical",
-          right: 50,
           backgroundColor: "#FFFFFF"
         },
         grid: {
           top: 30,
           bottom: 40,
           left: "7%",
-          right: "3%"
+          right: "3%" //和legend中right保持一致
         },
         toolbox: {
           feature: {

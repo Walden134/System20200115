@@ -206,7 +206,7 @@ export default {
   width: 170px;
   z-index: 10;
   border-radius: 5px;
-  background-color: blue;
+  background-color: #3366ff;
   color: white;
 }
 .time_label {

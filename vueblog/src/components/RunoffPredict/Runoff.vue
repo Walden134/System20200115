@@ -5,22 +5,26 @@
         <div class="pane" style=" width:270px">
           <InputData></InputData>
         </div>
-        <div class="runoff_top">
-          <div style=" width: calc((100% - 290px));">
-            <Charts style="width:100%;height:100%"></Charts>
+
+        <div class="box">
+
+          <div class="runoff_top">
+            <div style=" width: calc((100% - 15px));">
+              <Charts style="width:100%;height:100%"></Charts>
+            </div>
           </div>
-        </div>
-        <div class="runoff_mid">
-          <div style=" width: calc((100% - 300px)/2);">
-            <lineCharts style="width:100%;height:100%"></lineCharts>
+          <div class="runoff_mid">
+            <div style=" width: calc((100% - 30px)/2);">
+              <lineCharts style="width:100%;height:100%"></lineCharts>
+            </div>
+            <div style=" width: calc((100% - 30px)/2);">
+              <barCharts style="width:100%;height:100%"></barCharts>
+            </div>
           </div>
-          <div style=" width: calc((100% - 300px)/2);">
-            <barCharts style="width:100%;height:100%"></barCharts>
-          </div>
-        </div>
-        <div class="runoff_bottom">
-          <div style=" width: calc((100% - 290px));">
-            <AreaChart style="width:100%;height:100%"></AreaChart>
+          <div class="runoff_bottom">
+            <div style=" width: calc((100% - 15px));">
+              <AreaChart style="width:100%;height:100%"></AreaChart>
+            </div>
           </div>
         </div>
       </el-tabs>
@@ -79,5 +83,17 @@ export default {
   background-color: aliceblue;
   float: left;
   margin: 10px 5px;
+}
+.box {
+  height: 700px;
+  width: 1350px;
+  overflow: auto;
+  padding-left: 10px;
+  border-left: 2px solid rgba(74, 136, 220, 0.996078431372549);
+  border-right: 2px solid rgba(74, 136, 220, 0.996078431372549);
+}
+
+.box::-webkit-scrollbar {
+  display: none;
 }
 </style>

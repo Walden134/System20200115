@@ -1,13 +1,13 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
     <el-tab-pane label="2030S" name="first">
-      <chart ref="2030Sdschart" :options="AreaA" style="width:1350px;height:340px"></chart>
+      <chart ref="2030Sdschart" :options="AreaA" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2060S" name="second">
-      <chart ref="2060Sdschart" :options="AreaB" style="width:1350px;height:340px"></chart>
+      <chart ref="2060Sdschart" :options="AreaB" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2090S" name="third">
-      <chart ref="2090Sdschart" :options="AreaC" style="width:1350px;height:340px"></chart>
+      <chart ref="2090Sdschart" :options="AreaC" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -75,7 +75,10 @@ export default {
               icon: "rect"
             },
             // { name: "实测径流" },
-            { name: "BMA模型" }
+            {
+              name: "BMA模型",
+              icon: "line"
+            }
           ],
           top: 40
         },
@@ -208,7 +211,7 @@ export default {
               icon: "rect"
             },
             // { name: "实测径流" },
-            { name: "BMA模型" }
+            { name: "BMA模型", icon: "line" }
           ],
           top: 40
         },
@@ -342,7 +345,7 @@ export default {
               icon: "rect"
             },
             // { name: "实测径流" },
-            { name: "BMA模型" }
+            { name: "BMA模型", icon: "line" }
           ],
           top: 40
         },

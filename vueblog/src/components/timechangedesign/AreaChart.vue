@@ -26,15 +26,12 @@ export default {
       chartdata: {
         legend: {
           data: [
-            {
-              name: "不确定性区间",
-              icon: "rect"
-            },
-            { name: "CNRM" },
-            { name: "MIROC" },
-            { name: "CanESM" },
-            { name: "GFDL" },
-            { name: "BMA" }
+            { name: "不确定性区间", icon: "rect" },
+            { name: "CNRM", icon: "line" },
+            { name: "MIROC", icon: "line" },
+            { name: "CanESM", icon: "line" },
+            { name: "GFDL", icon: "line" },
+            { name: "BMA", icon: "line" }
           ],
           top: 40
         },

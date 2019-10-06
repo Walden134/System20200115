@@ -105,7 +105,13 @@ export default {
         ],
         legend: {
           y: "bottom",
-          data: ["OBS", "CNRM", "CanESM", "GFDL", "MIROC"]
+          data: [
+            { name: "OBS", icon: "line" },
+            { name: "CNRM", icon: "line" },
+            { name: "CanESM", icon: "line" },
+            { name: "GFDL", icon: "line" },
+            { name: "MIROC", icon: "line" }
+          ]
         },
         series: [
           {

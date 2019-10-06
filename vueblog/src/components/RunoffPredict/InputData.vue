@@ -109,7 +109,7 @@ export default {
   width: 100px;
   z-index: 10;
   border-radius: 5px;
-  background-color: blue;
+  background-color: #3366ff;
   color: white;
 }
 .run_label {

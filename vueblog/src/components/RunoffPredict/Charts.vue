@@ -2,13 +2,13 @@
   <!-- <chart ref="dschart" :options="polarA" style="height:100%;width:100%"></chart> -->
   <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
     <el-tab-pane label="2030S" name="first">
-      <chart ref="2030Sdschart" :options="polarA" style="width:1350px;height:340px"></chart>
+      <chart ref="2030Sdschart" :options="polarA" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2060S" name="second">
-      <chart ref="2060Sdschart" :options="polarB" style="width:1350px;height:340px"></chart>
+      <chart ref="2060Sdschart" :options="polarB" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
     <el-tab-pane label="2090S" name="third">
-      <chart ref="2090Sdschart" :options="polarC" style="width:1350px;height:340px"></chart>
+      <chart ref="2090Sdschart" :options="polarC" style="width:1300px;height:340px"></chart>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -57,14 +57,14 @@ export default {
         legend: {
           y: "bottom",
           data: [
-            "CNRM降水",
-            "CanESM降水",
-            "GFDL降水",
-            "MIROC降水",
-            "CNRM径流",
-            "CanESM径流",
-            "GFDL径流",
-            "MIROC径流"
+            { name: "CNRM降水" },
+            { name: "CanESM降水" },
+            { name: "GFDL降水" },
+            { name: "MIROC降水" },
+            { name: "CNRM径流", icon: "line" },
+            { name: "CanESM径流", icon: "line" },
+            { name: "GFDL径流", icon: "line" },
+            { name: "MIROC径流", icon: "line" }
           ]
         },
         grid: {
@@ -256,14 +256,14 @@ export default {
         legend: {
           y: "bottom",
           data: [
-            "CNRM降水",
-            "CanESM降水",
-            "GFDL降水",
-            "MIROC降水",
-            "CNRM径流",
-            "CanESM径流",
-            "GFDL径流",
-            "MIROC径流"
+            { name: "CNRM降水" },
+            { name: "CanESM降水" },
+            { name: "GFDL降水" },
+            { name: "MIROC降水" },
+            { name: "CNRM径流", icon: "line" },
+            { name: "CanESM径流", icon: "line" },
+            { name: "GFDL径流", icon: "line" },
+            { name: "MIROC径流", icon: "line" }
           ]
         },
         grid: {
@@ -455,14 +455,14 @@ export default {
         legend: {
           y: "bottom",
           data: [
-            "CNRM降水",
-            "CanESM降水",
-            "GFDL降水",
-            "MIROC降水",
-            "CNRM径流",
-            "CanESM径流",
-            "GFDL径流",
-            "MIROC径流"
+            { name: "CNRM降水" },
+            { name: "CanESM降水" },
+            { name: "GFDL降水" },
+            { name: "MIROC降水" },
+            { name: "CNRM径流", icon: "line" },
+            { name: "CanESM径流", icon: "line" },
+            { name: "GFDL径流", icon: "line" },
+            { name: "MIROC径流", icon: "line" }
           ]
         },
         grid: {

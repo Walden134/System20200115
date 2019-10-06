@@ -79,7 +79,12 @@ export default {
         legend: {
           // y: "8%",
           y: "bottom",
-          data: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"]
+          data: [
+            { name: "GFDL", icon: "line" },
+            { name: "CNRM", icon: "line" },
+            { name: "CanESM", icon: "line" },
+            { name: "MIROC", icon: "line" }
+          ]
         },
         grid: {
           left: "13%", // 与容器左侧的距离
