@@ -83,6 +83,7 @@ export default {
             { name: "GFDL", icon: "line" },
             { name: "CNRM", icon: "line" },
             { name: "CanESM", icon: "line" },
+            { name: "BMA", icon: "line" },
             { name: "MIROC", icon: "line" }
           ]
         },

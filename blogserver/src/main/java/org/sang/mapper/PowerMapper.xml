@@ -36,8 +36,7 @@
 
 	<select id="getAllRunoffByPattern"
 		resultType="org.sang.bean.hydro.Runoff">
-		SELECT gcmId,stationName,date,runoff FROM `dayrunoff` WHERE
-		rcpId = #{rcp_id}
+		SELECT * FROM `dayrunoff` WHERE	rcpId = #{rcp_id}
 	</select>
 	<select id="getFRunoffByPattern"
 		resultType="org.sang.bean.hydro.Runoff">

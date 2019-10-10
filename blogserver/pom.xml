@@ -25,7 +25,13 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<dependencies>
+	<dependencies><!-- https://mvnrepository.com/artifact/org.gdal/gdal -->
+		<dependency>
+			<groupId>org.gdal</groupId>
+			<artifactId>gdal</artifactId>
+			<version>3.0.0</version>
+			<type>pom</type>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/REngine -->
 		<dependency>
 			<groupId>org.rosuda.REngine</groupId>
@@ -143,8 +149,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		           
 	</build>
-
-
 </project>

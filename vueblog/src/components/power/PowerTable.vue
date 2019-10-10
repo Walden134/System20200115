@@ -14,7 +14,7 @@
         </el-table-column>
         <el-table-column label="95%保证出力">
           <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
-          <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
+          <el-table-column prop="output_amp" label="增幅(%)"></el-table-column>
 
         </el-table-column>
         <el-table-column label="全年发电量">
@@ -55,7 +55,7 @@ export default {
         {
           circumstances: "设计值",
           annual_output: "176",
-          annual_amp: "-",
+          output_amp: "-",
           assurance_rate: "-",
           annual_power: "59.62",
           annual_amp: "-",
@@ -84,7 +84,7 @@ export default {
       let old = {
         circumstances: "设计值",
         annual_output: this.outputDesign,
-        annual_amp: "-",
+        output_amp: "-",
         assurance_rate: "-",
         annual_power: this.avgDesiginPower,
         annual_amp: "-",
@@ -117,9 +117,9 @@ export default {
           ((this.powerList[i][3] - old.dry_power) / old.dry_power) * 100;
         tmp.dry_amp = tmp.dry_amp.toFixed(2);
         tmp.annual_output = this.outputList[i];
-        tmp.annual_amp =
+        tmp.output_amp =
           ((this.outputList[i] - old.annual_output) / old.annual_output) * 100;
-        tmp.annual_amp = tmp.annual_amp.toFixed(2);
+        tmp.output_amp = tmp.output_amp.toFixed(2);
         this.tableData.push(tmp);
       }
     },

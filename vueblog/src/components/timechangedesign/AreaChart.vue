@@ -9,9 +9,7 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-
 import "echarts/lib/component/polar";
-
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
@@ -36,9 +34,9 @@ export default {
           top: 40
         },
         grid: {
-          left: "5%",
-          right: "3%",
-          bottom: "15%"
+          left: 70,
+          right: 10,
+          bottom: 60
         },
         title: {
           left: "center",

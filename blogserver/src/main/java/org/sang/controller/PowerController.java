@@ -26,7 +26,6 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping("/power")
 public class PowerController {
 
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	PowerService powerService;
 
@@ -41,48 +40,50 @@ public class PowerController {
 				|| hydrostation.getExpectOutputHeadCurve().getCurveData().length == 0) {
 			return null;
 		}
-		Map<String, Object> map = powerService.calcPowerAndOutput(hydrostation, calculateBean);
-		return map;
-
-	}
-
-	@RequestMapping(value = "/powerStatistics", method = RequestMethod.GET)
-	public Map<String, Object> getPowerByState(@RequestParam(value = "situations") String situations,
-			@RequestParam(value = "patterns") String patterns) {
-		List<String> xAxis = new ArrayList<String>();
-		JSONArray situationsArr = JSON.parseArray(situations);
-		JSONArray patternsArr = JSON.parseArray(patterns);
-		for (int i = 0; i < patternsArr.size(); i++) {
-			String p = patternsArr.getString(i);
-			for (int j = 0; j < situationsArr.size(); j++) {
-				String s = situationsArr.getString(j);
-				xAxis.add(p + "_" + s);
-			}
-		}
-		Map<String, Object> map = new HashMap<>();
-		List yAxis = powerService.getPowerByState(xAxis);
-		map.put("xAxis", xAxis);
-		map.put("yAxis", yAxis);
+		long start = System.currentTimeMillis();
+		Map<String, Object> map = powerService.calcPowerAndOutput1(hydrostation, calculateBean);
+		long end = System.currentTimeMillis();
+		System.out.println("计算完成" + (end - start));
 		return map;
 	}
-
-	@RequestMapping(value = "/outputStatistics", method = RequestMethod.GET)
-	public Map<String, Object> getOutputByState(@RequestParam(value = "situations") String situations,
-			@RequestParam(value = "patterns") String patterns) {
-		List<String> xAxis = new ArrayList<String>();
-		JSONArray situationsArr = JSON.parseArray(situations);
-		JSONArray patternsArr = JSON.parseArray(patterns);
-		for (int i = 0; i < patternsArr.size(); i++) {
-			String p = patternsArr.getString(i);
-			for (int j = 0; j < situationsArr.size(); j++) {
-				String s = situationsArr.getString(j);
-				xAxis.add(p + "_" + s);
-			}
-		}
-		Map<String, Object> map = new HashMap<>();
-		List yAxis = powerService.getOutputByState(xAxis);
-		map.put("xAxis", xAxis);
-		map.put("yAxis", yAxis);
-		return map;
-	}
+//
+//	@RequestMapping(value = "/powerStatistics", method = RequestMethod.GET)
+//	public Map<String, Object> getPowerByState(@RequestParam(value = "situations") String situations,
+//			@RequestParam(value = "patterns") String patterns) {
+//		List<String> xAxis = new ArrayList<String>();
+//		JSONArray situationsArr = JSON.parseArray(situations);
+//		JSONArray patternsArr = JSON.parseArray(patterns);
+//		for (int i = 0; i < patternsArr.size(); i++) {
+//			String p = patternsArr.getString(i);
+//			for (int j = 0; j < situationsArr.size(); j++) {
+//				String s = situationsArr.getString(j);
+//				xAxis.add(p + "_" + s);
+//			}
+//		}
+//		Map<String, Object> map = new HashMap<>();
+//		List yAxis = powerService.getPowerByState(xAxis);
+//		map.put("xAxis", xAxis);
+//		map.put("yAxis", yAxis);
+//		return map;
+//	}
+//
+//	@RequestMapping(value = "/outputStatistics", method = RequestMethod.GET)
+//	public Map<String, Object> getOutputByState(@RequestParam(value = "situations") String situations,
+//			@RequestParam(value = "patterns") String patterns) {
+//		List<String> xAxis = new ArrayList<String>();
+//		JSONArray situationsArr = JSON.parseArray(situations);
+//		JSONArray patternsArr = JSON.parseArray(patterns);
+//		for (int i = 0; i < patternsArr.size(); i++) {
+//			String p = patternsArr.getString(i);
+//			for (int j = 0; j < situationsArr.size(); j++) {
+//				String s = situationsArr.getString(j);
+//				xAxis.add(p + "_" + s);
+//			}
+//		}
+//		Map<String, Object> map = new HashMap<>();
+//		List yAxis = powerService.getOutputByState(xAxis);
+//		map.put("xAxis", xAxis);
+//		map.put("yAxis", yAxis);
+//		return map;
+//	}
 }

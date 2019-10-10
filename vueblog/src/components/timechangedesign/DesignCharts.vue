@@ -28,7 +28,7 @@ export default {
         },
         legend: {
           top: 30,
-          right: "3%", //和grid中right保持一致
+          right: 10, //和grid中right保持一致
           zlevel: 1,
           data: [
             {
@@ -50,8 +50,8 @@ export default {
         grid: {
           top: 30,
           bottom: 40,
-          left: "7%",
-          right: "3%" //和legend中right保持一致
+          left: 70,
+          right: 10 //和legend中right保持一致
         },
         toolbox: {
           feature: {
