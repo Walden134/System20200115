@@ -152,6 +152,7 @@ export default {
   beforeDestroy() {
     bus.$off("powerList");
     bus.$off("xAxis");
+    this.chart.clear();
   },
   watch: {
     // situations() {

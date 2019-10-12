@@ -353,6 +353,7 @@ export default {
     bus.$off("theoryFrequency");
     bus.$off("expFrequency");
     bus.$off("a");
+    this.chart.clear();
   },
   watch: {
     dataFlag(newVal, oldVal) {

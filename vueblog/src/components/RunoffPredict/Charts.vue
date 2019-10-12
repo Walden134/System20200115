@@ -23,13 +23,12 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
-import chartsData from "../../assets/chartsData.json";
+import chartsData from "./runoffJsonData/chartsData.json";
 
 export default {
   data: function() {
     return {
       activeName: "first",
-      // tabPosition: "right",
       isAdmin: false,
       polarA: {
         tooltip: {
@@ -43,10 +42,7 @@ export default {
         },
         toolbox: {
           right: "5%",
-          // top:"1%",
           feature: {
-            // dataView: { show: true, readOnly: false },
-            // magicType: {show: true, type: ['line', 'bar']},
             restore: { show: true },
             dataZoom: {
               yAxisIndex: "none"
@@ -75,38 +71,32 @@ export default {
         },
         title: {
           text: "各气候模式2030S降雨-径流过程图",
-          //   textStyle: {
-          //     fontSize: 16
-          //   },
-          // subtext: '',
           x: "center"
         },
-        xAxis: [
-          {
-            type: "category",
-            name: "年",
-            nameGap: 25,
-            nameLocation: "center",
-            data: [],
-            axisPointer: {
-              type: "shadow"
-            },
-            axisLine: {
-              lineStyle: {
-                width: 2,
-                color: "grey"
-              }
-            },
-            axisLabel: {
-              interval: 11,
-              textStyle: {
-                color: "black"
-              }
-            },
-            axisTick: { show: false },
-            position: "bottom"
-          }
-        ],
+        xAxis: {
+          type: "category",
+          name: "年",
+          nameGap: 25,
+          nameLocation: "center",
+          data: [],
+          axisPointer: {
+            type: "shadow"
+          },
+          axisLine: {
+            lineStyle: {
+              width: 2,
+              color: "grey"
+            }
+          },
+          axisLabel: {
+            interval: 11,
+            textStyle: {
+              color: "black"
+            }
+          },
+          axisTick: { show: false },
+          position: "bottom"
+        },
         yAxis: [
           {
             type: "value",
@@ -242,10 +232,7 @@ export default {
         },
         toolbox: {
           right: "5%",
-          // top:"1%",
           feature: {
-            // dataView: { show: true, readOnly: false },
-            // magicType: {show: true, type: ['line', 'bar']},
             restore: { show: true },
             dataZoom: {
               yAxisIndex: "none"
@@ -274,38 +261,32 @@ export default {
         },
         title: {
           text: "各气候模式2060S降雨-径流过程图",
-          //   textStyle: {
-          //     fontSize: 16
-          //   },
-          // subtext: '',
           x: "center"
         },
-        xAxis: [
-          {
-            type: "category",
-            name: "年",
-            nameGap: 25,
-            nameLocation: "center",
-            data: [],
-            axisPointer: {
-              type: "shadow"
-            },
-            axisLine: {
-              lineStyle: {
-                width: 2,
-                color: "grey"
-              }
-            },
-            axisLabel: {
-              interval: 11,
-              textStyle: {
-                color: "black"
-              }
-            },
-            axisTick: { show: false },
-            position: "bottom"
-          }
-        ],
+        xAxis: {
+          type: "category",
+          name: "年",
+          nameGap: 25,
+          nameLocation: "center",
+          data: [],
+          axisPointer: {
+            type: "shadow"
+          },
+          axisLine: {
+            lineStyle: {
+              width: 2,
+              color: "grey"
+            }
+          },
+          axisLabel: {
+            interval: 11,
+            textStyle: {
+              color: "black"
+            }
+          },
+          axisTick: { show: false },
+          position: "bottom"
+        },
         yAxis: [
           {
             type: "value",
@@ -479,32 +460,30 @@ export default {
           // subtext: '',
           x: "center"
         },
-        xAxis: [
-          {
-            type: "category",
-            name: "年",
-            nameGap: 25,
-            nameLocation: "center",
-            data: [],
-            axisPointer: {
-              type: "shadow"
-            },
-            axisLine: {
-              lineStyle: {
-                width: 2,
-                color: "grey"
-              }
-            },
-            axisLabel: {
-              interval: 11,
-              textStyle: {
-                color: "black"
-              }
-            },
-            axisTick: { show: false },
-            position: "bottom"
-          }
-        ],
+        xAxis: {
+          type: "category",
+          name: "年",
+          nameGap: 25,
+          nameLocation: "center",
+          data: [],
+          axisPointer: {
+            type: "shadow"
+          },
+          axisLine: {
+            lineStyle: {
+              width: 2,
+              color: "grey"
+            }
+          },
+          axisLabel: {
+            interval: 11,
+            textStyle: {
+              color: "black"
+            }
+          },
+          axisTick: { show: false },
+          position: "bottom"
+        },
         yAxis: [
           {
             type: "value",
@@ -636,9 +615,6 @@ export default {
 
   created() {
     this.polarA.xAxis.data = chartsData.polarA_xAxis;
-    this.polarB.xAxis.data = chartsData.polarB_xAxis;
-    this.polarC.xAxis.data = chartsData.polarC_xAxis;
-
     this.polarA.series[0].data = chartsData.polarA_series0;
     this.polarA.series[1].data = chartsData.polarA_series1;
     this.polarA.series[3].data = chartsData.polarA_series3;
@@ -646,7 +622,7 @@ export default {
     this.polarA.series[5].data = chartsData.polarA_series5;
     this.polarA.series[6].data = chartsData.polarA_series6;
     this.polarA.series[7].data = chartsData.polarA_series7;
-
+    this.polarB.xAxis.data = chartsData.polarB_xAxis;
     this.polarB.series[0].data = chartsData.polarB_series0;
     this.polarB.series[1].data = chartsData.polarB_series1;
     this.polarB.series[2].data = chartsData.polarB_series2;
@@ -655,7 +631,7 @@ export default {
     this.polarB.series[5].data = chartsData.polarB_series5;
     this.polarB.series[6].data = chartsData.polarB_series6;
     this.polarB.series[7].data = chartsData.polarB_series7;
-
+    this.polarC.xAxis.data = chartsData.polarC_xAxis;
     this.polarC.series[0].data = chartsData.polarC_series0;
     this.polarC.series[1].data = chartsData.polarC_series1;
     this.polarC.series[2].data = chartsData.polarC_series2;
@@ -668,6 +644,9 @@ export default {
 
   methods: {
     handleClick(tab, event) {}
+  },
+  beforeDestroy() {
+    this.chart.clear();
   }
 };
 </script>

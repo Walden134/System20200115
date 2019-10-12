@@ -175,7 +175,7 @@ export default {
     this.setChartData();
   },
   beforeDestroy() {
-    bus.$off("riskRes");
+    bus.$off("riskRes"); this.chart.clear();
   }
 };
 </script>

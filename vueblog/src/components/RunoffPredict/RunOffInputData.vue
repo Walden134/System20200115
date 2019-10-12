@@ -19,6 +19,7 @@
           <label class="run_label" for="">站点分布</label>
           <uploadExcel @func="getSite"> </uploadExcel>
         </div>
+        <input id="fileFolder" name="fileFolder" type="file" webkitdirectory>
       </div>
 
       <div class="run_mark">数据输入</div>

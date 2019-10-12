@@ -127,6 +127,7 @@ export default {
   beforeDestroy() {
     bus.$off("outputList");
     bus.$off("xAxis");
+    this.chart.clear();
   },
 
   created() {

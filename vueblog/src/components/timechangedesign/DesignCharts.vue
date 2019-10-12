@@ -260,6 +260,7 @@ export default {
   },
   beforeDestroy() {
     bus.$off("designp");
+    this.chart.clear();
   },
   watch: {
     timeFlag(newVal, oldVal) {

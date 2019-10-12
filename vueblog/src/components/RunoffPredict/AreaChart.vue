@@ -23,10 +23,7 @@ import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
-
-import runoffData from "../../assets/runoffData.json";
-
-import { getRequest } from "../../utils/api";
+import runoffData from "./runoffJsonData/runoffData.json";
 
 export default {
   components: {
@@ -36,11 +33,9 @@ export default {
     this.AreaA.xAxis.data = runoffData.xAxis_30;
     this.AreaB.xAxis.data = runoffData.xAxis_60;
     this.AreaC.xAxis.data = runoffData.xAxis_90;
-    // console.log(runoffData.xAxis_30);
     this.AreaA.series[0].data = runoffData.series1_30;
     this.AreaA.series[1].data = runoffData.series2_30;
     this.AreaA.series[2].data = runoffData.series3_30;
-    // console.log("runoffData.series3_30", runoffData.series3_30);
     this.AreaB.series[0].data = runoffData.series1_60;
     this.AreaB.series[1].data = runoffData.series2_60;
     this.AreaB.series[2].data = runoffData.series3_60;
@@ -49,9 +44,7 @@ export default {
     this.AreaC.series[2].data = runoffData.series3_90;
   },
   methods: {
-    handleClick(tab, event) {
-      //console.log(tab, event);
-    }
+    handleClick(tab, event) {}
   },
 
   created() {},
@@ -464,6 +457,9 @@ export default {
         ]
       }
     };
+  },
+  beforeDestroy() {
+    this.chart.clear();
   }
 };
 </script>

@@ -157,6 +157,7 @@ export default {
   beforeDestroy() {
     bus.$off("outputRatexAxis");
     bus.$off("outputRateList");
+    this.chart.clear();
   },
 
   created() {

@@ -281,6 +281,7 @@ export default {
   },
   beforeDestroy() {
     bus.$off("q");
+    this.chart.clear();
   }
 };
 </script>

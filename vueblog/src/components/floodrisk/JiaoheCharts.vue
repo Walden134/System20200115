@@ -147,7 +147,7 @@ export default {
           top: "10%", // 与容器顶部的距离
           bottom: "10%" // 与容器底部的距离
         },
-        animationDuration: 3000
+        animationDuration: 300
       }
     };
   },
@@ -174,7 +174,7 @@ export default {
     this.setChartData();
   },
   beforeDestroy() {
-    bus.$off("riskRes");
+    bus.$off("riskRes"); this.chart.clear();
   }
 };
 </script>
