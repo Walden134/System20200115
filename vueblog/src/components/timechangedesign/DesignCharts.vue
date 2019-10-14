@@ -212,7 +212,7 @@ export default {
         this.timeFlag = data;
       });
       bus.$on("designp", data => {
-        if (data) {
+        if (data.length > 0) {
           for (let j = 0; j < data[0].length; j++) {
             this.$refs.dschart.options.series[0].data[j] = [];
             this.$refs.dschart.options.series[1].data[j] = [];
@@ -226,7 +226,11 @@ export default {
             this.$refs.dschart.options.series[1].data[j][1] = data[2][j];
             this.$refs.dschart.options.series[2].data[j][1] = data[3][j];
           }
+        } else {
+          for (let j = 0; j < this.chartdata.series.length; j++)
+            this.$refs.dschart.options.series[j].data = [];
         }
+
         let Pchart = echarts.init(document.getElementById("designChart"));
         Pchart.setOption(this.chartdata, true);
       });

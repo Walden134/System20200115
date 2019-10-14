@@ -123,6 +123,9 @@ export default {
             this.$refs.dschart.options.series[i].data[j] = data[j][i];
           }
         }
+        if (data.length == 0 || data == null)
+          for (let j = 0; j < this.chartdata.series.length; j++)
+            this.$refs.dschart.options.series[j].data = [];
       });
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;

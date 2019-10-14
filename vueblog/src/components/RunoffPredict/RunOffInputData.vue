@@ -19,8 +19,10 @@
           <label class="run_label" for="">站点分布</label>
           <uploadExcel @func="getSite"> </uploadExcel>
         </div>
-        <input id="fileFolder" name="fileFolder" type="file" webkitdirectory>
       </div>
+
+      <input type="file" id="filepicker" name="fileList" webkitdirectory multiple />
+      <button type="button" id="subButton" @click="commit" @change="change">Submit</button>
 
       <div class="run_mark">数据输入</div>
       <div class="input">
@@ -80,6 +82,8 @@ import { getRequest } from "../../utils/api";
 import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
+import $ from "jquery";
+
 export default {
   props: {},
   data() {
@@ -97,7 +101,64 @@ export default {
     getPrecipitation(data) {},
     getRunoff(data) {},
     getParamsPlan(data) {},
-    submitClick: function() {}
+    submitClick: function() {},
+    commit: function() {
+      debugger;
+      let files;
+      document.getElementById("filepicker").addEventListener(
+        "change",
+        function(event) {
+          let output = document.getElementById("listing");
+          files = event.target.files;
+          for (let i = 0; i < files.length; i++) {
+            let item = document.createElement("li");
+            item.innerHTML = files[i].webkitRelativePath;
+            output.appendChild(item);
+          }
+        },
+        false
+      );
+      $("#subButton").click(function() {
+        var fd = new FormData();
+        for (var i = 0; i < files.length; i++) {
+          fd.append("file", files[i]);
+        }
+        $.ajax({
+          url: "/upload/uploadFolder",
+          method: "POST",
+          data: fd,
+          contentType: false,
+          processData: false,
+          cache: false,
+          success: function(data) {
+            console.log(data);
+          }
+        });
+      });
+    },
+    change: function(e) {
+      //判断是否选中文件
+      var file = $("#fileFolder").val();
+      if (file != "") {
+        $("#msg").text("");
+      }
+      var files = e.target.files; // FileList
+      //文件数量
+      actual_filesCount = files.length;
+      if (actual_filesCount > filesCount) {
+        $("#msg").text("文件过多，单次最多可上传" + filesCount + "个文件");
+        return;
+      }
+      for (var i = 0, f; (f = files[i]); ++i) {
+        actual_filesSize += f.size;
+        if (actual_filesSize > filesSize) {
+          $("#msg").text(
+            "单次文件夹上传不能超过" + filesSize / 1024 / 1024 + "M"
+          );
+          return;
+        }
+      }
+    }
   }
 };
 </script>

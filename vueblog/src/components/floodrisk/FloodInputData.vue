@@ -41,7 +41,7 @@
       </div>
       <el-form-item style="margin-top: 10px;margin-bottom: 10px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
-        <!-- <el-button>保存</el-button> -->
+        <el-button type="warning" @click.native.prevent="resetData">重置</el-button>
       </el-form-item>
 
     </el-form>
@@ -79,6 +79,10 @@ export default {
     uploadExcel: UploadExcel
   },
   methods: {
+    resetData() {
+      this.riskRes = [];
+      bus.$emit("riskRes", []);
+    },
     getTypicalFloods(data) {
       let i = 0;
       this.floodRisk.typicalFloods[0] = [];

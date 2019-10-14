@@ -82,7 +82,8 @@
 
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
-        <!-- <el-button>保存</el-button> -->
+        <el-button type="warning" @click.native.prevent="resetData">重置</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -141,6 +142,31 @@ export default {
     loading: Loading
   },
   methods: {
+    resetData() {
+      // this.hydrostation.drawdownDepth = "";
+      // this.hydrostation.levelDead = "";
+      // this.hydrostation.levelNormal = "";
+      // this.hydrostation.outflowMax = "";
+      // this.hydrostation.outflowMin = "";
+      // this.hydrostation.installPower = "";
+      // this.hydrostation.levelCapacityCurve.curveData = [];
+      // this.hydrostation.leveldownOutflowCurve.curveData = [];
+      // this.hydrostation.headlossOutflowCurve.curveData = [];
+      // this.hydrostation.expectOutputHeadCurve.curveData = [];
+      // this.hydrostation.outputCoefficient = "";
+      // this.hydrostation.outputDesign = "";
+      // this.hydrostation.avgDesiginPower = "";
+      this.category = [];
+      this.outputs = [];
+      this.powers = [];
+      this.outputratelist = [];
+      this.outputratexaxis = [];
+      bus.$emit("xAxis", []);
+      bus.$emit("powerList", []);
+      bus.$emit("outputList", []);
+      bus.$emit("outputRatexAxis", []);
+      bus.$emit("outputRateList", []);
+    },
     getLevelCapacityCurve(data) {
       let i = 0;
       data.map(val => {

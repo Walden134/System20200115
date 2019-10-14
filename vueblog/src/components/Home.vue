@@ -1,7 +1,9 @@
 <template>
   <el-container class="home_container">
-    <el-header style="height: 130px;">
-      <img src="../assets/head_img.jpg">
+    <el-header style="height: 130px;width:100%">
+      <!-- <img src="../assets/head_img.jpg"> -->
+      <div class="head-img"></div>
+      <img id="u66_img" class="img " src="../assets/u66.png">
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -115,6 +117,11 @@ export default {
   float: right;
   margin-left: 10px;
 }
+.el-header {
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .header {
   background-color: #ececec;
   margin-top: 10px;
@@ -153,5 +160,37 @@ export default {
 .el-checkbox {
   width: 100px;
   margin: 10px 10px 2px 10px;
+}
+.head-img {
+  border-width: 0px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1920px;
+  height: 130px;
+  background: inherit;
+  background-color: rgba(255, 255, 255, 1);
+  background-image: url(../assets/head_img.jpg);
+  background-repeat: no-repeat;
+  background-size: 1920px 157px;
+  background-position: 0px -13.5px;
+  border: none;
+  border-radius: 0px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-family: "Arial Negreta", "Arial Normal", "Arial";
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+  text-align: left;
+}
+#u66_img {
+  border-width: 0px;
+  position: absolute;
+  left: 1524px;
+  top: 63px;
+  width: 46px;
+  height: 21px;
 }
 </style>

@@ -15,6 +15,8 @@
       </div>
       <el-form-item style="margin-top:10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick1">开始计算</el-button>
+        <el-button type="warning" @click.native.prevent="resetData1">重置</el-button>
+
       </el-form-item>
       <div class="time_mark">时变设计洪水</div>
       <div class="pattern">
@@ -32,6 +34,8 @@
       </div>
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick2">开始计算</el-button>
+        <el-button type="warning" @click.native.prevent="resetData2">重置</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -68,6 +72,20 @@ export default {
     uploadExcel: UploadExcel
   },
   methods: {
+    resetData1() {
+      this.q = [];
+      bus.$emit("q", []);
+    },
+    resetData2() {
+      this.designp = [];
+      this.ex = [];
+      this.cv = [];
+      this.cs = [];
+      bus.$emit("designp", []);
+      bus.$emit("ex", []);
+      bus.$emit("cv", []);
+      bus.$emit("cs", []);
+    },
     getBaseP(data) {
       let i = 0;
       this.time.ObjP[0] = [];
