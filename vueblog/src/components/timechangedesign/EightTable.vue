@@ -3,10 +3,13 @@
     <el-col :span="24" class="Xtable">
       <div class="table_name">设计洪水结果表
         <div class="toexcel">
-          <el-button @click="exportExcel" type="primary" plain class="button" style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
+          <el-button @click="exportExcel" type="primary" plain class="button"
+            style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
         </div>
       </div>
-      <el-table :data="tableData" id="dfResultTable" cell-class-name="dyg" style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" height="300" max-height="300" :row-style="{height:'30px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" id="dfResultTable" cell-class-name="dyg"
+        style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" height="300" max-height="300"
+        :row-style="{height:'30px'}" :cell-style="{padding:'0px'}">
         <el-table-column label="年降水" align="right" width="10">
           <el-table-column prop="title" align="left" label="特征值" width="111">
           </el-table-column>
@@ -70,23 +73,23 @@ export default {
     setTableData() {
       this.tableData = [];
       let tmp = {};
-      tmp.title = this.title[0];
-      tmp.first = this.ex[0];
-      tmp.second = this.ex[1];
-      tmp.third = this.ex[2];
-      this.tableData.push(tmp);
-      tmp = {};
-      tmp.title = this.title[1];
-      tmp.first = this.cv[0];
-      tmp.second = this.cv[1];
-      tmp.third = this.cv[2];
-      this.tableData.push(tmp);
-      tmp = {};
-      tmp.title = this.title[2];
-      tmp.first = this.cs[0];
-      tmp.second = this.cs[1];
-      tmp.third = this.cs[2];
-      this.tableData.push(tmp);
+      // tmp.title = this.title[0];
+      // tmp.first = this.ex[0];
+      // tmp.second = this.ex[1];
+      // tmp.third = this.ex[2];
+      // this.tableData.push(tmp);
+      // tmp = {};
+      // tmp.title = this.title[1];
+      // tmp.first = this.cv[0];
+      // tmp.second = this.cv[1];
+      // tmp.third = this.cv[2];
+      // this.tableData.push(tmp);
+      // tmp = {};
+      // tmp.title = this.title[2];
+      // tmp.first = this.cs[0];
+      // tmp.second = this.cs[1];
+      // tmp.third = this.cs[2];
+      // this.tableData.push(tmp);
       for (let j = 0; j < this.title.length - 3; j++) {
         tmp = {};
         tmp.title = this.title[j + 3];

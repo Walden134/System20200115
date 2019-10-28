@@ -45,7 +45,6 @@ public class FloodController {
 	@RequestMapping(value = "/calcRisk", method = RequestMethod.GET)
 	public Map<String, Object> calcRisk(@RequestParam(value = "floodRisk") String paramsStr) {
 		FloodRisk floodRisk = JSON.parseObject(paramsStr, FloodRisk.class);
-		System.out.println(floodRisk);
 		Map<String, Object> map = floodService.calcRisk(floodRisk);
 		return map;
 	}

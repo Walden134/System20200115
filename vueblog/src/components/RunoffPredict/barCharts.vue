@@ -1,5 +1,5 @@
 <template>
-  <chart ref="dschart" :options="polar" style="height:100%;width:100%"></chart>
+  <chart ref="dschart" :options="option" style="height:100%;width:100%"></chart>
 </template>
 
 <style>
@@ -8,21 +8,15 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
 export default {
-  components: {
-    chart: ECharts
-  },
-  mounted: function() {},
-  methods: {},
   data: function() {
     return {
-      polar: {
+      option: {
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -35,56 +29,6 @@ export default {
         toolbox: {
           right: "15px",
           feature: {
-            // dataView: {
-            //   show: true,
-            //   readOnly: false
-            // optionToContent: function(opt) {
-            //   var axisData = opt.xAxis[0].data; //坐标数据
-            //   var series = opt.series; //折线图数据
-            //   var tdHeads = "<td>时间</td>"; //表头第一列
-            //   var tdBodys = ""; //表数据
-            //   //组装表头
-            //   var nameData = new Array(
-            //     "OBS",
-            //     "CNRM",
-            //     "CanESM",
-            //     "GFDL",
-            //     "MIROC"
-            //   );
-            //   for (var i = 0; i < nameData.length; i++) {
-            //     tdHeads +=
-            //       '<td style="padding: 0 10px">' + nameData[i] + "</td>";
-            //   }
-
-            //   var table =
-            //     '<table style="width:100%;text-align:center" border="1" cellspacing="0" cellpadding="1" ><tbody><tr>' +
-            //     tdHeads +
-            //     " </tr>";
-
-            //   //组装表数据
-            //   for (var i = 0, l = axisData.length; i < l; i++) {
-            //     for (var j = 0; j < series.length; j++) {
-            //       var temp = series[j].data[i];
-            //       if (temp != null && temp != undefined) {
-            //         tdBodys += "<td>" + temp.toFixed(0) + "</td>";
-            //       } else {
-            //         tdBodys += "<td></td>";
-            //       }
-            //     }
-            //     table +=
-            //       '<tr><td style="padding: 0 10px">' +
-            //       axisData[i] +
-            //       "</td>" +
-            //       tdBodys +
-            //       "</tr>";
-            //     tdBodys = "";
-            //   }
-            //   table += "</tbody></table>";
-            //   return table;
-            // }
-            // },
-            // magicType: { show: true, type: ["line", "bar"] },
-            // restore: { show: true },
             saveAsImage: { show: true }
           }
         },
@@ -95,23 +39,18 @@ export default {
           // bottom: '5%', // 与容器底部的距离
         },
         title: {
-          text: "各气候模式未来年径流均值",
-          //   textStyle: {
-          //     fontSize: 16
-          //   },
-          // subtext: '',
+          text: "未来年径流均值",
           x: "center"
         },
-        xAxis: [
-          {
-            type: "category",
-            name: "时间",
-            nameGap: 22,
-            nameLocation: "center",
-            axisTick: { show: false },
-            data: ["2030S", "2060S", "2090S"]
-          }
-        ],
+        xAxis: {
+          type: "category",
+          name: "时间/年",
+          nameGap: 22,
+          nameLocation: "center",
+          axisTick: { show: false },
+          // data: ["2030S", "2060S", "2090S"]
+          data: []
+        },
         yAxis: [
           {
             type: "value",
@@ -124,37 +63,63 @@ export default {
         ],
         legend: {
           y: "bottom",
-          data: ["OBS", "CNRM", "CanESM", "GFDL", "MIROC"]
+          data: ["CanESM", "CNRM", "GFDL", "MIROC"]
+          // data: ["OBS", "CNRM", "CanESM", "GFDL", "MIROC"]
         },
         series: [
+          // {
+          //   name: "OBS",
+          //   data: [],
+          //   type: "bar"
+          // },
           {
-            name: "OBS",
-            data: [1577, 1577, 1577],
+            name: "CanESM",
+            data: [],
             type: "bar"
           },
           {
             name: "CNRM",
-            data: [2056, 2081, 2084],
+            data: [],
             type: "bar"
           },
-          {
-            name: "CanESM",
-            data: [1661, 1872, 2009],
-            type: "bar"
-          },
+
           {
             name: "GFDL",
-            data: [2047, 1947, 1893],
+            data: [],
             type: "bar"
           },
           {
             name: "MIROC",
-            data: [1687, 1678, 1820],
+            data: [],
             type: "bar"
           }
         ]
       }
     };
+  },
+  components: {
+    chart: ECharts
+  },
+  methods: {
+    setChartData() {
+      bus.$on("swatData", data => {
+        for (let i = 0; i < data.length; i++) {
+          this.option.series[i].data = data[i].avgYear;
+          console.log("avgYear", this.option.series[i].data);
+        }
+        this.option.xAxis.data = data[0].xYear;
+      });
+    },
+    inintChartData() {}
+  },
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    this.setChartData();
+  },
+  beforeDestroy() {
+    bus.$off("swatData");
   }
 };
 </script>

@@ -8,7 +8,7 @@
         <div class="box">
           <div class="runoff_top">
             <div style=" width: calc((100% - 15px));">
-              <charts style="width:100%;height:100%"></charts>
+              <pfCharts style="width:100%;height:100%"></pfCharts>
             </div>
           </div>
           <div class="runoff_mid">
@@ -30,37 +30,31 @@
   </el-container>
 </template>
 <script>
-import Charts from "@/components/RunoffPredict/Charts";
+import PFCharts from "@/components/RunoffPredict/PFCharts";
 import LineCharts from "@/components/RunoffPredict/LineCharts";
 import BarCharts from "@/components/RunoffPredict/BarCharts";
 import InputData from "@/components/RunoffPredict/RunOffInputData";
 import AreaChart from "@/components/RunoffPredict/AreaChart";
 import { getRequest } from "../../utils/api";
 export default {
-  mounted: function() {
-    var _this = this;
-    getRequest("/isAdmin").then(resp => {
-      if (resp.status == 200) {
-        _this.isAdmin = resp.data;
-      }
-    });
-  },
   data() {
     return {
       activeName: "post",
       isAdmin: false
     };
   },
-  methods: {
-    handleClick(tab, event) {}
-  },
+
   components: {
-    charts: Charts,
+    pfCharts: PFCharts,
     lineCharts: LineCharts,
     barCharts: BarCharts,
     inputData: InputData,
     areaChart: AreaChart
-  }
+  },
+  methods: {
+    handleClick(tab, event) {}
+  },
+  mounted: function() {}
 };
 </script>
 <style>
@@ -84,11 +78,9 @@ export default {
 }
 .box {
   height: 700px;
-  width: 1350px;
+  width: calc((100% - 290px));
   overflow: auto;
   padding-left: 10px;
-  border-left: 2px solid rgba(74, 136, 220, 0.996078431372549);
-  border-right: 2px solid rgba(74, 136, 220, 0.996078431372549);
 }
 
 .box::-webkit-scrollbar {

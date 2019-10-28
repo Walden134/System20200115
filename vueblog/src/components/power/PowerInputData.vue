@@ -92,10 +92,9 @@
 import UploadExcel from "@/components/UploadExcel";
 import Loading from "@/components/loading";
 import { getRequest } from "../../utils/api";
-import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
-import { showLoading, hideLoading } from "../../utils/loading";
+// import { showLoading, hideLoading } from "../../utils/loading";
 
 export default {
   name: "inputData",
@@ -143,19 +142,6 @@ export default {
   },
   methods: {
     resetData() {
-      // this.hydrostation.drawdownDepth = "";
-      // this.hydrostation.levelDead = "";
-      // this.hydrostation.levelNormal = "";
-      // this.hydrostation.outflowMax = "";
-      // this.hydrostation.outflowMin = "";
-      // this.hydrostation.installPower = "";
-      // this.hydrostation.levelCapacityCurve.curveData = [];
-      // this.hydrostation.leveldownOutflowCurve.curveData = [];
-      // this.hydrostation.headlossOutflowCurve.curveData = [];
-      // this.hydrostation.expectOutputHeadCurve.curveData = [];
-      // this.hydrostation.outputCoefficient = "";
-      // this.hydrostation.outputDesign = "";
-      // this.hydrostation.avgDesiginPower = "";
       this.category = [];
       this.outputs = [];
       this.powers = [];

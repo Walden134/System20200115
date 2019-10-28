@@ -3,10 +3,13 @@
     <el-col :span="24" class="mtable">
       <div class="table_name">{{title}}
         <div class="toexcel">
-          <el-button @click="exportExcel" type="primary" plain class="button" style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
+          <el-button @click="exportExcel" type="primary" plain class="button"
+            style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
         </div>
       </div>
-      <el-table :data="tableData" fit id="floodriskTable" cell-class-name="dyg" height="300" max-height="300" style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" fit id="floodriskTable" cell-class-name="dyg" height="300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+        :cell-style="{padding:'0px'}">
         <el-table-column prop="year" :label="year">
         </el-table-column>
         <el-table-column prop="levelDesign" :label="levelDesign">

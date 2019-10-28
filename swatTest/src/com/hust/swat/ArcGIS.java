@@ -17,7 +17,7 @@ public class ArcGIS {
 		int num_RiverGrids = fetchRiverGrids();
 		// Set inputs
 		String[] inputs = new String[3];
-		inputs[0] = directory;
+        inputs[0] = directory;
 		// //Create grid2dhru file
 		inputs[1] = String.valueOf(num_Grids);
 		inputs[2] = String.valueOf(num_DHRUs);

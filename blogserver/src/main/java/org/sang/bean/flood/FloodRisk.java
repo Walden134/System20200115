@@ -262,8 +262,6 @@ public class FloodRisk {
 			c.eval("library(PearsonDS)");
 			c.eval("library(rjson)");
 			c.eval("library(jsonlite)");
-			System.out.println("json <-'" + bmaPJson + "'");
-			System.out.println("json <-'" + baseFloodJson + "'");
 			c.eval("json <-'" + bmaPJson + "'");
 			c.eval("BmaP <- fromJSON(json)");// 基准期洪水降水数据
 			c.eval("p=data.frame(BmaP)");
@@ -406,17 +404,17 @@ public class FloodRisk {
 //		double Vstart = 45580;
 //		double interpolationY = interpolationY(2096.27, "Q_Z");
 //		List<double[][]> Qing = floodHydrograph;
-		double[] riskrate1 = new double[floodHydrograph.size()];
+		double[] riskrate1 = new double[floodHydrograph.size()];// 80
 		double[] riskrate2 = new double[floodHydrograph.size()];
 		double[] riskrate3 = new double[floodHydrograph.size()];
 		int num1;
 		int num2;
 		int num3;
-		for (int k = 0; k < floodHydrograph.size(); k++) {
+		for (int k = 0; k < floodHydrograph.size(); k++) {//80
 			num1 = 0;
 			num2 = 0;
 			num3 = 0;
-			for (int m = 0; m < floodHydrograph.get(k).length; m++) {
+			for (int m = 0; m < floodHydrograph.get(k).length; m++) {// 100
 				double Qin[] = floodHydrograph.get(k)[m];
 				V = new double[Qin.length];
 				Z = new double[Qin.length];
@@ -430,7 +428,7 @@ public class FloodRisk {
 				int mIndex = 0;
 				double startQ = interpolationY(V[0], "Q_V");
 				double startQ1 = leveldownOutflowCurve.getDeltaByV0(V[0]);
-				for (int i = 1; i < Qin.length; i++) {
+				for (int i = 1; i < Qin.length; i++) {//180
 					if (Qin[i] <= startQ) {
 						q[i] = Qin[i];
 						V[i] = V[0];

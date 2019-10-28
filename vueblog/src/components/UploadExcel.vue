@@ -4,8 +4,6 @@
     :before-upload="beforeUpload" action='https://jsonplaceholder.typicode.com/posts/' :limit="1"
     :on-exceed="handleExceed" :on-success="handleSuccess" accept=".xlsx">
     <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-    <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button> -->
-    <!-- <div slot="tip" class="el-upload__tip">只能上传Excel文件</div> -->
   </el-upload>
 </template>
 
@@ -68,42 +66,14 @@ export default {
 </script>
 
 <style>
-.el-upload-list__item-status-label {
-  /* position: absolute;
-  right: 5px;
-  top: -35px;
-  line-height: inherit;
-  display: none; */
-}
 .upload-excel .el-upload-list__item-name {
-  /* color: #606266; */
   display: none;
-  /* margin-right: 40px;
-  overflow: hidden;
-  padding-left: 4px;
-  text-overflow: ellipsis;
-  -webkit-transition: color 0.3s;
-  transition: color 0.3s;
-  white-space: nowrap; */
 }
 .upload-excel .el-upload-list__item .el-icon-close-tip {
   display: none;
-  /* position: absolute;
-  top: -29px;
-  right: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  opacity: 1;
-  color: #409eff; */
 }
 .el-upload-list__item .el-icon-close {
   display: none;
-  /* position: absolute;
-  top: -29px;
-  right: 5px;
-  cursor: pointer;
-  opacity: 0.75;
-  color: #606266; */
 }
 .upload-excel .el-upload-list {
   position: relative;

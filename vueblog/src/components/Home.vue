@@ -2,7 +2,7 @@
   <el-container class="home_container">
     <el-header style="height: 130px;width:100%">
       <div class="head-img"></div>
-      <img id="u66_img" class="img " src="../assets/u66.png">
+      <img id="u66_img" src="../assets/u66.png">
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -25,7 +25,6 @@
           </template>
         </el-menu>
       </el-aside>
-
       <el-container>
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -82,12 +81,7 @@ export default {
   width: 100%;
 }
 .el-header {
-  background-color: rgba(74, 136, 220, 0.996078431372549);
-  color: #333;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 0;
 }
 
 .el-aside {
@@ -116,18 +110,7 @@ export default {
   float: right;
   margin-left: 10px;
 }
-.el-header {
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
+
 .article_list .el-tabs__header {
   margin: 0;
 }
@@ -162,9 +145,6 @@ export default {
 }
 .head-img {
   border-width: 0px;
-  position: absolute;
-  left: 0px;
-  top: 0px;
   width: 1920px;
   height: 130px;
   background: inherit;
