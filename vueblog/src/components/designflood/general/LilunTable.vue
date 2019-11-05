@@ -7,14 +7,14 @@
             style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
         </div>
       </div>
-      <el-table :data="tableData" fit id="lilunTable" cell-class-name="dyg" height=" 300" max-height="300"
-        style="width:calc(100% - 5px);height:300px;border:2px;background-color:#f0f8ff" :row-style="{height:'20px'}"
+      <el-table :data="tableData" id="shiceTable" cell-class-name="dyg"
+        style="width:calc(100% - 5px);height:100%;border:2px;background-color:#f0f8ff" :row-style="{height:'20px'}"
         :cell-style="{padding:'0px'}">
         <el-table-column prop="number" :label="number"> </el-table-column>
         <el-table-column prop="frequency" :label="frequency"> </el-table-column>
         <el-table-column prop="flow" :label="flow"> </el-table-column>
       </el-table>
-      <div style="background-color:#f0f8ff;height:5px"></div>
+      <!-- <div style="background-color:#f0f8ff;height:5px"></div> -->
     </el-col>
   </el-row>
 </template>

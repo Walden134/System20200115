@@ -242,6 +242,7 @@ export default {
           if (resp.status == 200) {
             //成功
             console.log(resp.data);
+            debugger;
             bus.$emit("xAxis", resp.data.xAxis);
             bus.$emit("xAxisONE", resp.data.xAxisONE);
             bus.$emit("powerList", resp.data.powerList);

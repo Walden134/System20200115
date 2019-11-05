@@ -25,7 +25,6 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    // name: "径流预测",
     children: [
       {
         path: "/runoff",
@@ -64,7 +63,6 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    // name: "发电效益",
     children: [
       {
         path: "/powerBenefit",
@@ -79,7 +77,6 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    // name: "防洪风险",
     children: [
       {
         path: "/floodRisk",

@@ -42,13 +42,12 @@ export default {
           }
         },
         xAxis: {
-          name: "",
-          nameGap: 25,
+          name: "时间(年)",
           type: "category",
           data: [],
+          nameLocation: "center",
+          nameGap: 25,
           axisLabel: {
-            interval: 0,
-            rotate: 0,
             fontSize: 10
           },
           splitLine: {
@@ -76,7 +75,7 @@ export default {
         },
         grid: {
           left: "60px",
-          right: "10px",
+          right: "20px",
           top: "40px"
         },
         series: [
@@ -107,11 +106,8 @@ export default {
             name: "MIROC",
             data: []
           }
-        ],
-        animationDuration: 30
-      },
-      situations: [],
-      patterns: []
+        ]
+      }
     };
   },
   computed: {},
@@ -154,9 +150,7 @@ export default {
   beforeDestroy() {
     bus.$off("xAxisONE");
     bus.$off("powerONEList");
-    this.chart.clear();
-  },
-  watch: {}
+  }
 };
 </script>
 

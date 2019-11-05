@@ -5,7 +5,7 @@ let loading;
 
 const startLoading = () => {
     loading = Loading.service({
-        lock: true,
+        lock: false,
         text: '正在计算',
         background: 'rgba(0, 0, 0, 0.8)'
     });

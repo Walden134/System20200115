@@ -38,10 +38,18 @@ export default {
         xAxis: {
           name: "时间(年)",
           nameLocation: "center",
-          nameGap: 30,
-          axisTick: {
-            inside: true
+          nameGap: 40,
+          type: "category",
+          boundaryGap: false,
+          axisLabel: {
+            interval: function(index, value) {
+              if (value % 10 == "0" || value == "2021") {
+                return true;
+              }
+              return false;
+            }
           },
+          axisTick: { inside: true },
           data: [
             "2021",
             "2022",
@@ -138,7 +146,7 @@ export default {
         },
         grid: {
           left: "60px",
-          right: "10px",
+          right: "20px",
           top: "40px"
         },
         series: [

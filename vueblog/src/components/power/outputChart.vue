@@ -47,9 +47,9 @@ export default {
         xAxis: {
           type: "category",
           data: [],
-          // name: "不同情景",
-          // nameLocation: "center",
-          // nameGap: 25,
+          name: "不同情景",
+          nameLocation: "center",
+          nameGap: 25,
           axisLabel: {
             interval: 0,
             rotate: 0,
@@ -76,7 +76,7 @@ export default {
         },
         grid: {
           left: "60px",
-          right: "10px",
+          right: "20px",
           top: "40px"
         },
         series: [
@@ -129,12 +129,10 @@ export default {
   beforeDestroy() {
     bus.$off("outputList");
     bus.$off("xAxis");
-    this.chart.clear();
   },
 
   created() {
     this.setChartData();
-  },
-  watch: {}
+  }
 };
 </script>

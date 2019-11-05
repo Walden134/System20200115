@@ -1,7 +1,7 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+      <el-tabs type="card">
         <div class="pane">
           <inputData></inputData>
         </div>
@@ -12,7 +12,7 @@
           <div class="one_chart">
             <designCharts class="chart"></designCharts>
           </div>
-          <div class="one_table">
+          <div class="one_table" style="height:190px;">
             <eightTable class="table"></eightTable>
           </div>
         </div>

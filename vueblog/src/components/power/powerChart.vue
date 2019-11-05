@@ -45,8 +45,6 @@ export default {
           nameGap: 25,
           data: [],
           axisLabel: {
-            interval: 0,
-            rotate: 0,
             fontSize: 10
           },
           splitLine: {
@@ -74,7 +72,7 @@ export default {
         },
         grid: {
           left: "60px",
-          right: "10px",
+          right: "20px",
           top: "40px"
         },
         series: [
@@ -99,14 +97,10 @@ export default {
             name: "枯水期",
             data: []
           }
-        ],
-        animationDuration: 30
-      },
-      situations: [],
-      patterns: []
+        ]
+      }
     };
   },
-  computed: {},
   components: {
     chart: ECharts
   },
@@ -150,9 +144,7 @@ export default {
   beforeDestroy() {
     bus.$off("powerList");
     bus.$off("xAxis");
-    this.chart.clear();
-  },
-  watch: {}
+  }
 };
 </script>
 

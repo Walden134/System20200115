@@ -59,7 +59,6 @@ export default {
           nameGap: 40,
           type: "category",
           boundaryGap: false,
-
           axisLabel: {
             interval: 10
           },

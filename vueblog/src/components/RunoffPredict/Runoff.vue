@@ -1,7 +1,7 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+      <el-tabs type="card">
         <div class="pane">
           <inputData></inputData>
         </div>

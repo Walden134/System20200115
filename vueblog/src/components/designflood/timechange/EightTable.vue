@@ -8,20 +8,38 @@
         </div>
       </div>
       <el-table :data="tableData" id="dfResultTable" cell-class-name="dyg"
-        style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" height="285" :row-style="{height:'30px'}"
+        style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" :row-style="{height:'30px'}"
         :cell-style="{padding:'0px'}">
-        <el-table-column label="年降水" align="right" width="10">
-          <el-table-column prop="title" align="left" label="特征值" width="111">
-          </el-table-column>
+        <el-table-column label="特征值" align="right" width="10">
+          <el-table-column prop="title" align="left" label="年降水" width="111"> </el-table-column>
         </el-table-column>
-        <el-table-column align="center" prop="first" label="5%" width="80">
-        </el-table-column>
-        <el-table-column align="center" prop="second" label="50%" width="80">
-        </el-table-column>
-        <el-table-column align="center" prop="third" label="95%" width="80">
-        </el-table-column>
+        <!-- <el-table-column align="center" label="均值" prop="5%" width="80"> </el-table-column>
+        <el-table-column align="center" label="cv" prop="50%" width="80"> </el-table-column>
+        <el-table-column align="center" label="cs" prop="95%" width="80"> </el-table-column> -->
+        <el-table-column align="center" label="0.01%" prop="prop1" width="80"> </el-table-column>
+        <el-table-column align="center" label="0.05%" prop="prop2" width="80"> </el-table-column>
+        <el-table-column align="center" label="0.1%" prop="prop3" width="80"> </el-table-column>
+        <el-table-column align="center" label="0.2%" prop="prop4" width="80"> </el-table-column>
+        <el-table-column align="center" label="0.5%" prop="prop5" width="80"> </el-table-column>
+        <el-table-column align="center" label="1%" prop="prop6" width="80"> </el-table-column>
+        <el-table-column align="center" label="5%" prop="prop7" width="80"> </el-table-column>
+        <el-table-column align="center" label="10%" prop="prop8" width="80"> </el-table-column>
+        <el-table-column align="center" label="15%" prop="prop9" width="80"> </el-table-column>
+        <el-table-column align="center" label="20%" prop="prop10" width="80"> </el-table-column>
+        <el-table-column align="center" label="30%" prop="prop11" width="80"> </el-table-column>
+        <el-table-column align="center" label="40%" prop="prop12" width="80"> </el-table-column>
+        <el-table-column align="center" label="50%" prop="prop13" width="80"> </el-table-column>
+        <el-table-column align="center" label="60%" prop="prop14" width="80"> </el-table-column>
+        <el-table-column align="center" label="70%" prop="prop15" width="80"> </el-table-column>
+        <el-table-column align="center" label="80%" prop="prop16" width="80"> </el-table-column>
+        <el-table-column align="center" label="90%" prop="prop17" width="80"> </el-table-column>
+        <el-table-column align="center" label="95%" prop="prop18" width="80"> </el-table-column>
+        <el-table-column align="center" label="99%" prop="prop19" width="80"> </el-table-column>
+        <el-table-column align="center" label="99.9%" prop="prop20" width="80"> </el-table-column>
+        <el-table-column align="center" label="99.95%" prop="prop21" width="80"> </el-table-column>
+        <el-table-column align="center" label="99.99%" prop="prop22" width="80"> </el-table-column>
       </el-table>
-      <div style="background-color:#f0f8ff;height:5px"></div>
+      <!-- <div style="background-color:#f0f8ff;height:5px"></div> -->
     </el-col>
   </el-row>
 </template>
@@ -39,64 +57,38 @@ export default {
       ex: [],
       cs: [],
       cv: [],
-      title: [
-        "均值",
-        "cv",
-        "cs",
-        "0.01%",
-        "0.05%",
-        "0.1%",
-        "0.2%",
-        "0.5%",
-        "1%",
-        "5%",
-        "10%",
-        "15%",
-        "20%",
-        "30%",
-        "40%",
-        "50%",
-        "60%",
-        "70%",
-        "80%",
-        "85%",
-        "90%",
-        "95%",
-        "99%",
-        "99.9%",
-        "99.95%",
-        "99.99%"
-      ]
+      title: ["5%", "50%", "95%"]
     };
   },
   methods: {
     setTableData() {
       this.tableData = [];
-      let tmp = {};
-      // tmp.title = this.title[0];
-      // tmp.first = this.ex[0];
-      // tmp.second = this.ex[1];
-      // tmp.third = this.ex[2];
-      // this.tableData.push(tmp);
-      // tmp = {};
-      // tmp.title = this.title[1];
-      // tmp.first = this.cv[0];
-      // tmp.second = this.cv[1];
-      // tmp.third = this.cv[2];
-      // this.tableData.push(tmp);
-      // tmp = {};
-      // tmp.title = this.title[2];
-      // tmp.first = this.cs[0];
-      // tmp.second = this.cs[1];
-      // tmp.third = this.cs[2];
-      // this.tableData.push(tmp);
-      for (let j = 0; j < this.title.length - 3; j++) {
-        tmp = {};
-        tmp.title = this.title[j + 3];
+      for (let j = 1; j < 4; j++) {
+        let tmp = {};
+        tmp.title = this.title[j - 1];
         if (this.designp.length > 0) {
-          tmp.first = this.designp[1][j];
-          tmp.second = this.designp[2][j];
-          tmp.third = this.designp[3][j];
+          tmp.prop1 = this.designp[j][0];
+          tmp.prop2 = this.designp[j][1];
+          tmp.prop3 = this.designp[j][2];
+          tmp.prop4 = this.designp[j][3];
+          tmp.prop5 = this.designp[j][4];
+          tmp.prop6 = this.designp[j][5];
+          tmp.prop7 = this.designp[j][6];
+          tmp.prop8 = this.designp[j][7];
+          tmp.prop9 = this.designp[j][8];
+          tmp.prop10 = this.designp[j][9];
+          tmp.prop11 = this.designp[j][10];
+          tmp.prop12 = this.designp[j][11];
+          tmp.prop13 = this.designp[j][12];
+          tmp.prop14 = this.designp[j][13];
+          tmp.prop15 = this.designp[j][14];
+          tmp.prop16 = this.designp[j][15];
+          tmp.prop17 = this.designp[j][16];
+          tmp.prop18 = this.designp[j][17];
+          tmp.prop19 = this.designp[j][18];
+          tmp.prop20 = this.designp[j][19];
+          tmp.prop21 = this.designp[j][20];
+          tmp.prop22 = this.designp[j][21];
         }
         this.tableData.push(tmp);
       }
@@ -258,8 +250,3 @@ export default {
   /* background: red; */
 }
 </style>
-
-
-function newFunction() {
-  return 2;
-}

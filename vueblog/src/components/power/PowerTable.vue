@@ -8,14 +8,13 @@
         </div>
       </div>
       <!-- header-cell-style="background-color:#f0f8ff" -->
-      <el-table :data="tableData" id="powerTable" cell-class-name="dyg" fit height="300" max-height="300"
-        style="width:calc(100% - 5px);" :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="circumstances" label="情景" style="width:140px">
+      <el-table :data="tableData" id="powerTable" cell-class-name="dyg" style="width:calc(100% - 5px);height:100%;"
+        :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
+        <el-table-column prop="circumstances" label="情景" width="180">
         </el-table-column>
         <el-table-column label="95%保证出力">
           <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
           <el-table-column prop="output_amp" label="增幅(%)"></el-table-column>
-
         </el-table-column>
         <el-table-column label="全年发电量">
           <el-table-column prop="annual_power" label="值(亿kW•h)"></el-table-column>
@@ -37,7 +36,7 @@
 
         </el-table-column>
       </el-table>
-      <div class="table_name" style="height: 5px;"></div>
+      <!-- <div class="table_name" style="height: 5px;"></div> -->
     </el-col>
   </el-row>
 </template>

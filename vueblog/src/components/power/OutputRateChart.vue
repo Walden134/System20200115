@@ -61,7 +61,7 @@ export default {
           axisLabel: {
             interval: 9,
             rotate: 0,
-            fontSize: 12
+            fontSize: 10
           }
         },
         yAxis: {
@@ -77,7 +77,6 @@ export default {
           }
         },
         legend: {
-          // y: "8%",
           y: "bottom",
           data: [
             { name: "GFDL", icon: "line" },
@@ -89,7 +88,7 @@ export default {
         },
         grid: {
           left: "60px",
-          right: "10px",
+          right: "20px",
           top: "40px"
         },
         series: [
@@ -118,8 +117,7 @@ export default {
             type: "line",
             data: []
           }
-        ],
-        animationDuration: 30
+        ]
       }
     };
   },
@@ -159,19 +157,9 @@ export default {
   beforeDestroy() {
     bus.$off("outputRatexAxis");
     bus.$off("outputRateList");
-    this.chart.clear();
   },
-
   created() {
     this.setChartData();
-  },
-  watch: {
-    // situations() {
-    //   this.getRequestData();
-    // },
-    // patterns() {
-    //   this.getRequestData();
-    // }
   }
 };
 </script>

@@ -31,6 +31,7 @@
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-text="this.$router.currentRoute.name"></el-breadcrumb-item>
           </el-breadcrumb>
+          <div class="backgroud-img" v-show="!this.$router.currentRoute.name"></div>
           <keep-alive>
             <router-view v-if="this.$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -195,6 +196,7 @@ export default {
   background-image: url(../assets/head_img.jpg);
   background-size: 100% 100%;
 }
+
 #u66_img {
   border-width: 0px;
   position: absolute;
@@ -202,5 +204,13 @@ export default {
   top: 63px;
   width: 46px;
   height: 21px;
+}
+
+.backgroud-img {
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 35px);
+  background-image: url(../assets/head_img.jpg);
+  background-size: 100% 100%;
 }
 </style>
