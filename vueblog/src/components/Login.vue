@@ -45,7 +45,7 @@ export default {
             //成功
             var json = resp.data;
             if (json.status == "success") {
-              _this.$router.replace({ path: "/runoff" });
+              _this.$router.replace({ path: "/home" });
             } else {
               _this.$alert("登录失败!", "失败!");
             }

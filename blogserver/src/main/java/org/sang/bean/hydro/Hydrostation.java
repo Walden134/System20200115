@@ -16,7 +16,7 @@ public class Hydrostation implements Serializable {
 				+ ", outputCoefficient=" + outputCoefficient + ", outputDesign=" + outputDesign + ", avgDesiginPower="
 				+ avgDesiginPower + ", levelCapacityCurve=" + levelCapacityCurve + ", leveldownOutflowCurve="
 				+ leveldownOutflowCurve + ", headlossOutflowCurve=" + headlossOutflowCurve + ", ExpectOutputHeadCurve="
-				+ ExpectOutputHeadCurve + "]";
+				+ expectOutputHeadCurve + "]";
 	}
 
 	/*
@@ -88,22 +88,22 @@ public class Hydrostation implements Serializable {
 	/**
 	 * 水头预想出力曲线
 	 */
-	private DoubleCurve ExpectOutputHeadCurve;
+	private DoubleCurve expectOutputHeadCurve;
 
 	public Hydrostation() {
 	}
 
 	public boolean calOutputAndPower(CalculateBean bean) {
 
-		double levelbegin =levelNormal-drawdownDepth;
+		double levelBegin = levelNormal - drawdownDepth;
 		double levelEnd = bean.getLevelEnd();
 		double inflow = bean.getInflow();
-		double deltaT = bean.getDeltaT();
-
-		double v0 = levelCapacityCurve.getV1ByV0(levelbegin);
+		double deltaT = bean.getDeltaT();// deltaT的时间为天数
+		// 计算下泄量
+		double v0 = levelCapacityCurve.getV1ByV0(levelBegin);
 		double vt = levelCapacityCurve.getV1ByV0(levelEnd);
 		double deltaQ = (vt - v0) * 1e4 / (deltaT * 24 * 3600);
-		double outflow = inflow - deltaQ - 0.5;
+		double outflow = inflow - deltaQ;
 
 		/*
 		 * 判断下泄流量约束
@@ -115,28 +115,31 @@ public class Hydrostation implements Serializable {
 		}
 		if (outflow < outflowMin) {
 			outflow = outflowMin;
-//			System.out.println("不满足最小下泄流量约束");
+			System.out.println("不满足最小下泄流量约束");
 //			return false;
 		}
-
-		/*
-		 * 查表得下游尾水位并计算毛水头
-		 */
-		double headgross = levelNormal - 1 - leveldownOutflowCurve.getV0ByV1(outflow);
-
-		/*
-		 * 查表得水头损失计算净水头
-		 */
-		double headnet = headgross - headlossOutflowCurve.getV1ByV0(outflow);
-
-		/*
-		 * 计算出力 KW
-		 */
+		// 3.计算下游水位（尾水位）
+		double leveldown = leveldownOutflowCurve.getV0ByV1(outflow);
+		// 4.计算毛水头
+		double headgross = (levelBegin + levelEnd) / 2 - leveldown;
+		// 5.计算水头损失
+		double headloss = headlossOutflowCurve.getV1ByV0(outflow); // 补充查询曲线的内容
+		// 6.计算净水头
+		double headnet = headgross - headloss;
+		System.out.println(headnet);
+		// 7.计算出力
 		double output = outputCoefficient * headnet * outflow;
+//		// 8.判断预想出力
+//		double expectoutput = expectOutputHeadCurve.getV1ByV0(headnet);
+//		double outflowDesert = 0;
+//		if (output > expectoutput) {
+//			output = expectoutput;
+//			outflowDesert = outflow - output * 1e4 / (outputCoefficient * headnet);
+//
+//		}
 		if (output < 0) {
 			System.out.println(output);
 		}
-//		System.out.println("outputDesign="+outputDesign);
 		if (output > installPower * 1000) {
 			output = installPower * 1000;
 		}
@@ -144,10 +147,12 @@ public class Hydrostation implements Serializable {
 		 * 计算发电量 kw*h
 		 */
 		double power = output * deltaT * 24;
-		/*
-		 * 输出结果
-		 */
-
+		// 9.输出结果
+		bean.setLevelEnd(levelEnd);
+		bean.setHeadgross(headgross);
+		bean.setHeadnet(headnet);
+		bean.setOutflow(outflow);
+//		bean.setOutflowDesert(outflowDesert);
 		bean.setPower(power);
 		bean.setOutput(output);
 		return true;
@@ -242,11 +247,11 @@ public class Hydrostation implements Serializable {
 	}
 
 	public DoubleCurve getExpectOutputHeadCurve() {
-		return ExpectOutputHeadCurve;
+		return expectOutputHeadCurve;
 	}
 
 	public void setExpectOutputHeadCurve(DoubleCurve expectOutputHeadCurve) {
-		ExpectOutputHeadCurve = expectOutputHeadCurve;
+		this.expectOutputHeadCurve = expectOutputHeadCurve;
 	}
 
 	public double getOutputDesign() {

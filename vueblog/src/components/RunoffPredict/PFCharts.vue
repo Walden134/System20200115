@@ -53,9 +53,9 @@ export default {
           ]
         },
         grid: {
-          left: "5%",
-          right: "5%",
-          top: "9%"
+          left: "60px",
+          right: "60px",
+          top: "40px"
         },
         title: {
           text: "降水-径流过程",

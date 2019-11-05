@@ -14,9 +14,9 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import echarts from "echarts";
-import storageUtils from "../../utils/storageUtils";
+import storageUtils from "@/utils/storageUtils";
 
-import { getRequest } from "../../utils/api";
+import { getRequest } from "@/utils/api";
 export default {
   data: function() {
     return {
@@ -50,7 +50,7 @@ export default {
         grid: {
           top: 30,
           bottom: 40,
-          left: 70,
+          left: 60,
           right: 10 //和legend中right保持一致
         },
         toolbox: {
@@ -79,7 +79,7 @@ export default {
         yAxis: {
           name: "流量(m³/s)",
           nameLocation: "center",
-          nameGap: 48,
+          nameGap: 30,
           type: "value",
           splitLine: {
             show: true,
@@ -138,7 +138,7 @@ export default {
                 { name: 90, xAxis: 5.000568051 },
                 { name: 95, xAxis: 5.363870112 },
                 { name: 99, xAxis: 6.045364359 },
-                { name: 99.9, xAxis: 6.809248792 },
+                { name: 99.9, xAxis: 6.749248792 }, //6.809248792
                 { name: 99.95, xAxis: 7.009543217 },
                 { name: 99.99, xAxis: 7.438032971 },
                 { xAxis: 8.0 }
@@ -193,7 +193,7 @@ export default {
               { value: [5.00056805100028, 0], name: "" },
               { value: [5.36387011240715, 0], name: "" },
               { value: [6.04536435949652, 0], name: "" },
-              { value: [6.80924879162353, 0], name: "" },
+              { value: [6.74924879162353, 0], name: "" },
               { value: [7.00954321694761, 0], name: "" },
               { value: [7.43803297091111, 0], name: "" },
               { value: [8, 0], name: "" }

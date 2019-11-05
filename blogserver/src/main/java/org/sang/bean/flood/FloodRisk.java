@@ -3,6 +3,8 @@ package org.sang.bean.flood;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,6 @@ import java.util.Map;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
 import org.sang.bean.hydro.DoubleCurve;
 
 import com.alibaba.fastjson.JSON;
@@ -404,17 +405,21 @@ public class FloodRisk {
 //		double Vstart = 45580;
 //		double interpolationY = interpolationY(2096.27, "Q_Z");
 //		List<double[][]> Qing = floodHydrograph;
-		double[] riskrate1 = new double[floodHydrograph.size()];// 80
-		double[] riskrate2 = new double[floodHydrograph.size()];
-		double[] riskrate3 = new double[floodHydrograph.size()];
+		int yearNum = floodHydrograph.size();// 80
+		int floodNum = floodHydrograph.get(0).length;// 100
+		double[] riskrate1 = new double[yearNum];
+		double[] riskrate2 = new double[yearNum];
+		double[] riskrate3 = new double[yearNum];
+		double[][] levels = new double[floodNum][yearNum];// 100*80
 		int num1;
 		int num2;
 		int num3;
-		for (int k = 0; k < floodHydrograph.size(); k++) {//80
+		for (int k = 0; k < yearNum; k++) {// 80
 			num1 = 0;
 			num2 = 0;
 			num3 = 0;
-			for (int m = 0; m < floodHydrograph.get(k).length; m++) {// 100
+			for (int m = 0; m < floodNum; m++) {// 100
+				double max_lev = 0;
 				double Qin[] = floodHydrograph.get(k)[m];
 				V = new double[Qin.length];
 				Z = new double[Qin.length];
@@ -428,7 +433,7 @@ public class FloodRisk {
 				int mIndex = 0;
 				double startQ = interpolationY(V[0], "Q_V");
 				double startQ1 = leveldownOutflowCurve.getDeltaByV0(V[0]);
-				for (int i = 1; i < Qin.length; i++) {//180
+				for (int i = 1; i < Qin.length; i++) {// 180
 					if (Qin[i] <= startQ) {
 						q[i] = Qin[i];
 						V[i] = V[0];
@@ -458,9 +463,13 @@ public class FloodRisk {
 						max = level[i];
 						mIndex = i;
 					}
+					if (max_lev <= level[i]) {
+						max_lev = level[i];
+					}
 					if (maxq <= q[i]) {
 						maxq = q[i];
 					}
+
 				}
 
 				if (level[mIndex] > levelDesign) {
@@ -474,6 +483,7 @@ public class FloodRisk {
 				if (level[mIndex] > levelDam) {
 					num3 = num3 + 1;
 				}
+				levels[m][k] = max_lev;
 			}
 
 			// 计算三种情景下的风险率
@@ -489,6 +499,21 @@ public class FloodRisk {
 		riskRes.add(riskrate1);
 		riskRes.add(riskrate2);
 		riskRes.add(riskrate3);
+
+		Comparator<Double> cmp = new Comparator<Double>() {
+			public int compare(Double i1, Double i2) {
+				return (int) (i2 - i1);
+			}
+		};
+
+		Arrays.sort(levels[49]);
+		Arrays.sort(levels[74]);
+		Arrays.sort(levels[89]);
+		Arrays.sort(levels[94]);
+		riskRes.add(levels[49]);
+		riskRes.add(levels[74]);
+		riskRes.add(levels[89]);
+		riskRes.add(levels[94]);
 		return riskRes;
 	}
 

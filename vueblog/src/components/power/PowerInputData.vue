@@ -130,8 +130,10 @@ export default {
         deltaT: 1
       },
       category: [],
+      xAxisONE: [],
       outputs: [],
       powers: [],
+      powersONE: [],
       outputratelist: [],
       outputratexaxis: []
     };
@@ -143,12 +145,16 @@ export default {
   methods: {
     resetData() {
       this.category = [];
+      this.xAxisONE = [];
       this.outputs = [];
       this.powers = [];
+      this.powersONE = [];
       this.outputratelist = [];
       this.outputratexaxis = [];
       bus.$emit("xAxis", []);
+      bus.$emit("xAxisONE", []);
       bus.$emit("powerList", []);
+      bus.$emit("powerONEList", []);
       bus.$emit("outputList", []);
       bus.$emit("outputRatexAxis", []);
       bus.$emit("outputRateList", []);
@@ -217,7 +223,10 @@ export default {
         return;
       }
       bus.$emit("xAxis", []);
+      bus.$emit("xAxisONE", []);
       bus.$emit("powerList", []);
+      bus.$emit("powerONEList", []);
+
       bus.$emit("outputList", []);
       bus.$emit("outputRatexAxis", []);
       bus.$emit("outputRateList", []);
@@ -232,14 +241,19 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
+            console.log(resp.data);
             bus.$emit("xAxis", resp.data.xAxis);
+            bus.$emit("xAxisONE", resp.data.xAxisONE);
             bus.$emit("powerList", resp.data.powerList);
+            bus.$emit("powerONEList", resp.data.powerONEList);
             bus.$emit("outputList", resp.data.outputList);
             bus.$emit("outputRatexAxis", resp.data.outputRatexAxis);
             bus.$emit("outputRateList", resp.data.outputRateList);
 
             _this.category = resp.data.xAxis;
+            _this.xAxisONE = resp.data.xAxisONE;
             _this.powers = resp.data.powerList;
+            _this.powersONE = resp.data.powerONEList;
             _this.outputs = resp.data.outputList;
             _this.outputratelist = resp.data.outputRateList;
             _this.outputratexaxis = resp.data.outputRatexAxis;
@@ -274,6 +288,10 @@ export default {
       deep: true,
       handler: storageUtils.savePowers
     },
+    powersONE: {
+      deep: true,
+      handler: storageUtils.savePowersONE
+    },
     outputs: {
       deep: true,
       handler: storageUtils.saveOutputs
@@ -281,6 +299,10 @@ export default {
     category: {
       deep: true,
       handler: storageUtils.saveCategory
+    },
+    xAxisONE: {
+      deep: true,
+      handler: storageUtils.saveXAxisONE
     },
     outputratelist: {
       deep: true,

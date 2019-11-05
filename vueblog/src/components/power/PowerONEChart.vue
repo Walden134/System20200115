@@ -5,17 +5,20 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
+import "echarts/lib/component/polar";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
+import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
 export default {
+  props: ["title"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: "多年平均发电量",
+          text: "逐年发电量",
           left: "center"
         },
         tooltip: {
@@ -39,10 +42,9 @@ export default {
           }
         },
         xAxis: {
-          type: "category",
-          name: "不同情景",
-          nameLocation: "center",
+          name: "",
           nameGap: 25,
+          type: "category",
           data: [],
           axisLabel: {
             interval: 0,
@@ -70,7 +72,7 @@ export default {
         },
         legend: {
           y: "bottom",
-          data: ["全年", "丰水期", "平水期", "枯水期"]
+          data: ["CanESM", "GFDL", "BMA", "CNRM", "MIROC"]
         },
         grid: {
           left: "60px",
@@ -79,24 +81,30 @@ export default {
         },
         series: [
           {
-            type: "bar",
-            name: "全年",
+            type: "line",
+            name: "CanESM",
             data: []
           },
           {
-            type: "bar",
-            name: "丰水期",
+            type: "line",
+            name: "GFDL",
+            data: []
+          },
+          {
+            type: "line",
+            name: "BMA",
             data: []
           },
 
           {
-            type: "bar",
-            name: "平水期",
+            type: "line",
+            name: "CNRM",
             data: []
           },
+
           {
-            type: "bar",
-            name: "枯水期",
+            type: "line",
+            name: "MIROC",
             data: []
           }
         ],
@@ -112,32 +120,28 @@ export default {
   },
   methods: {
     setChartData() {
-      bus.$on("powerList", data => {
+      bus.$on("powerONEList", data => {
         for (let j = 0; j < data.length; j++) {
-          for (let i = 0; i < 4; i++) {
-            this.$refs.dschart.options.series[i].data[j] = data[j][i];
-          }
+          this.chartdata.series[j].data = data[j];
         }
         if (data.length == 0 || data == null)
           for (let j = 0; j < this.chartdata.series.length; j++)
-            this.$refs.dschart.options.series[j].data = [];
+            this.chartdata.series[j].data = [];
       });
-      bus.$on("xAxis", data => {
-        this.$refs.dschart.options.xAxis.data = data;
+      bus.$on("xAxisONE", data => {
+        this.chartdata.xAxis.data = data;
       });
     },
     inintChartData() {
-      let data1 = storageUtils.readPowers();
-      if (data1) {
-        for (let j = 0; j < data1.length; j++) {
-          for (let i = 0; i < 4; i++) {
-            this.$refs.dschart.options.series[i].data[j] = data1[j][i];
-          }
+      let PowerONE = storageUtils.readPowersONE();
+      if (PowerONE) {
+        for (let j = 0; j < PowerONE.length; j++) {
+          this.chartdata.series[j].data = PowerONE[j];
         }
       }
-      let data2 = storageUtils.readCategory();
-      if (data2) {
-        this.$refs.dschart.options.xAxis.data = data2;
+      let XAxisONE = storageUtils.readXAxisONE();
+      if (XAxisONE) {
+        this.chartdata.xAxis.data = XAxisONE;
       }
     }
   },
@@ -148,8 +152,8 @@ export default {
     this.setChartData();
   },
   beforeDestroy() {
-    bus.$off("powerList");
-    bus.$off("xAxis");
+    bus.$off("xAxisONE");
+    bus.$off("powerONEList");
     this.chart.clear();
   },
   watch: {}

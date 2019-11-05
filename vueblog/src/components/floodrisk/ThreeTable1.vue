@@ -3,10 +3,13 @@
     <el-col :span="24" class="mtable">
       <div class="table_name">{{title}}
         <div class="toexcel">
-          <el-button @click="exportExcel" type="primary" plain class="button" style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
+          <el-button @click="exportExcel" type="primary" plain class="button"
+            style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
         </div>
       </div>
-      <el-table :data="tableData" fit id="floodriskTable" cell-class-name="dyg" height="300" max-height="300" style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}" :cell-style="{padding:'0px'}">
+      <el-table :data="tableData" fit id="floodriskTable" cell-class-name="dyg" height="300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+        :cell-style="{padding:'0px'}">
         <el-table-column prop="year" :label="year">
         </el-table-column>
         <el-table-column prop="levelDesign" :label="levelDesign">
@@ -100,18 +103,6 @@ export default {
 
 
 <style>
-::-webkit-scrollbar {
-  width: 7px; /*滚动条宽度*/
-  height: 7px; /*滚动条高度*/
-  background-color: #f0f8ff;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
-}
-
 .mtable .el-table__header th,
 .el-table__header tr {
   background-color: #f0f8ff;

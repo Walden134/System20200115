@@ -1,23 +1,18 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">{{title}}
+      <div class="table_name">经验频率
         <div class="toexcel">
           <el-button @click="exportExcel" type="primary" plain class="button"
             style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
         </div>
       </div>
-      <el-table :data="tableData" fit id="floodriskTable" cell-class-name="dyg" height="300" max-height="300"
-        style="width:calc(100% - 5px);height:300px;border:2px;" :row-style="{height:'20px'}"
+      <el-table :data="tableData" id="shiceTable" cell-class-name="dyg" fit height=" 300" max-height="300"
+        style="width:calc(100% - 5px);height:300px;border:2px;background-color:#f0f8ff" :row-style="{height:'20px'}"
         :cell-style="{padding:'0px'}">
-        <el-table-column prop="year" :label="year">
-        </el-table-column>
-        <el-table-column prop="levelDesign" :label="levelDesign">
-        </el-table-column>
-        <el-table-column prop="levelCheck" :label="levelCheck">
-        </el-table-column>
-        <el-table-column prop="levelDam" :label="levelDam">
-        </el-table-column>
+        <el-table-column prop="number" :label="number"> </el-table-column>
+        <el-table-column prop="frequency" :label="frequency"> </el-table-column>
+        <el-table-column prop="flow" :label="flow"> </el-table-column>
       </el-table>
       <div style="background-color:#f0f8ff;height:5px"></div>
     </el-col>
@@ -25,45 +20,42 @@
 </template>
 
 <script>
-import storageUtils from "../../utils/storageUtils";
+import storageUtils from "@/utils/storageUtils";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
 export default {
   data() {
     return {
-      title: "防洪风险统计表",
-      year: "年份",
-      levelDesign: "超设计洪水风险率(%)",
-      levelCheck: "超校核洪水风险率(%)",
-      levelDam: "超坝顶洪水风险率(%)",
-      riskRes: [],
-      tableData: []
+      number: "序号",
+      frequency: "经验频率（%）",
+      flow: "实测流量(m³/s)",
+      tableData: [],
+      expFrequency: [],
+      dataFlag: 0
     };
   },
+
   methods: {
     setTableData() {
       this.tableData = [];
-      let start = 2021;
-      if (this.riskRes.length > 0) {
-        for (let j = 0; j < this.riskRes[0].length; j++) {
+      if (this.expFrequency.length > 0) {
+        let start = 1;
+        for (let j = 0; j < this.expFrequency[0].length; j++) {
           let tmp = {};
-          tmp.year = start + j;
-          tmp.levelDesign = this.riskRes[0][j];
-          tmp.levelCheck = this.riskRes[1][j];
-          tmp.levelDam = this.riskRes[2][j];
+          tmp.number = start + j;
+          tmp.frequency = Math.round(this.expFrequency[0][j] * 10000) / 100;
+          tmp.flow = this.expFrequency[1][j];
           this.tableData.push(tmp);
         }
       }
     },
     inintChartData() {
-      this.riskRes = storageUtils.readRiskRes();
+      this.expFrequency = storageUtils.readExpFrequency();
     },
     exportExcel() {
       /* generate workbook object from table */
-      let wb = XLSX.utils.table_to_book(
-        document.querySelector("#floodriskTable")
-      );
+      let wb = XLSX.utils.table_to_book(document.querySelector("#shiceTable"));
       /* get binary string as output */
       let wbout = XLSX.write(wb, {
         bookType: "xlsx",
@@ -73,7 +65,7 @@ export default {
       try {
         FileSaver.saveAs(
           new Blob([wbout], { type: "application/octet-stream" }),
-          "防洪风险统计表.xlsx"
+          "经验频率.xlsx"
         );
       } catch (e) {
         if (typeof console !== "undefined") console.log(e, wbout);
@@ -85,17 +77,27 @@ export default {
     this.inintChartData();
   },
   created() {
-    bus.$on("riskRes", data => {
-      this.riskRes = data;
+    bus.$on("expFrequency", data => {
+      this.expFrequency = data;
+    });
+    bus.$on("dataFlag", data => {
+      this.dataFlag = data;
     });
   },
   beforeDestroy() {
-    bus.$off("riskRes");
+    bus.$off("expFrequency");
   },
   computed: {},
   watch: {
-    riskRes() {
+    expFrequency() {
       this.setTableData();
+    },
+    dataFlag(newVal, oldVal) {
+      if (newVal > 0) {
+        this.flow = "实测洪量(亿m³)";
+      } else {
+        this.flow = "实测流量(m³/s)";
+      }
     }
   }
 };
@@ -103,18 +105,6 @@ export default {
 
 
 <style>
-::-webkit-scrollbar {
-  width: 7px; /*滚动条宽度*/
-  height: 7px; /*滚动条高度*/
-  background-color: #f0f8ff;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
-}
-
 .mtable .el-table__header th,
 .el-table__header tr {
   background-color: #f0f8ff;

@@ -53,16 +53,12 @@
 import UploadExcel from "@/components/UploadExcel";
 
 import { getRequest } from "../../utils/api";
-import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
 export default {
-  name: "inputData",
-  props: {},
   data() {
     return {
       labelPosition: "left",
-
       floodRisk: {
         typicalFloods: [],
         levelCapacityCurve: { curveData: [] },

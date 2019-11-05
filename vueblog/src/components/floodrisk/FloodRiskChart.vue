@@ -1,5 +1,5 @@
 <template>
-  <chart ref="dschart" :options="chartdata"></chart>
+  <chart ref="dschart" :options="chartdata" style="height:100%;width:100%" id="chart"></chart>
 </template>
 
 <style>
@@ -9,19 +9,20 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
-import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
-import { getRequest } from "../../utils/api";
-import storageUtils from "../../utils/storageUtils";
+import echarts from "echarts";
+import { getRequest } from "@/utils/api";
+import storageUtils from "@/utils/storageUtils";
+
 export default {
+  props: ["title_text", "data"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: "超校核洪水风险率",
+          text: this.title_text,
           left: "center"
         },
         toolbox: {
@@ -35,9 +36,9 @@ export default {
           }
         },
         xAxis: {
-          name: "年份",
+          name: "时间(年)",
           nameLocation: "center",
-          nameGap: 20,
+          nameGap: 30,
           axisTick: {
             inside: true
           },
@@ -127,7 +128,7 @@ export default {
         yAxis: {
           name: "风险率（%）",
           nameLocation: "center",
-          nameGap: 35,
+          nameGap: 40,
           axisTick: {
             inside: true
           },
@@ -135,46 +136,27 @@ export default {
             show: false
           }
         },
+        grid: {
+          left: "60px",
+          right: "10px",
+          top: "40px"
+        },
         series: [
           {
             data: [],
             type: "bar"
           }
-        ],
-        grid: {
-          left: "10%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%", // 与容器顶部的距离
-          bottom: "10%" // 与容器底部的距离
-        },
-        animationDuration: 300
+        ]
       }
     };
   },
   components: {
     chart: ECharts
   },
-  methods: {
-    setChartData() {
-      bus.$on("riskRes", data => {
-        this.$refs.dschart.options.series[0].data = data[1];
-      });
-    },
-    inintChartData() {
-      let data2 = storageUtils.readRiskRes();
-      if (data2.length > 0) {
-        this.$refs.dschart.options.series[0].data = data2[1];
-      }
+  watch: {
+    data() {
+      this.$refs.dschart.options.series[0].data = this.data;
     }
-  },
-  mounted() {
-    this.inintChartData();
-  },
-  created() {
-    this.setChartData();
-  },
-  beforeDestroy() {
-    bus.$off("riskRes"); this.chart.clear();
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <el-container class="home_container">
-    <el-header style="height: 130px;width:100%">
+    <el-header style="height: 130px;width:100%;padding: 0;">
       <div class="head-img"></div>
       <img id="u66_img" src="../assets/u66.png">
     </el-header>
@@ -73,6 +73,53 @@ export default {
 };
 </script>
 <style>
+.two_chart,
+.one_chart,
+.two_table,
+.one_table {
+  height: 380px;
+  border: 1px solid rgba(74, 136, 220, 0.996078431372549);
+  background-color: aliceblue;
+  float: left;
+  margin: 10px 5px 0px 5px;
+}
+
+.two_chart {
+  width: calc((100% - 300px) / 2 - 2px);
+  border-radius: 25px;
+}
+.two_table {
+  width: calc((100% - 300px) / 2 - 2px);
+}
+.one_chart {
+  width: calc(100% - 292px);
+  border-radius: 25px;
+}
+.one_table {
+  width: calc(100% - 292px);
+}
+
+.chart,
+.table {
+  width: 100%;
+  height: 100%;
+}
+.pane {
+  width: 270px;
+}
+
+::-webkit-scrollbar {
+  width: 7px; /*滚动条宽度*/
+  height: 7px; /*滚动条高度*/
+  background-color: #f0f8ff;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
+}
+
 .home_container {
   height: 100%;
   position: absolute;
@@ -144,30 +191,14 @@ export default {
   margin: 10px 10px 2px 10px;
 }
 .head-img {
-  border-width: 0px;
-  width: 1920px;
   height: 130px;
-  background: inherit;
-  background-color: rgba(255, 255, 255, 1);
   background-image: url(../assets/head_img.jpg);
-  background-repeat: no-repeat;
-  background-size: 1920px 157px;
-  background-position: 0px -13.5px;
-  border: none;
-  border-radius: 0px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  font-family: "Arial Negreta", "Arial Normal", "Arial";
-  font-weight: 700;
-  font-style: normal;
-  font-size: 18px;
-  text-align: left;
+  background-size: 100% 100%;
 }
 #u66_img {
   border-width: 0px;
   position: absolute;
-  left: 1524px;
+  left: 79.375%;
   top: 63px;
   width: 46px;
   height: 21px;

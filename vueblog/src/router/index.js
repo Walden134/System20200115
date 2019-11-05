@@ -2,10 +2,10 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
 import Home from "@/components/Home";
-import TimeChangeDesign from "@/components/timechangedesign/TimeChangeDesign";
 import PowerBenefit from "@/components/power/PowerBenefit";
 import FloodRisk from "@/components/floodrisk/FloodRisk";
-import GeneralFlood from "@/components/designflood/GeneralFlood";
+import GeneralFlood from "@/components/designflood/general/GeneralFlood";
+import TimeChangeDesign from "@/components/designflood/timechange/TimeChangeDesign";
 import Runoff from "@/components/RunoffPredict/Runoff";
 import store from '../store/index'
 Vue.use(Router);
@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: "/home",
-    name: "首页",
+    name: "",
     component: Home,
     hidden: true
   },

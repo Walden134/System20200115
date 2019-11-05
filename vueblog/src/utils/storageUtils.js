@@ -6,8 +6,10 @@
    有多个功能需要暴露
  */
 const POWERS_KEY = 'powers_key'
+const POWERSONE_KEY = 'powersone_key'
 const OUTPUTS_KEY = 'outputs_key'
 const CATEGORY_KEY = 'category_key'
+const XAXISONE_KEY = 'xaxisone_key'//xAxisONE
 const OUTPUTRATELIST_KEY = 'outputratelist_key'
 const OUTPUTRATEXAXIS_KEY = 'outputratexaxis_key'
 const RISKRES_KEY = 'riskres_key'
@@ -106,6 +108,28 @@ export default {
     if (powers)
       sessionStorage.setItem(POWERS_KEY, JSON.stringify(powers))
   },
+
+
+  readPowersONE() {
+    if (sessionStorage.getItem(POWERSONE_KEY))
+      return JSON.parse(sessionStorage.getItem(POWERSONE_KEY));
+    return []
+  },
+  savePowersONE(powersONE) {
+    if (powersONE)
+      sessionStorage.setItem(POWERSONE_KEY, JSON.stringify(powersONE))
+  },
+
+  readXAxisONE() {
+    if (sessionStorage.getItem(XAXISONE_KEY))
+      return JSON.parse(sessionStorage.getItem(XAXISONE_KEY));
+    return []
+  },
+  saveXAxisONE(XAxisONE) {
+    if (XAxisONE)
+      sessionStorage.setItem(XAXISONE_KEY, JSON.stringify(XAxisONE))
+  },
+
   readOutputs() {
     if (sessionStorage.getItem(OUTPUTS_KEY))
       return JSON.parse(sessionStorage.getItem(OUTPUTS_KEY));

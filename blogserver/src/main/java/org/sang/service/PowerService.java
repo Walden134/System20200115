@@ -3,6 +3,7 @@ package org.sang.service;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,21 +31,23 @@ public class PowerService {
 	DecimalFormat df = new DecimalFormat("#.00");
 	List<Double> allOutput;
 
-	public Map<String, Object> calcPowerAndOutput1(Hydrostation hydrostation, CalculateBean calculateBean) {
+	public Map<String, Object> calcPowerAndOutput1(Hydrostation hydrostation, CalculateBean bean) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String pattern = calculateBean.getPattern();
+		String pattern = bean.getPattern();
 		DoubleCurve levelCapacityCurve = new DoubleCurve(hydrostation.getLevelCapacityCurve().getCurveData());
 		DoubleCurve leveldownOutflowCurve = new DoubleCurve(hydrostation.getLeveldownOutflowCurve().getCurveData());
 		DoubleCurve headlossOutflowCurve = new DoubleCurve(hydrostation.getHeadlossOutflowCurve().getCurveData());
 		hydrostation.setLevelCapacityCurve(levelCapacityCurve);
 		hydrostation.setHeadlossOutflowCurve(headlossOutflowCurve);
 		hydrostation.setLeveldownOutflowCurve(leveldownOutflowCurve);
-		calculateBean.setLevelBegin(hydrostation.getLevelNormal());
-		calculateBean.setLevelEnd(hydrostation.getLevelNormal());
+		bean.setLevelBegin(hydrostation.getLevelNormal());
+		bean.setLevelEnd(hydrostation.getLevelNormal());
 		List<double[]> powerList = new ArrayList<double[]>();
+		List<List<Double>> powerONEList = new ArrayList<List<Double>>();
 		List<double[]> outputList = new ArrayList<double[]>();
 		List<double[]> outputRateList = new ArrayList<double[]>();
 		List<String> xAxis = new ArrayList<String>();
+		List<String> xAxisONE = new ArrayList<String>();
 		String patternkey = null;
 		switch (pattern) {
 		case "RCP2.6":
@@ -62,34 +65,63 @@ public class PowerService {
 		}
 		List<Runoff> all1 = powerMapper.getAllRunoffByPattern(patternkey);
 		Map<String, Map<String, List<Runoff>>> dataBySitu = divDataBySitu(all1);
+		List<Double> yearPowers;
+		List<Double> yearOutputs;
+		List<Double> yearPowersf;
+		List<Double> yearPowersp;
+		List<Double> yearPowersk;
+		Date date = dataBySitu.get("canesm").get("qf").get(0).getDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int start_year = cal.get(Calendar.YEAR);
 		for (Map.Entry<String, Map<String, List<Runoff>>> entry : dataBySitu.entrySet()) {
 			String situ = entry.getKey();
+			xAxis.add(pattern + "_" + situ.toUpperCase());// xAxis
+			double[] powers = new double[4];// all F P K
+			yearPowers = new ArrayList<Double>();
+			yearOutputs = new ArrayList<Double>();
+			yearPowersf = new ArrayList<Double>();
+			yearPowersp = new ArrayList<Double>();
+			yearPowersk = new ArrayList<Double>();
 //			List<Runoff> all = entry.getValue().get("q");
 			List<Runoff> qf = entry.getValue().get("qf");
 			List<Runoff> qp = entry.getValue().get("qp");
 			List<Runoff> qk = entry.getValue().get("qk");
-			allOutput = new ArrayList<Double>();
-			double[][] res = new double[4][2];
-//			res[0] = calPowerAndOutput(hydrostation, calculateBean, all);
-			res[1] = calPowerAndOutput(hydrostation, calculateBean, qf);
-			res[2] = calPowerAndOutput(hydrostation, calculateBean, qp);
-			res[3] = calPowerAndOutput(hydrostation, calculateBean, qk);
-			double[] outputRate = sortOutput((int) hydrostation.getInstallPower(), allOutput);
-			xAxis.add(pattern + "_" + situ.toUpperCase());
-			res[0][0] = Double.parseDouble(df.format(res[1][0] + res[2][0] + res[3][0]));
-			powerList.add(new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-			double output = allOutput.get((int) (allOutput.size() * 0.05));
+//			res[0] = calPowerAndOutput(hydrostation, bean, all);
+			powers[1] = calPowerAndOutput(hydrostation, bean, qf, yearOutputs, yearPowersf);
+			powers[2] = calPowerAndOutput(hydrostation, bean, qp, yearOutputs, yearPowersp);
+			powers[3] = calPowerAndOutput(hydrostation, bean, qk, yearOutputs, yearPowersk);
+			powers[0] = Double.parseDouble(df.format(powers[1] + powers[2] + powers[3]));
+			powerList.add(powers);// powerList
+
+			Collections.sort(yearOutputs);
+
+			double output = yearOutputs.get((int) (yearOutputs.size() * 0.05));
 			output = Double.parseDouble(df.format(output));
-			outputList.add(new double[] { output });
-			outputRateList.add(outputRate);
+			outputList.add(new double[] { output });// outputList
+
+			double[] outputRate = getOutputRate((int) hydrostation.getInstallPower(), yearOutputs);
+			outputRateList.add(outputRate);// outputRateList
+			int len = yearPowersk.size();
+			for (int i = 0; i < len; i++) {
+				double power = yearPowersf.get(i) + yearPowersp.get(i) + yearPowersk.get(i);
+				yearPowers.add(power);
+			}
+			powerONEList.add(yearPowers);// powerONEList
+
+		}
+		for (int i = 0; i < powerONEList.get(0).size(); i++) {
+			xAxisONE.add((start_year + i) + "");// xAxisONE
+		}
+		List<String> outputRatexAxis = new ArrayList<String>();
+		for (int k = 0; k <= 100; k++) {
+			outputRatexAxis.add(k + "");// outputRatexAxis
 		}
 		map.put("xAxis", xAxis);
 		map.put("powerList", powerList);
+		map.put("xAxisONE", xAxisONE);
+		map.put("powerONEList", powerONEList);
 		map.put("outputList", outputList);
-		List<String> outputRatexAxis = new ArrayList<String>();
-		for (int k = 0; k <= 100; k++) {
-			outputRatexAxis.add(k + "");
-		}
 		map.put("outputRatexAxis", outputRatexAxis);
 		map.put("outputRateList", outputRateList);
 		return map;
@@ -109,7 +141,6 @@ public class PowerService {
 					res.get(gcmId).get("qp").add(runoff);
 				if (m > 11 || m < 5)
 					res.get(gcmId).get("qk").add(runoff);
-//				res.get(gcmId).get("q").add(runoff);
 			} else {
 				HashMap<String, List<Runoff>> map = new HashMap<String, List<Runoff>>();
 				List<Runoff> qf = new ArrayList<Runoff>();
@@ -124,87 +155,6 @@ public class PowerService {
 			}
 		}
 		return res;
-	}
-
-	public Map<String, Object> calcPowerAndOutput(Hydrostation hydrostation, CalculateBean calculateBean) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String[] situations = calculateBean.getSituations();
-		String pattern = calculateBean.getPattern();
-		DoubleCurve levelCapacityCurve = new DoubleCurve(hydrostation.getLevelCapacityCurve().getCurveData());
-		DoubleCurve leveldownOutflowCurve = new DoubleCurve(hydrostation.getLeveldownOutflowCurve().getCurveData());
-		DoubleCurve headlossOutflowCurve = new DoubleCurve(hydrostation.getHeadlossOutflowCurve().getCurveData());
-		hydrostation.setLevelCapacityCurve(levelCapacityCurve);
-		hydrostation.setHeadlossOutflowCurve(headlossOutflowCurve);
-		hydrostation.setLeveldownOutflowCurve(leveldownOutflowCurve);
-		calculateBean.setLevelBegin(hydrostation.getLevelNormal());
-		calculateBean.setLevelEnd(hydrostation.getLevelNormal());
-		List<double[]> powerList = new ArrayList<double[]>();
-		List<double[]> outputList = new ArrayList<double[]>();
-		List<double[]> outputRateList = new ArrayList<double[]>();
-		List<String> xAxis = new ArrayList<String>();
-		for (int i = 0; i < situations.length; i++) {
-			String key = pattern + "_" + situations[i];
-			String patternkey = null;
-			String situ = null;
-			switch (pattern) {
-			case "RCP2.6":
-				patternkey = "26";
-				break;
-			case "RCP4.5":
-				patternkey = "45";
-				break;
-			case "RCP8.5":
-				patternkey = "85";
-				break;
-			default:
-				patternkey = "base";
-				break;
-			}
-			switch (situations[i]) {
-			case "GFDL":
-				situ = "gfdl";
-				break;
-			case "CNRM":
-				situ = "cnrm";
-				break;
-			case "CanESM":
-				situ = "canesm";
-				break;
-			case "MIROC":
-				situ = "miroc";
-				break;
-			case "BMA":
-				situ = "bma";
-				break;
-			}
-			List<Runoff> all = powerMapper.getAllRunoffByPatAndSitu(patternkey, situ);
-			List<Runoff> qf = powerMapper.getFRunoffByPatAndSitu(patternkey, situ);
-			List<Runoff> qp = powerMapper.getPRunoffByPatAndSitu(patternkey, situ);
-			List<Runoff> qk = powerMapper.getKRunoffByPatAndSitu(patternkey, situ);
-			double[][] res = new double[4][2];
-			res[0] = calPowerAndOutput(hydrostation, calculateBean, all);
-			double[] outputRate = sortOutput((int) hydrostation.getInstallPower(), allOutput);
-			res[1] = calPowerAndOutput(hydrostation, calculateBean, qf);
-			res[2] = calPowerAndOutput(hydrostation, calculateBean, qp);
-			res[3] = calPowerAndOutput(hydrostation, calculateBean, qk);
-
-			xAxis.add(pattern + "_" + situations[i]);
-			powerList.add(new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-			outputList.add(new double[] { res[0][1] });
-			outputRateList.add(outputRate);
-			powerMap.put(key, new double[] { res[0][0], res[1][0], res[2][0], res[3][0] });
-			outputMap.put(key, new double[] { res[0][1] });
-		}
-		map.put("xAxis", xAxis);
-		map.put("powerList", powerList);
-		map.put("outputList", outputList);
-		List<String> outputRatexAxis = new ArrayList<String>();
-		for (int k = 0; k <= 100; k++) {
-			outputRatexAxis.add(k + "");
-		}
-		map.put("outputRatexAxis", outputRatexAxis);
-		map.put("outputRateList", outputRateList);
-		return map;
 	}
 
 	private Map<String, List<Runoff>> divDataByMonth(List<Runoff> all) {
@@ -228,8 +178,7 @@ public class PowerService {
 		return map;
 	}
 
-	private double[] sortOutput(int isntallpower, List<Double> output) {
-		Collections.sort(output);
+	private double[] getOutputRate(int isntallpower, List<Double> output) {
 		double[] outputRate = new double[100];
 		int len = output.size();
 		for (int i = 99; i >= 0; i--) {
@@ -254,33 +203,32 @@ public class PowerService {
 		return map;
 	}
 
-	public double[] calPowerAndOutput(Hydrostation hydrostation, CalculateBean bean, List<Runoff> runoff) {
-//		allOutput = new ArrayList<Double>();
+	public double calPowerAndOutput(Hydrostation hydrostation, CalculateBean bean, List<Runoff> runoff,
+			List<Double> yearOutputs, List<Double> yearPowers) {
 		Map<String, ArrayList<Double>> map = getRunoff(runoff);
 		double yearPower = 0;
-		List<Double> yearOutput = new ArrayList<>();
 		for (Map.Entry<String, ArrayList<Double>> entry : map.entrySet()) {
 			ArrayList<Double> q = entry.getValue();
 			int size = q.size();
+			double tempPower = 0;
 			for (int j = 0; j < size; j++) {
 				bean.setInflow(q.get(j));
 				boolean result = hydrostation.calOutputAndPower(bean);
 				if (result) {
-					yearPower += bean.getPower();
-					yearOutput.add(bean.getOutput() / 1000);
-					allOutput.add(bean.getOutput() / 1000);
+					tempPower += bean.getPower();
+					yearOutputs.add(bean.getOutput() / 1000);
 				} else {
-					System.out.println("false");
+//					yearOutputs.add(Double.MIN_VALUE);
 					break;
 				}
 			}
+			yearPower += tempPower;
+			yearPowers.add(tempPower / 1e8);
 		}
-		Collections.sort(yearOutput);
-		double output = yearOutput.get((int) (yearOutput.size() * 0.05));
+
 		double power = yearPower / map.size() / 1e8;
 		power = Double.parseDouble(df.format(power));
-		output = Double.parseDouble(df.format(output));
-		return new double[] { power, output };
+		return power;
 	}
 
 	public List<double[]> getPowerByState(List<String> xAxis) {

@@ -34,10 +34,9 @@ export default {
           }
         },
         grid: {
-          left: "10%", // 与容器左侧的距离
-          right: "15px", // 与容器右侧的距离
-          top: "8%" // 与容器顶部的距离
-          // bottom: '5%', // 与容器底部的距离
+          left: "60px",
+          right: "10px",
+          top: "40px"
         },
         title: {
           text: "未来月径流均值",

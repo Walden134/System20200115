@@ -8,8 +8,8 @@
         </div>
       </div>
       <el-table :data="tableData" id="dfResultTable" cell-class-name="dyg"
-        style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" height="300" max-height="300"
-        :row-style="{height:'30px'}" :cell-style="{padding:'0px'}">
+        style="width:calc(100% - 5px);border:2px;background-color:#f0f8ff" height="285" :row-style="{height:'30px'}"
+        :cell-style="{padding:'0px'}">
         <el-table-column label="年降水" align="right" width="10">
           <el-table-column prop="title" align="left" label="特征值" width="111">
           </el-table-column>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import storageUtils from "../../utils/storageUtils";
+import storageUtils from "@/utils/storageUtils";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
@@ -172,18 +172,6 @@ export default {
 
 
 <style>
-::-webkit-scrollbar {
-  width: 7px; /*滚动条宽度*/
-  height: 7px; /*滚动条高度*/
-  background-color: #f0f8ff;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
-}
-
 .Xtable .el-table__header th,
 .el-table__header tr {
   background-color: #f0f8ff;

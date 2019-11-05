@@ -1,24 +1,22 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <div class="pane" style=" width:270px">
+      <el-tabs type="card">
+        <div class="pane">
           <inputData></inputData>
         </div>
-        <div class="flood_top">
-          <div style=" width: calc((100% - 300px)  / 2);">
-            <shejicharts style="width:100%;height:100%"></shejicharts>
+        <div class="flood_content">
+          <div class="two_chart">
+            <riskChart class="chart" :title_text="designtext" :data="designData"></riskChart>
           </div>
-          <div style=" width: calc((100% - 300px)  / 2);">
-            <jiaohecharts style="width:100%;height:100%"></jiaohecharts>
+          <div class="two_chart">
+            <riskChart class="chart" :title_text="checktext" :data="checkData"></riskChart>
           </div>
-        </div>
-        <div class="flood_bottom">
-          <div style=" width: calc((100% - 300px)  / 2);">
-            <badingcharts style="width:100%;height:100%"></badingcharts>
+          <div class="two_chart">
+            <riskChart class="chart" :title_text="damtext" :data="damData"></riskChart>
           </div>
-          <div style=" width: calc((100% - 300px)  / 2);">
-            <threeTable style="width:100%;height:100%"></threeTable>
+          <div class="two_chart">
+            <levalChart class="table"></levalChart>
           </div>
         </div>
       </el-tabs>
@@ -26,48 +24,58 @@
   </el-container>
 </template>
 <script>
-import ThreeTable from "@/components/floodrisk/ThreeTable";
-import ShejiCharts from "@/components/floodrisk/ShejiCharts";
-import JiaoheCharts from "@/components/floodrisk/JiaoheCharts";
-import BadingCharts from "@/components/floodrisk/BadingCharts";
+import FloodRiskChart from "@/components/floodrisk/FloodRiskChart";
+import LevalChart from "@/components/floodrisk/LevalChart";
 import InputData from "@/components/floodrisk/FloodInputData";
-import { postRequest } from "../../utils/api";
-import { putRequest } from "../../utils/api";
-import { deleteRequest } from "../../utils/api";
-import { getRequest } from "../../utils/api";
+import storageUtils from "@/utils/storageUtils";
 export default {
   data() {
     return {
       activeName: "post",
-      isAdmin: false
+      isAdmin: false,
+      designtext: "超设计洪水风险率",
+      checktext: "超校核洪水风险率",
+      damtext: "超坝顶洪水风险率",
+      designData: [],
+      checkData: [],
+      damData: []
     };
   },
   components: {
+    riskChart: FloodRiskChart,
     inputData: InputData,
-    shejicharts: ShejiCharts,
-    jiaohecharts: JiaoheCharts,
-    badingcharts: BadingCharts,
-    threeTable: ThreeTable
+    levalChart: LevalChart
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    handleClick(tab, event) {}
+  },
+  methods: {
+    setChartData() {
+      bus.$on("riskRes", data => {
+        this.designData = data[0];
+        this.checkData = data[1];
+        this.damData = data[2];
+      });
+    },
+    inintChartData() {
+      let data2 = storageUtils.readRiskRes();
+      if (data2.length > 0) {
+        this.designData = data2[0];
+        this.checkData = data2[1];
+        this.damData = data2[2];
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.inintChartData();
+  },
+  created() {
+    this.setChartData();
+  },
+  beforeDestroy() {
+    bus.$off("riskRes");
+  }
 };
 </script>
 <style>
-.flood_top > div {
-  height: 380px;
-  background-color: aliceblue;
-  float: left;
-  margin: 10px 5px;
-}
-.flood_bottom > div {
-  height: 330px;
-  background-color: aliceblue;
-  float: left;
-  margin: 10px 5px;
-}
 </style>

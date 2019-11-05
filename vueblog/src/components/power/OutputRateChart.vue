@@ -68,7 +68,7 @@ export default {
           type: "value",
           name: "出力(MW)",
           nameLocation: "center",
-          nameGap: 35,
+          nameGap: 40,
           splitLine: {
             show: false
           },
@@ -88,10 +88,9 @@ export default {
           ]
         },
         grid: {
-          left: "13%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%" // 与容器顶部的距离
-          // bottom: "10%" // 与容器底部的距离
+          left: "60px",
+          right: "10px",
+          top: "40px"
         },
         series: [
           {

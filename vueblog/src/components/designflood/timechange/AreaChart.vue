@@ -1,6 +1,6 @@
 <template>
 
-  <chart ref="dschart" :options="chartdata">
+  <chart ref="dschart" :options="chartdata" style="height:100%;width:100%">
   </chart>
 
 </template>
@@ -15,8 +15,8 @@ import "echarts/lib/component/title";
 import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 
-import { getRequest } from "../../utils/api";
-import storageUtils from "../../utils/storageUtils";
+import { getRequest } from "@/utils/api";
+import storageUtils from "@/utils/storageUtils";
 
 export default {
   data: function() {

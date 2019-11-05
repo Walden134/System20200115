@@ -75,15 +75,14 @@ export default {
           }
         },
         grid: {
-          left: "13%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%" // 与容器顶部的距离
-          // bottom: "10%" // 与容器底部的距离
+          left: "60px",
+          right: "10px",
+          top: "40px"
         },
         series: [
           {
             type: "bar",
-            // barWidth: 20,
+            barWidth: 20,
             name: "全年",
             data: []
           }

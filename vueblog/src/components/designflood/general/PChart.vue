@@ -16,8 +16,8 @@ import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import echarts from "echarts";
 
-import { getRequest } from "../../utils/api";
-import storageUtils from "../../utils/storageUtils";
+import { getRequest } from "@/utils/api";
+import storageUtils from "@/utils/storageUtils";
 export default {
   data: function() {
     return {
