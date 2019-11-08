@@ -25,7 +25,7 @@ export default {
   left: 0%;
   width: 100vw;
   height: 100vh;
-  background-image: url(assets/logo.png);
-  /* background-size: 100vw 100vh; */
+  background-image: url(assets/loginground.jpg);
+  background-size: 100vw 100vh;
 }
 </style>

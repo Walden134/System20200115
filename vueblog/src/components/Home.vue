@@ -31,7 +31,9 @@
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-text="this.$router.currentRoute.name"></el-breadcrumb-item>
           </el-breadcrumb>
-          <div class="backgroud-img" v-show="!this.$router.currentRoute.name"></div>
+          <div id="mapDiv" ref="mapDiv" v-show="!this.$router.currentRoute.name">
+          </div>
+
           <keep-alive>
             <router-view v-if="this.$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -41,9 +43,17 @@
     </el-container>
   </el-container>
 </template>
+
+
 <script>
 import { getRequest } from "../utils/api";
 export default {
+  data() {
+    return {
+      currentUserName: ""
+    };
+  },
+  components: {},
   methods: {
     handleCommand(command) {
       var _this = this;
@@ -63,13 +73,14 @@ export default {
           }
         );
       }
+    },
+    onLoad() {
+      var map = new T.Map("mapDiv");
+      map.centerAndZoom(new T.LngLat(100.5, 29.5), 7);
     }
   },
-  mounted: function() {},
-  data() {
-    return {
-      currentUserName: ""
-    };
+  mounted: function() {
+    this.onLoad();
   }
 };
 </script>
@@ -206,11 +217,11 @@ export default {
   height: 21px;
 }
 
-.backgroud-img {
+#mapDiv {
   margin: 10px;
   width: calc(100% - 20px);
   height: calc(100% - 35px);
-  background-image: url(../assets/head_img.jpg);
-  background-size: 100% 100%;
+  /* background-image: url(../assets/head_img.jpg); */
+  /* background-size: 100% 100%; */
 }
 </style>
