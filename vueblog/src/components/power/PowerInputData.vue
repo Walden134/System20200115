@@ -58,6 +58,9 @@
         <el-form-item label="保证出力设计值(MW)" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="hydrostation.outputDesign"></el-input>
         </el-form-item>
+        <el-form-item label="装机容量(MW)" style="margin-bottom: 1px; ">
+          <el-input style=" width:80px" v-model="hydrostation.installPower"></el-input>
+        </el-form-item>
         <!-- <el-form-item label="计算时段" style="margin-bottom: 1px; ">
           <el-select style=" width:80px" v-model="calculateBean.deltaT">
             <el-option label="日" value="日"></el-option>

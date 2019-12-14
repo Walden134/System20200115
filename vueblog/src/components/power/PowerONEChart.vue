@@ -71,7 +71,7 @@ export default {
         },
         legend: {
           y: "bottom",
-          data: ["CanESM", "GFDL", "BMA", "CNRM", "MIROC"]
+          data: ["CanESM", "GFDL", "BMA", "CNRM", "MIROC", "设计值"]
         },
         grid: {
           left: "60px",
@@ -100,11 +100,37 @@ export default {
             name: "CNRM",
             data: []
           },
-
           {
             type: "line",
             name: "MIROC",
             data: []
+          },
+          {
+            type: "line",
+            name: "设计值",
+            data: [],
+            markLine: {
+              symbol: "none",
+              animation: false,
+              label: {
+                normal: {
+                  // position: "bottom",
+                  // formatter: "{b}",
+                  // color: "black",
+                  show: false
+                }
+              },
+              itemStyle: {
+                normal: {
+                  lineStyle: {
+                    width: 2,
+                    color: "red"
+                    // type: "solid"
+                  }
+                }
+              },
+              data: [{ name: "设计值", yAxis: 59.62 }]
+            }
           }
         ]
       }

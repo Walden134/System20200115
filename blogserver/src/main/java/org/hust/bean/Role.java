@@ -6,36 +6,36 @@ import java.io.Serializable;
  * Created by sang on 2017/12/17.
  */
 public class Role implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String name;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Long id;
+    private String name;
 
-	public Role() {
-	}
+    public Role() {
+    }
 
-	public Long getId() {
+    public Long getId() {
 
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Role(Long id, String name) {
+    public Role(Long id, String name) {
 
-		this.id = id;
-		this.name = name;
-	}
+        this.id = id;
+        this.name = name;
+    }
 }
