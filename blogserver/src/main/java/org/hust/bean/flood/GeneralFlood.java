@@ -2,7 +2,6 @@ package org.hust.bean.flood;
 
 import org.apache.commons.math3.special.Gamma;
 import org.springframework.stereotype.Component;
-
 import java.text.DecimalFormat;
 
 @Component

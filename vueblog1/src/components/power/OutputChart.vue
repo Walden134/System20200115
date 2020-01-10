@@ -47,9 +47,9 @@ export default {
         xAxis: {
           type: "category",
           data: [],
-          // name: "不同情景",
-          // nameLocation: "center",
-          // nameGap: 25,
+          name: "不同情景",
+          nameLocation: "center",
+          nameGap: 25,
           axisLabel: {
             interval: 0,
             rotate: 0,
@@ -75,15 +75,14 @@ export default {
           }
         },
         grid: {
-          left: "13%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%" // 与容器顶部的距离
-          // bottom: "10%" // 与容器底部的距离
+          left: "60px",
+          right: "20px",
+          top: "40px"
         },
         series: [
           {
             type: "bar",
-            // barWidth: 20,
+            barWidth: 20,
             name: "全年",
             data: []
           }
@@ -103,6 +102,9 @@ export default {
         for (let j = 0; j < data.length; j++) {
           this.$refs.dschart.options.series[0].data[j] = data[j][0];
         }
+        if (data.length == 0 || data == null)
+          for (let j = 0; j < this.chartdata.series.length; j++)
+            this.$refs.dschart.options.series[j].data = [];
       });
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
@@ -131,7 +133,6 @@ export default {
 
   created() {
     this.setChartData();
-  },
-  watch: {}
+  }
 };
 </script>

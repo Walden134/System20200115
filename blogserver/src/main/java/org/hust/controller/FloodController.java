@@ -47,6 +47,13 @@ public class FloodController {
         return map;
     }
 
+    @RequestMapping(value = "/calcGRisk", method = RequestMethod.GET)
+    public Map<String, Object> calcGRisk(@RequestParam(value = "ex") double ex, @RequestParam(value = "cv") double cv, @RequestParam(value = "cs") double cs, @RequestParam(value = "rcp") String rcp) {
+        System.out.println(ex + "," + cs + "," + cv + "," + rcp);
+        Map<String, Object> map = floodService.getFutureFloodRisk(rcp, ex, cv, cs);
+        return map;
+    }
+
     @RequestMapping(value = "/readBaseP", method = RequestMethod.GET)
     public Map<String, Object> readBaseP(@RequestParam(value = "time") String paramsStr) {
         UncertainP time = JSON.parseObject(paramsStr, UncertainP.class);
@@ -55,9 +62,13 @@ public class FloodController {
     }
 
     @RequestMapping(value = "/readBaseFlood", method = RequestMethod.GET)
-    public Map<String, Object> readBaseFlood(@RequestParam(value = "time") String paramsStr) {
+    public Map<String, Object> readBaseFlood(@RequestParam(value = "time") String paramsStr, @RequestParam(value = "exx") double exx, @RequestParam(value = "cvv") double cvv, @RequestParam(value = "css") double css) {
         UncertainP time = JSON.parseObject(paramsStr, UncertainP.class);
-        Map<String, Object> map = floodService.readBaseFlood(time);
+//        double exx = 4287.97, cvv = 0.28, css = 0.84;
+        System.out.println("==========================="+exx + "," + css + "," + cvv);
+        Map<String, Object> map = floodService.readBaseFlood(time, exx, cvv, css);
         return map;
     }
+
+
 }

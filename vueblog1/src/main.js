@@ -8,6 +8,9 @@ import 'font-awesome/css/font-awesome.min.css'
 import './utils/filter_utils.js'
 import store from './store'
 import VueProgressBar from 'vue-progressbar'
+import echarts from "echarts";
+
+
 const options = {
   color: '#bffaf3',
   failedColor: '#874b4b',
@@ -23,6 +26,7 @@ const options = {
 }
 Vue.use(VueProgressBar, options)
 Vue.use(ElementUI)
+Vue.use(echarts)
 Vue.config.productionTip = false
 window.bus = new Vue();
 export default new Vue({

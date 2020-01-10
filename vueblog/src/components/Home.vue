@@ -2,7 +2,7 @@
   <el-container class="home_container">
     <el-header style="height: 130px;width:100%;padding: 0;">
       <div class="head-img"></div>
-      <img id="u66_img" src="../assets/u66.png">
+      <!-- <img id="u66_img" src="../assets/u66.png"> -->
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -204,7 +204,7 @@ export default {
 }
 .head-img {
   height: 130px;
-  background-image: url(../assets/head_img.jpg);
+  background-image: url(../assets/logo.png);
   background-size: 100% 100%;
 }
 

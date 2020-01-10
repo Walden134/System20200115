@@ -58,6 +58,9 @@
         <el-form-item label="保证出力设计值(MW)" style="margin-bottom: 1px; ">
           <el-input style=" width:80px" v-model="hydrostation.outputDesign"></el-input>
         </el-form-item>
+        <el-form-item label="装机容量(MW)" style="margin-bottom: 1px; ">
+          <el-input style=" width:80px" v-model="hydrostation.installPower"></el-input>
+        </el-form-item>
         <!-- <el-form-item label="计算时段" style="margin-bottom: 1px; ">
           <el-select style=" width:80px" v-model="calculateBean.deltaT">
             <el-option label="日" value="日"></el-option>
@@ -82,7 +85,8 @@
 
       <el-form-item style="margin-top: 10px;margin-bottom: 0px">
         <el-button type="primary" @click.native.prevent="submitClick">开始计算</el-button>
-        <!-- <el-button>保存</el-button> -->
+        <el-button type="warning" @click.native.prevent="resetData">重置</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -91,10 +95,9 @@
 import UploadExcel from "@/components/UploadExcel";
 import Loading from "@/components/loading";
 import { getRequest } from "../../utils/api";
-import { putRequest } from "../../utils/api";
 import { postRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
-import { showLoading, hideLoading } from "../../utils/loading";
+// import { showLoading, hideLoading } from "../../utils/loading";
 
 export default {
   name: "inputData",
@@ -130,8 +133,10 @@ export default {
         deltaT: 1
       },
       category: [],
+      xAxisONE: [],
       outputs: [],
       powers: [],
+      powersONE: [],
       outputratelist: [],
       outputratexaxis: []
     };
@@ -141,6 +146,22 @@ export default {
     loading: Loading
   },
   methods: {
+    resetData() {
+      this.category = [];
+      this.xAxisONE = [];
+      this.outputs = [];
+      this.powers = [];
+      this.powersONE = [];
+      this.outputratelist = [];
+      this.outputratexaxis = [];
+      bus.$emit("xAxis", []);
+      bus.$emit("xAxisONE", []);
+      bus.$emit("powerList", []);
+      bus.$emit("powerONEList", []);
+      bus.$emit("outputList", []);
+      bus.$emit("outputRatexAxis", []);
+      bus.$emit("outputRateList", []);
+    },
     getLevelCapacityCurve(data) {
       let i = 0;
       data.map(val => {
@@ -205,7 +226,10 @@ export default {
         return;
       }
       bus.$emit("xAxis", []);
+      bus.$emit("xAxisONE", []);
       bus.$emit("powerList", []);
+      bus.$emit("powerONEList", []);
+
       bus.$emit("outputList", []);
       bus.$emit("outputRatexAxis", []);
       bus.$emit("outputRateList", []);
@@ -220,14 +244,20 @@ export default {
         resp => {
           if (resp.status == 200) {
             //成功
+            console.log(resp.data);
+            debugger;
             bus.$emit("xAxis", resp.data.xAxis);
+            bus.$emit("xAxisONE", resp.data.xAxisONE);
             bus.$emit("powerList", resp.data.powerList);
+            bus.$emit("powerONEList", resp.data.powerONEList);
             bus.$emit("outputList", resp.data.outputList);
             bus.$emit("outputRatexAxis", resp.data.outputRatexAxis);
             bus.$emit("outputRateList", resp.data.outputRateList);
 
             _this.category = resp.data.xAxis;
+            _this.xAxisONE = resp.data.xAxisONE;
             _this.powers = resp.data.powerList;
+            _this.powersONE = resp.data.powerONEList;
             _this.outputs = resp.data.outputList;
             _this.outputratelist = resp.data.outputRateList;
             _this.outputratexaxis = resp.data.outputRatexAxis;
@@ -262,6 +292,10 @@ export default {
       deep: true,
       handler: storageUtils.savePowers
     },
+    powersONE: {
+      deep: true,
+      handler: storageUtils.savePowersONE
+    },
     outputs: {
       deep: true,
       handler: storageUtils.saveOutputs
@@ -269,6 +303,10 @@ export default {
     category: {
       deep: true,
       handler: storageUtils.saveCategory
+    },
+    xAxisONE: {
+      deep: true,
+      handler: storageUtils.saveXAxisONE
     },
     outputratelist: {
       deep: true,
@@ -300,7 +338,7 @@ export default {
   width: 100px;
   z-index: 10;
   border-radius: 5px;
-  background-color: blue;
+  background-color: #3366ff;
   color: white;
 }
 

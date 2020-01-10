@@ -1,58 +1,58 @@
 <template>
   <el-row class="designfloodtable">
     <el-col :span="24" class="mtable">
-      <div class="table_name">发电量和保证出力</div>
-      <el-table :data="tableData" stripe fit height="300" max-height="300" style="width:calc(100% - 5px);"
-        :row-style="{height:'40px'}" :cell-style="{padding:'0px'}">
-        <el-table-column prop="circumstances" label="情景" style="width:140px">
+      <div class="table_name">发电量和保证出力
+        <div class="toexcel">
+          <el-button @click="exportExcel" type="primary" plain class="button"
+            style="width:70px;position:absolute;top:0;right:10px">导出</el-button>
+        </div>
+      </div>
+      <!-- header-cell-style="background-color:#f0f8ff" -->
+      <el-table :data="tableData" id="powerTable" cell-class-name="dyg"
+        style="width:calc(100% - 5px);height:100%;border:1px solid #EBEEF5;background-color:#f0f8ff"
+        :row-style="{height:'40px'}" :cell-style="{padding:'0px'}" height="290" max-height="300">
+
+        <!-- <el-table :data="tableData" id="dfResultTable" cell-class-name="dyg" border
+        style="width:calc(100% - 5px);border:1px solid #EBEEF5;background-color:#f0f8ff" :row-style="{height:'37px'}"
+        :cell-style="{padding:'0px'}">
+        -->
+
+        <el-table-column prop="circumstances" label="情景" width="180">
         </el-table-column>
         <el-table-column label="95%保证出力">
           <el-table-column prop="annual_output" label="值(MW)"></el-table-column>
-          <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
-          <!-- <el-table-column prop="assurance_rate" label="保证率(%)"> </el-table-column> -->
-          <!-- <el-table-column prop="risk_rate" label="风险率(%)"> </el-table-column> -->
+          <el-table-column prop="output_amp" label="增幅(%)"></el-table-column>
         </el-table-column>
         <el-table-column label="全年发电量">
           <el-table-column prop="annual_power" label="值(亿kW•h)"></el-table-column>
           <el-table-column prop="annual_amp" label="增幅(%)"></el-table-column>
-          <!-- <el-table-column label="发电风险率(%)">
-            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
-            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
-          </el-table-column> -->
 
         </el-table-column>
         <el-table-column label="丰水期发电量">
           <el-table-column prop="wet_power" label="值(亿kW•h)"></el-table-column>
           <el-table-column prop="wet_amp" label="增幅(%)"></el-table-column>
-          <!-- <el-table-column label="发电风险率(%)">
-            <el-table-column prop="dry_risk" label="枯水年(%)"></el-table-column>
-            <el-table-column prop="avg_risk" label="多年平均(%)"></el-table-column>
-          </el-table-column> -->
         </el-table-column>
         <el-table-column label="平水期发电量">
           <el-table-column prop="normal_power" label="值(亿kW•h)"></el-table-column>
           <el-table-column prop="normal_amp" label="增幅(%)"></el-table-column>
-          <!-- <el-table-column label="发电风险率(%)">
-            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
-            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
-          </el-table-column> -->
+
         </el-table-column>
         <el-table-column label="枯水期发电量">
           <el-table-column prop="dry_power" label="值(亿kW•h)"></el-table-column>
           <el-table-column prop="dry_amp" label="增幅(%)"></el-table-column>
-          <!-- <el-table-column label="发电风险率(%)">
-            <el-table-column prop="dry_risk" label="枯水年"></el-table-column>
-            <el-table-column prop="avg_risk" label="多年平均"></el-table-column>
-          </el-table-column> -->
+
         </el-table-column>
       </el-table>
-      <div class="table_name" style="height: 5px;"></div>
+      <!-- <div class="table_name" style="height: 5px;"></div> -->
     </el-col>
   </el-row>
 </template>
 
 <script>
 import storageUtils from "../../utils/storageUtils";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
+
 export default {
   props: ["title"],
   data() {
@@ -61,7 +61,7 @@ export default {
         {
           circumstances: "设计值",
           annual_output: "176",
-          annual_amp: "-",
+          output_amp: "-",
           assurance_rate: "-",
           annual_power: "59.62",
           annual_amp: "-",
@@ -90,7 +90,7 @@ export default {
       let old = {
         circumstances: "设计值",
         annual_output: this.outputDesign,
-        annual_amp: "-",
+        output_amp: "-",
         assurance_rate: "-",
         annual_power: this.avgDesiginPower,
         annual_amp: "-",
@@ -123,9 +123,9 @@ export default {
           ((this.powerList[i][3] - old.dry_power) / old.dry_power) * 100;
         tmp.dry_amp = tmp.dry_amp.toFixed(2);
         tmp.annual_output = this.outputList[i];
-        tmp.annual_amp =
+        tmp.output_amp =
           ((this.outputList[i] - old.annual_output) / old.annual_output) * 100;
-        tmp.annual_amp = tmp.annual_amp.toFixed(2);
+        tmp.output_amp = tmp.output_amp.toFixed(2);
         this.tableData.push(tmp);
       }
     },
@@ -133,6 +133,25 @@ export default {
       this.category = storageUtils.readCategory();
       this.powerList = storageUtils.readPowers();
       this.outputList = storageUtils.readOutputs();
+    },
+    exportExcel() {
+      /* generate workbook object from table */
+      let wb = XLSX.utils.table_to_book(document.querySelector("#powerTable"));
+      /* get binary string as output */
+      let wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array"
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          "发电量和保证出力.xlsx"
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.log(e, wbout);
+      }
+      return wbout;
     }
   },
   mounted() {
@@ -183,32 +202,16 @@ export default {
     outputDesign() {
       this.setTableData();
     }
-    // flag() {
-    //   this.setTableData();
-    //   this.$store.commit("flag", false);
-    // }
   }
 };
 </script>
 
 
 <style>
-::-webkit-scrollbar {
-  width: 7px; /*滚动条宽度*/
-  height: 7px; /*滚动条高度*/
-  background-color: white;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
-}
-
-.el-table__header th,
+.mtable .el-table__header th,
 .el-table__header tr {
-  /* background-color: #d9e4ec; */
-  color: black;
+  background-color: #f0f8ff;
+  color: #333;
   text-align: center;
   padding: 0;
   height: 25px;
@@ -229,21 +232,30 @@ export default {
 }
 
 .table_name {
-  color: white;
-  background-color: #20a0ff;
+  color: #333;
+  background-color: #f0f8ff;
   border-radius: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  height: 40px;
+  line-height: 40px;
 }
 
 .mtable {
   padding-left: 5px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  background-color: #20a0ff;
+  background-color: #f0f8ff;
 }
 
-.designfloodtable {
-  width: 100%;
-  height: 100%;
+.toexcel {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.dyg {
+  background-color: #f0f8ff;
+  text-align: center;
 }
 </style>
 

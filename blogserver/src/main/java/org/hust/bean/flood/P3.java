@@ -1,10 +1,10 @@
 package org.hust.bean.flood;
 
 public class P3 {
+    private String id;
     private double p;
     private double cs;
     private double fai;
-    private String id;
 
     public double getP() {
         return p;

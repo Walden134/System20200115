@@ -1,8 +1,11 @@
 <template>
   <el-container class="home_container">
-    <el-header style="height: 130px;">
-      <img src="../assets/head_img.jpg">
+    <el-header style="height: 130px;width:100%;padding: 0;">
+      <div class="head-img"></div>
+      <!-- <img id="u66_img"
+           src="../assets/u66.png"> -->
     </el-header>
+
     <el-container>
       <el-aside width="200px">
         <el-menu default-active="0" class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
@@ -24,13 +27,16 @@
           </template>
         </el-menu>
       </el-aside>
-
       <el-container>
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-text="this.$router.currentRoute.name"></el-breadcrumb-item>
           </el-breadcrumb>
+
+          <div id="mapDiv" ref="mapDiv" v-show="!this.$router.currentRoute.name">
+          </div>
+
           <keep-alive>
             <router-view v-if="this.$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -40,9 +46,16 @@
     </el-container>
   </el-container>
 </template>
+
 <script>
 import { getRequest } from "../utils/api";
 export default {
+  data() {
+    return {
+      currentUserName: ""
+    };
+  },
+  components: {},
   methods: {
     handleCommand(command) {
       var _this = this;
@@ -62,17 +75,71 @@ export default {
           }
         );
       }
+    },
+
+    onLoad() {
+      var map = new T.Map("mapDiv");
+      map.centerAndZoom(new T.LngLat(100.5, 29.5), 7);
     }
   },
-  mounted: function() {},
-  data() {
-    return {
-      currentUserName: ""
-    };
+  mounted: function() {
+    this.onLoad();
   }
 };
 </script>
 <style>
+.two_chart,
+.one_chart,
+.two_table,
+.one_table,
+.three_chart {
+  height: 300px;
+  border: 1px solid rgba(74, 136, 220, 0.996078431372549);
+  background-color: aliceblue;
+  float: left;
+  margin: 10px 5px 0px 5px;
+}
+
+.two_chart {
+  width: calc((100% - 300px) / 2 - 2px);
+  border-radius: 25px;
+}
+.three_chart {
+  width: calc((100% - 320px) / 3 - 2px);
+  border-radius: 25px;
+}
+.two_table {
+  width: calc((100% - 300px) / 2 - 2px);
+}
+.one_chart {
+  width: calc(100% - 292px);
+  border-radius: 25px;
+}
+.one_table {
+  width: calc(100% - 292px);
+}
+
+.chart,
+.table {
+  width: 100%;
+  height: 100%;
+}
+.pane {
+  width: 270px;
+}
+
+::-webkit-scrollbar {
+  width: 7px; /*滚动条宽度*/
+  height: 7px; /*滚动条高度*/
+  background-color: #f0f8ff;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(221, 222, 224); /*滚动条的背景颜色*/
+}
+
 .home_container {
   height: 100%;
   position: absolute;
@@ -81,12 +148,7 @@ export default {
   width: 100%;
 }
 .el-header {
-  background-color: rgba(74, 136, 220, 0.996078431372549);
-  color: #333;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 0;
 }
 
 .el-aside {
@@ -115,13 +177,7 @@ export default {
   float: right;
   margin-left: 10px;
 }
-.header {
-  background-color: #ececec;
-  margin-top: 10px;
-  padding-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-}
+
 .article_list .el-tabs__header {
   margin: 0;
 }
@@ -153,5 +209,25 @@ export default {
 .el-checkbox {
   width: 100px;
   margin: 10px 10px 2px 10px;
+}
+.head-img {
+  height: 100px;
+  background-image: url(../assets/logo.jpg);
+  background-size: 100% 100%;
+}
+
+#u66_img {
+  border-width: 0px;
+  position: absolute;
+  left: 79.375%;
+  top: 63px;
+  width: 46px;
+  height: 21px;
+}
+
+#mapDiv {
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 35px);
 }
 </style>

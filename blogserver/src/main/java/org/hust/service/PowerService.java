@@ -8,7 +8,6 @@ import org.hust.mapper.PowerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -69,7 +68,8 @@ public class PowerService {
         int start_year = cal.get(Calendar.YEAR);
         for (Map.Entry<String, Map<String, List<Runoff>>> entry : dataBySitu.entrySet()) {
             String situ = entry.getKey();
-            xAxis.add(pattern + "_" + situ.toUpperCase());// xAxis
+            xAxis.add( situ.toUpperCase());// xAxis
+//            xAxis.add(pattern + "_" + situ.toUpperCase());// xAxis
             double[] powers = new double[4];// all F P K
             yearPowers = new ArrayList<Double>();
             yearOutputs = new ArrayList<Double>();

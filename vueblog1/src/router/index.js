@@ -2,12 +2,13 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
 import Home from "@/components/Home";
-import TimeChangeDesign from "@/components/timechangedesign/TimeChangeDesign";
 import PowerBenefit from "@/components/power/PowerBenefit";
-import FloodRisk from "@/components/floodrisk/FloodRisk";
-import GeneralFlood from "@/components/designflood/GeneralFlood";
+import TimeChangeFloodRisk from "@/components/floodrisk/timechangefloodrisk/TimeChangeFloodRisk";
+import GeneralFloodRisk from "@/components/floodrisk/generalfloodrisk/GeneralFloodRisk";
+import GeneralFlood from "@/components/designflood/general/GeneralFlood";
+import TimeChangeDesign from "@/components/designflood/timechange/TimeChangeDesign";
 import Runoff from "@/components/RunoffPredict/Runoff";
-import store from '../store/index'
+import store from "../store/index";
 Vue.use(Router);
 const routes = [
   {
@@ -18,24 +19,23 @@ const routes = [
   },
   {
     path: "/home",
-    name: "首页",
+    name: "",
     component: Home,
     hidden: true
   },
   {
     path: "/home",
     component: Home,
-    // name: "径流预测",
     children: [
       {
         path: "/runoff",
         name: "径流预测",
         meta: {
-          requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
           keepAlive: true
         },
-        component: Runoff,
-      },
+        component: Runoff
+      }
     ]
   },
   {
@@ -45,16 +45,18 @@ const routes = [
     children: [
       {
         path: "/generalFlood",
-        name: "常规设计", meta: {
-          requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+        name: "常规设计",
+        meta: {
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
           keepAlive: true
         },
         component: GeneralFlood
       },
       {
         path: "/timeChangeDesign",
-        name: "时变设计", meta: {
-          requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+        name: "时变设计",
+        meta: {
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
           keepAlive: true
         },
         component: TimeChangeDesign
@@ -64,38 +66,50 @@ const routes = [
   {
     path: "/home",
     component: Home,
-    // name: "发电效益",
     children: [
       {
         path: "/powerBenefit",
-        name: "发电效益", meta: {
-          requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+        name: "发电效益",
+        meta: {
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
           keepAlive: true
         },
-        component: PowerBenefit,
-      },
+        component: PowerBenefit
+      }
     ]
   },
   {
     path: "/home",
     component: Home,
-    // name: "防洪风险",
+    name: "防洪风险",
     children: [
       {
-        path: "/floodRisk",
-        name: "防洪风险", meta: {
-          requireAuth: true,//添加该字段，表示进入这个路由是需要登录的。
+        path: "/generalFloodRisk",
+        name: "洪水风险",
+
+        meta: {
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
           keepAlive: true
         },
-        component: FloodRisk
+        component: GeneralFloodRisk
+      },
+      {
+        path: "/timeChangeFloodRisk",
+        name: "防洪风险",
+
+        meta: {
+          requireAuth: true, //添加该字段，表示进入这个路由是需要登录的。
+          keepAlive: true
+        },
+        component: TimeChangeFloodRisk
       }
     ]
   }
-]
+];
 
 // 页面刷新时，重新赋值token
-if (window.localStorage.getItem('token')) {
-  store.commit(LOGIN, window.localStorage.getItem('token'))
+if (window.localStorage.getItem("token")) {
+  store.commit(LOGIN, window.localStorage.getItem("token"));
 }
 
 const router = new Router({

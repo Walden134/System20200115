@@ -17,8 +17,9 @@ public class UncertainP {
     private String flag;
 
     // -----------以下为计算一定设计频率下设计洪峰、设计24h洪量、设计3日洪量、设计7日洪量、设计15日洪量的方法---------------------------------------------------------------------------
-    public Map<String, Object> getDesignP(double[][] baseFlood, double[] bma, String flag) {
+    public Map<String, Object> getDesignP(double[][] baseFlood, double[] bma, String flag, double exx, double cvv, double css, List fai) {
         double[][] piii = null;
+        double[][] design = null;
         Map<String, Object> map = new HashMap<String, Object>();
         String baseJson = JSON.toJSONString(baseFlood);
         String bmaJson = JSON.toJSONString(bma);
@@ -97,30 +98,55 @@ public class UncertainP {
             c.eval("json <-'" + bmaJson + "'");
             c.eval("mydf <- fromJSON(json)");
             c.eval("ppp<-mydf");
-            c.eval("mu<-array(exp(pa[1]+pa[2]*ppp),dim=c(1,3))");
-            c.eval("sigma<-rep(exp(pa[3]),3)");
-            c.eval("nu<-array(pa[4],dim=c(1,3))");
+            c.eval("mu<-array(exp(pa[1]+pa[2]*ppp),dim=c(1,4))");
+//            c.eval("sigma<-rep(exp(pa[3]),3)");
+//            c.eval("nu<-array(pa[4],dim=c(1,3))");
 
-            c.eval("a<-array(0,dim=c(23,3))");
+            c.eval("sigma<-array(0.29,dim=c(1,4))");
+            c.eval("nu<-array(0.58,dim=c(1,4))");
+            c.eval("a<-array(0,dim=c(23,4))");
             c.eval("for(i in 1:23){\n" + "" + "qpiii<-qPearsonTypeIII(pi[i,1],mu,sigma,nu)\n" + "" + "a[i,]<-qpiii}");
+
+//            c.eval("par<-c(3,1)");
+//            c.eval("par[1]=4160");
+//            c.eval("par[2]=4160*0.29");
+//            c.eval("par[3]=1.16");
+//            c.eval("a<-array(0,dim=c(23,1))");
+//            c.eval("for(i in 1:23){\n" + "  x=quape3(pi[i],par) \n" + "  aa[i,]<-x}");
+
             REXP eval = c.eval("a");
+//            REXP eval5 = c.eval("aa");
+//            design = eval5.asDoubleMatrix();
             REXP eval2 = c.eval("mu");
             REXP eval3 = c.eval("sigma");
             REXP eval4 = c.eval("nu*2");
+
             piii = eval.asDoubleMatrix();
             double[] ex = eval2.asDoubles();
             double[] cv = eval3.asDoubles();
             double[] cs = eval4.asDoubles();
+            double[] lilunDesign = getTheoryFrequency(exx, cvv, fai);
+
             map.put("ex", ex);
             map.put("cv", cv);
             map.put("cs", cs);
             map.put("piii", piii);
+            map.put("lilunDesign", lilunDesign);
             c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return map;
+    }
+
+    //计算理论频率下的设计洪水值
+    public static double[] getTheoryFrequency(double ex, double cv, List<Double> fai) {
+        double[] q = new double[fai.size()];
+        for (int i = 0; i < fai.size(); i++) {
+            q[i] = ex * (1 + cv * fai.get(i));
+        }
+        return q;
     }
 
     /**

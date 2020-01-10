@@ -1,7 +1,5 @@
 import axios from 'axios'
-// ...
 import { showLoading, hideLoading } from './loading';
-import store from '../store/index'
 /* 请求拦截器（请求之前的操作） */
 axios.interceptors.request.use(
   (req) => {
@@ -89,41 +87,11 @@ export const deleteRequest = (url) => {
 export const getRequest = (url, params) => {
   return axios({
     method: 'get',
-    data: params,
-    timeout: 500000, //超时时间设置，单位毫秒
-    transformRequest: [function (data) {
-      let ret = ''
-      for (let it in data) {
-        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-      }
-      return ret
-    }],
+    params: params,
+    timeout: 1200000, //超时时间设置，单位毫秒
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     url: `${base}${url}`
-  });
-}
-export const getRequest1 = (url, params) => {
-  return axios({
-    method: 'get',
-    data: params,
-    dataType: "json",
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    },
-    url: `${base}${url}`
-  });
-}
-export const postRequest1 = (url, params) => {
-  return axios({
-    method: 'post',
-    url: `${base}${url}`,
-    data: params,
-    timeout: 500000, //超时时间设置，单位毫秒
-    dataType: "json",
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
   });
 }

@@ -61,14 +61,14 @@ export default {
           axisLabel: {
             interval: 9,
             rotate: 0,
-            fontSize: 12
+            fontSize: 10
           }
         },
         yAxis: {
           type: "value",
           name: "出力(MW)",
           nameLocation: "center",
-          nameGap: 35,
+          nameGap: 40,
           splitLine: {
             show: false
           },
@@ -77,15 +77,19 @@ export default {
           }
         },
         legend: {
-          // y: "8%",
           y: "bottom",
-          data: ["GFDL", "CNRM", "CanESM", "MIROC", "BMA"]
+          data: [
+            { name: "GFDL", icon: "line" },
+            { name: "CNRM", icon: "line" },
+            { name: "CanESM", icon: "line" },
+            { name: "BMA", icon: "line" },
+            { name: "MIROC", icon: "line" }
+          ]
         },
         grid: {
-          left: "13%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%" // 与容器顶部的距离
-          // bottom: "10%" // 与容器底部的距离
+          left: "60px",
+          right: "20px",
+          top: "40px"
         },
         series: [
           {
@@ -113,8 +117,7 @@ export default {
             type: "line",
             data: []
           }
-        ],
-        animationDuration: 30
+        ]
       }
     };
   },
@@ -127,6 +130,9 @@ export default {
         for (let j = 0; j < data.length; j++) {
           this.$refs.dschart.options.series[j].data = data[j];
         }
+        if (data.length == 0 || data == null)
+          for (let j = 0; j < this.chartdata.series.length; j++)
+            this.$refs.dschart.options.series[j].data = [];
       });
       bus.$on("outputRatexAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
@@ -152,17 +158,8 @@ export default {
     bus.$off("outputRatexAxis");
     bus.$off("outputRateList");
   },
-
   created() {
     this.setChartData();
-  },
-  watch: {
-    // situations() {
-    //   this.getRequestData();
-    // },
-    // patterns() {
-    //   this.getRequestData();
-    // }
   }
 };
 </script>

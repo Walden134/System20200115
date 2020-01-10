@@ -5,20 +5,17 @@
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/polar";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title";
-import "echarts/theme/dark";
 import "echarts/lib/chart/bar";
 import { getRequest } from "../../utils/api";
 import storageUtils from "../../utils/storageUtils";
 export default {
-  props: ["title"],
   data: function() {
     return {
       chartdata: {
         title: {
-          text: "发电量",
+          text: "多年平均发电量",
           left: "center"
         },
         tooltip: {
@@ -43,13 +40,11 @@ export default {
         },
         xAxis: {
           type: "category",
-          // name: "不同情景",
-          // nameLocation: "center",
-          // nameGap: 25,
+          name: "不同情景",
+          nameLocation: "center",
+          nameGap: 25,
           data: [],
           axisLabel: {
-            interval: 0,
-            rotate: 0,
             fontSize: 10
           },
           splitLine: {
@@ -63,7 +58,7 @@ export default {
           type: "value",
           name: "发电量(亿kW•h)",
           nameLocation: "center",
-          nameGap: 35,
+          nameGap: 40,
           splitLine: {
             show: false
           },
@@ -72,15 +67,13 @@ export default {
           }
         },
         legend: {
-          // y: "8%",
           y: "bottom",
           data: ["全年", "丰水期", "平水期", "枯水期"]
         },
         grid: {
-          left: "13%", // 与容器左侧的距离
-          right: "5%", // 与容器右侧的距离
-          top: "10%" // 与容器顶部的距离
-          // bottom: "10%" // 与容器底部的距离
+          left: "60px",
+          right: "20px",
+          top: "40px"
         },
         series: [
           {
@@ -104,14 +97,10 @@ export default {
             name: "枯水期",
             data: []
           }
-        ],
-        animationDuration: 30
-      },
-      situations: [],
-      patterns: []
+        ]
+      }
     };
   },
-  computed: {},
   components: {
     chart: ECharts
   },
@@ -123,6 +112,9 @@ export default {
             this.$refs.dschart.options.series[i].data[j] = data[j][i];
           }
         }
+        if (data.length == 0 || data == null)
+          for (let j = 0; j < this.chartdata.series.length; j++)
+            this.$refs.dschart.options.series[j].data = [];
       });
       bus.$on("xAxis", data => {
         this.$refs.dschart.options.xAxis.data = data;
@@ -152,14 +144,6 @@ export default {
   beforeDestroy() {
     bus.$off("powerList");
     bus.$off("xAxis");
-  },
-  watch: {
-    // situations() {
-    //   this.getRequestData();
-    // },
-    // patterns() {
-    //   this.getRequestData();
-    // }
   }
 };
 </script>

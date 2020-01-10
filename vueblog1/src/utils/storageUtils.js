@@ -5,151 +5,195 @@
 2. 向外暴露一个对象(包含多个功能)
    有多个功能需要暴露
  */
-const POWERS_KEY = 'powers_key'
-const OUTPUTS_KEY = 'outputs_key'
-const CATEGORY_KEY = 'category_key'
-const OUTPUTRATELIST_KEY = 'outputratelist_key'
-const OUTPUTRATEXAXIS_KEY = 'outputratexaxis_key'
-const RISKRES_KEY = 'riskres_key'
-const EXPFREQUENCY_KEY = 'expfrequency_key'
-const PARAMS_KEY = 'params_key'
-const UNCERTAIN_KEY = 'uncertain_key'
-const THEORYFREQUENCY_KEY = 'theoryfrequency_key'
+const POWERS_KEY = "powers_key";
+const POWERSONE_KEY = "powersone_key";
+const OUTPUTS_KEY = "outputs_key";
+const CATEGORY_KEY = "category_key";
+const XAXISONE_KEY = "xaxisone_key";
+const OUTPUTRATELIST_KEY = "outputratelist_key";
+const OUTPUTRATEXAXIS_KEY = "outputratexaxis_key";
+const RISKRES_KEY = "riskres_key";
+const GRISKRES_KEY = "griskres_key";
+const EXPFREQUENCY_KEY = "expfrequency_key";
+const PARAMS_KEY = "params_key";
+const UNCERTAIN_KEY = "uncertain_key";
+const THEORYFREQUENCY_KEY = "theoryfrequency_key";
 const DESIGNP_KEY = "designp_key";
 const EX_KEY = "ex_key";
 const CV_KEY = "cv_key";
 const CS_KEY = "cs_key";
+const RESPDATA_KEY = "respdata_key";
 
 export default {
+  readRespdata() {
+    if (sessionStorage.getItem(RESPDATA_KEY))
+      return JSON.parse(sessionStorage.getItem(RESPDATA_KEY));
+    return {};
+  },
+  saveRespdata(respdata) {
+    if (respdata)
+      sessionStorage.setItem(RESPDATA_KEY, JSON.stringify(respdata));
+  },
 
   readEx() {
     if (sessionStorage.getItem(EX_KEY))
       return JSON.parse(sessionStorage.getItem(EX_KEY));
-    return []
+    return [];
   },
   saveEx(ex) {
-    if (ex)
-      sessionStorage.setItem(EX_KEY, JSON.stringify(ex));
+    if (ex) sessionStorage.setItem(EX_KEY, JSON.stringify(ex));
   },
   readCv() {
     if (sessionStorage.getItem(CV_KEY))
       return JSON.parse(sessionStorage.getItem(CV_KEY));
-    return []
+    return [];
   },
   saveCv(cv) {
-    if (cv)
-      sessionStorage.setItem(CV_KEY, JSON.stringify(cv));
+    if (cv) sessionStorage.setItem(CV_KEY, JSON.stringify(cv));
   },
   readCs() {
     if (sessionStorage.getItem(CS_KEY))
       return JSON.parse(sessionStorage.getItem(CS_KEY));
-    return []
+    return [];
   },
   saveCs(cs) {
-    if (cs)
-      sessionStorage.setItem(CS_KEY, JSON.stringify(cs));
+    if (cs) sessionStorage.setItem(CS_KEY, JSON.stringify(cs));
   },
 
   readDesignP() {
     if (sessionStorage.getItem(DESIGNP_KEY))
       return JSON.parse(sessionStorage.getItem(DESIGNP_KEY));
-    return []
+    return [];
   },
   saveDesignP(designp) {
-    if (designp)
-      sessionStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
+    if (designp) sessionStorage.setItem(DESIGNP_KEY, JSON.stringify(designp));
   },
   readTheoryFrequency() {
     if (sessionStorage.getItem(THEORYFREQUENCY_KEY))
       return JSON.parse(sessionStorage.getItem(THEORYFREQUENCY_KEY));
-    return []
+    return [];
   },
   saveTheoryFrequency(theoryfrequency) {
     if (theoryfrequency)
-      sessionStorage.setItem(THEORYFREQUENCY_KEY, JSON.stringify(theoryfrequency));
+      sessionStorage.setItem(
+        THEORYFREQUENCY_KEY,
+        JSON.stringify(theoryfrequency)
+      );
   },
   readQ() {
     if (sessionStorage.getItem(UNCERTAIN_KEY))
       return JSON.parse(sessionStorage.getItem(UNCERTAIN_KEY));
-    return []
+    return [];
   },
   saveQ(q) {
-    if (q)
-      sessionStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
+    if (q) sessionStorage.setItem(UNCERTAIN_KEY, JSON.stringify(q));
   },
   readParams() {
     if (sessionStorage.getItem(PARAMS_KEY))
       return JSON.parse(sessionStorage.getItem(PARAMS_KEY));
-    return []
+    return [];
   },
   saveParams(params) {
-    if (params)
-      sessionStorage.setItem(PARAMS_KEY, JSON.stringify(params))
+    if (params) sessionStorage.setItem(PARAMS_KEY, JSON.stringify(params));
   },
 
   readExpFrequency() {
     if (sessionStorage.getItem(EXPFREQUENCY_KEY))
       return JSON.parse(sessionStorage.getItem(EXPFREQUENCY_KEY));
-    return []
+    return [];
   },
   saveExpFrequency(expfrequency) {
     if (expfrequency)
-      sessionStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency))
+      sessionStorage.setItem(EXPFREQUENCY_KEY, JSON.stringify(expfrequency));
   },
 
   readPowers() {
     if (sessionStorage.getItem(POWERS_KEY))
       return JSON.parse(sessionStorage.getItem(POWERS_KEY));
-    return []
+    return [];
   },
   savePowers(powers) {
-    if (powers)
-      sessionStorage.setItem(POWERS_KEY, JSON.stringify(powers))
+    if (powers) sessionStorage.setItem(POWERS_KEY, JSON.stringify(powers));
   },
+
+  readPowersONE() {
+    if (sessionStorage.getItem(POWERSONE_KEY))
+      return JSON.parse(sessionStorage.getItem(POWERSONE_KEY));
+    return [];
+  },
+  savePowersONE(powersONE) {
+    if (powersONE)
+      sessionStorage.setItem(POWERSONE_KEY, JSON.stringify(powersONE));
+  },
+
+  readXAxisONE() {
+    if (sessionStorage.getItem(XAXISONE_KEY))
+      return JSON.parse(sessionStorage.getItem(XAXISONE_KEY));
+    return [];
+  },
+  saveXAxisONE(XAxisONE) {
+    if (XAxisONE)
+      sessionStorage.setItem(XAXISONE_KEY, JSON.stringify(XAxisONE));
+  },
+
   readOutputs() {
     if (sessionStorage.getItem(OUTPUTS_KEY))
       return JSON.parse(sessionStorage.getItem(OUTPUTS_KEY));
-    return []
+    return [];
   },
   saveOutputs(outputs) {
-    if (outputs)
-      sessionStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs))
+    if (outputs) sessionStorage.setItem(OUTPUTS_KEY, JSON.stringify(outputs));
   },
   readCategory() {
     if (sessionStorage.getItem(CATEGORY_KEY))
       return JSON.parse(sessionStorage.getItem(CATEGORY_KEY));
-    return []
+    return [];
   },
   saveCategory(category) {
     if (category)
-      sessionStorage.setItem(CATEGORY_KEY, JSON.stringify(category))
+      sessionStorage.setItem(CATEGORY_KEY, JSON.stringify(category));
   },
   readOutputRateList() {
     if (sessionStorage.getItem(OUTPUTRATELIST_KEY))
-      return JSON.parse(sessionStorage.getItem(OUTPUTRATELIST_KEY))
-    return []
+      return JSON.parse(sessionStorage.getItem(OUTPUTRATELIST_KEY));
+    return [];
   },
   saveOutputRateList(outputratelist) {
     if (outputratelist)
-      sessionStorage.setItem(OUTPUTRATELIST_KEY, JSON.stringify(outputratelist))
+      sessionStorage.setItem(
+        OUTPUTRATELIST_KEY,
+        JSON.stringify(outputratelist)
+      );
   },
   readOutputRatexAxis() {
     if (sessionStorage.getItem(OUTPUTRATEXAXIS_KEY))
       return JSON.parse(sessionStorage.getItem(OUTPUTRATEXAXIS_KEY));
-    return []
+    return [];
   },
   saveOutputRatexAxis(outputratexaxis) {
     if (outputratexaxis)
-      sessionStorage.setItem(OUTPUTRATEXAXIS_KEY, JSON.stringify(outputratexaxis))
+      sessionStorage.setItem(
+        OUTPUTRATEXAXIS_KEY,
+        JSON.stringify(outputratexaxis)
+      );
   },
 
   readRiskRes() {
     if (sessionStorage.getItem(RISKRES_KEY))
       return JSON.parse(sessionStorage.getItem(RISKRES_KEY));
-    return []
+    return [];
   },
   saveRiskRes(riskres) {
-    if (riskres)
-      sessionStorage.setItem(RISKRES_KEY, JSON.stringify(riskres))
+    if (riskres) sessionStorage.setItem(RISKRES_KEY, JSON.stringify(riskres));
+  },
+
+  readGRiskRes() {
+    if (sessionStorage.getItem(GRISKRES_KEY))
+      return JSON.parse(sessionStorage.getItem(GRISKRES_KEY));
+    return [];
+  },
+  saveGRiskRes(griskres) {
+    if (griskres)
+      sessionStorage.setItem(GRISKRES_KEY, JSON.stringify(griskres));
   }
-}
+};

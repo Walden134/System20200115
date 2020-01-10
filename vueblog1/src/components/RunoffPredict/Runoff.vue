@@ -1,83 +1,53 @@
 <template>
   <el-container class="article_list">
     <el-main class="main">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <div class="pane" style=" width:270px">
-          <InputData></InputData>
+      <el-tabs type="card">
+        <div class="pane">
+          <inputData></inputData>
         </div>
-        <div class="runoff_top">
-          <div style=" width: calc((100% - 290px));">
-            <Charts style="width:100%;height:100%"></Charts>
+        <div class="runoff_content">
+          <div class="one_chart">
+            <pfCharts class="chart"></pfCharts>
           </div>
-        </div>
-        <div class="runoff_mid">
-          <div style=" width: calc((100% - 300px)/2);">
-            <lineCharts style="width:100%;height:100%"></lineCharts>
+          <div class="two_chart">
+            <lineCharts class="chart"></lineCharts>
           </div>
-          <div style=" width: calc((100% - 300px)/2);">
-            <barCharts style="width:100%;height:100%"></barCharts>
+          <div class="two_chart">
+            <barCharts class="chart"></barCharts>
           </div>
-        </div>
-        <div class="runoff_bottom">
-          <div style=" width: calc((100% - 290px));">
-            <AreaChart style="width:100%;height:100%"></AreaChart>
-          </div>
+          <!--  <div class="one_chart">
+            <areaChart class="chart"></areaChart>
+          </div> -->
         </div>
       </el-tabs>
     </el-main>
   </el-container>
 </template>
 <script>
-import Charts from "@/components/RunoffPredict/Charts";
-import lineCharts from "@/components/RunoffPredict/lineCharts";
-import barCharts from "@/components/RunoffPredict/barCharts";
-import InputData from "@/components/RunoffPredict/InputData";
+import PFCharts from "@/components/RunoffPredict/PFCharts";
+import LineCharts from "@/components/RunoffPredict/LineCharts";
+import BarCharts from "@/components/RunoffPredict/BarCharts";
+import InputData from "@/components/RunoffPredict/RunOffInputData";
 import AreaChart from "@/components/RunoffPredict/AreaChart";
-import { getRequest } from "../../utils/api";
 export default {
-  mounted: function() {
-    var _this = this;
-    getRequest("/isAdmin").then(resp => {
-      if (resp.status == 200) {
-        _this.isAdmin = resp.data;
-      }
-    });
-  },
   data() {
     return {
       activeName: "post",
       isAdmin: false
     };
   },
+
+  components: {
+    pfCharts: PFCharts,
+    lineCharts: LineCharts,
+    barCharts: BarCharts,
+    inputData: InputData,
+    areaChart: AreaChart
+  },
   methods: {
     handleClick(tab, event) {}
-  },
-  components: {
-    Charts: Charts,
-    lineCharts: lineCharts,
-    barCharts: barCharts,
-    InputData: InputData,
-    AreaChart: AreaChart
   }
 };
 </script>
 <style>
-.runoff_top > div {
-  height: 380px;
-  background-color: aliceblue;
-  float: left;
-  margin: 10px 5px;
-}
-.runoff_mid > div {
-  height: 330px;
-  background-color: aliceblue;
-  float: left;
-  margin: 10px 5px;
-}
-.runoff_bottom > div {
-  height: 380px;
-  background-color: aliceblue;
-  float: left;
-  margin: 10px 5px;
-}
 </style>
