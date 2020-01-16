@@ -10,8 +10,7 @@
 
     <select id="getPaiByCsAndP" resultType="Double">
         SELECT fai FROM `data_yb_p3`WHERE cs=#{cs} AND p in
-        <foreach collection="P" open="(" separator="," close=")" item="val">
-        #{val}
+        <foreach collection="P" open="(" separator="," close=")" item="val"> #{val}
         </foreach>
     </select>
 
