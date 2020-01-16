@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hust.mapper.FloodMapper">
+
+    <select id="getBaseP" resultType="org.hust.bean.flood.BaseP">
+		SELECT * FROM `basep`
+	</select>
+
+    <select id="getPaiByCsAndP" resultType="Double">
+        SELECT fai FROM `data_yb_p3`WHERE cs=#{cs} AND p in
+        <foreach collection="P" open="(" separator="," close=")" item="val">
+        #{val}
+        </foreach>
+    </select>
+
+    <select id="getRunoffByRcpAndGcm" resultType="Double">
+		SELECT runoff FROM `futurerunoff`WHERE rcpId=#{rcpId} AND gcmId=#{gcmId}
+	</select>
+
+    <select id="getPByCsAndP" resultType="Double">
+        SELECT fai FROM `data_yb_p3`WHERE cs=#{cs} AND p in
+        <foreach collection="P" open="(" separator="," close=")" item="val">
+            #{val}
+        </foreach>
+    </select>
+
+    <select id="getFuturePByRcp2" resultType="org.hust.bean.flood.FutureP">
+		SELECT * FROM `futurep2`where rcpId=#{rcpId}
+	</select>
+
+    <select id="getFuturePByRcp" resultType="org.hust.bean.flood.FutureP">
+		SELECT * FROM `futurep`where rcpId=#{rcpId}
+	</select>
+
+    <select id="getBaseFlood" resultType="org.hust.bean.flood.BaseFlood">
+		SELECT year,q,w1,w3,w7,w15,p FROM `baseflood`
+	</select>
+
+    <select id="getPByCs" resultType="org.hust.bean.flood.P3">
+		SELECT * FROM `DATA_YB_P3`
+		where cs=#{cs}
+	</select>
+</mapper>

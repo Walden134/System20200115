@@ -64,11 +64,7 @@ public class FloodController {
     @RequestMapping(value = "/readBaseFlood", method = RequestMethod.GET)
     public Map<String, Object> readBaseFlood(@RequestParam(value = "time") String paramsStr, @RequestParam(value = "exx") double exx, @RequestParam(value = "cvv") double cvv, @RequestParam(value = "css") double css) {
         UncertainP time = JSON.parseObject(paramsStr, UncertainP.class);
-//        double exx = 4287.97, cvv = 0.28, css = 0.84;
-        System.out.println("==========================="+exx + "," + css + "," + cvv);
         Map<String, Object> map = floodService.readBaseFlood(time, exx, cvv, css);
         return map;
     }
-
-
 }
