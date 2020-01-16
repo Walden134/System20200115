@@ -25,5 +25,5 @@ public interface FloodMapper {
 
     List<BaseFlood> getBaseFlood();
 
-    List<BaseFlood> getBaseFlood1();
+    List<BaseFlood> getBaseFlood11();
 }
