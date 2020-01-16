@@ -24,4 +24,6 @@ public interface FloodMapper {
     double[] getRunoffByRcpAndGcm(@Param("rcpId") String rcpId, @Param("gcmId") String gcmId);
 
     List<BaseFlood> getBaseFlood();
+
+    List<BaseFlood> getBaseFlood1();
 }
